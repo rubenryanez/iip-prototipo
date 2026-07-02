@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IIP — Investment Intelligence Platform · Prototipo v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gray-950:#0B1220;--gray-800:#1E293B;--gray-500:#64748B;--gray-400:#94A3B8;
+  --gray-200:#E2E8F0;--gray-100:#F1F4F8;--gray-050:#F7F9FC;
+  --bg:var(--gray-050);--surface:#FFFFFF;--border:#E8EDF3;
+  --text-1:#0F172A;--text-2:#5A6678;--text-3:#94A3B8;
+  /* Navy institutional primary */
+  --navy:#112240;--navy-700:#1B3A5C;--navy-600:#234567;--navy-050:#F4F7FB;--navy-100:#E8EFF7;--navy-border:#CBD9EA;
+  /* Interactive institutional blue */
+  --action:#2563EB;--action-hover:#1D4ED8;--action-light:#EFF6FF;
+  --pos:#15803D;--pos-bg:#DCFCE7;--neg:#DC2626;--neg-bg:#FEE2E2;
+  --warn:#B45309;--warn-bg:#FEF6E7;
+  /* Brand accent = navy (replaces purple) */
+  --conv:#112240;--conv-bg:#F4F7FB;--conv-border:#CBD9EA;
+  /* Per-profile identity palette */
+  --c-conservador:#64748B;--c-moderado:#38BDF8;--c-balanceado:#2563EB;
+  --c-crecimiento:#10B981;--c-agresivo:#EF4444;
+  --c-conservador-bg:#F1F5F9;--c-moderado-bg:#E8F7FE;--c-balanceado-bg:#EFF6FF;
+  --c-crecimiento-bg:#ECFDF5;--c-agresivo-bg:#FEF2F2;
+  --sh1:0 1px 2px rgba(16,33,64,.04),0 1px 3px rgba(16,33,64,.06);
+  --sh2:0 2px 8px rgba(16,33,64,.06),0 8px 24px rgba(16,33,64,.08);
+  --sh3:0 12px 48px rgba(16,33,64,.16),0 4px 16px rgba(16,33,64,.10);
+  --r2:8px;--r3:10px;--r4:14px;--r5:18px;--r6:24px;--rF:9999px;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:20px;--s6:24px;--s7:32px;--s8:40px;--s10:56px;--s12:72px;
+  --sidebar:248px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text-1);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.shell{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar);background:var(--navy);border-right:1px solid var(--navy-700);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto;z-index:200;transition:transform .2s}
+.sidebar-brand{padding:var(--s6) var(--s5) var(--s5)}
+.sidebar-brand .name{font-size:14px;font-weight:700;letter-spacing:-.01em;color:#fff}
+.sidebar-brand .sub{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:3px}
+.nav-group-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38);padding:var(--s5) var(--s5) var(--s2)}
+.nav-item{display:flex;align-items:center;gap:var(--s3);padding:10px var(--s5);font-size:13px;font-weight:500;color:rgba(255,255,255,.72);cursor:pointer;border-left:2px solid transparent;transition:all .15s;user-select:none}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{color:#fff;background:rgba(255,255,255,.10);border-left-color:#fff;font-weight:600}
+.nav-item .ni{font-size:15px;width:20px;text-align:center;opacity:.9}
+.sidebar-footer{margin-top:auto;padding:var(--s5)}
+.btn-meeting{width:100%;display:flex;align-items:center;justify-content:center;gap:var(--s2);padding:11px var(--s4);background:#fff;color:var(--navy);border:none;border-radius:var(--r3);font-weight:700;font-size:13px;cursor:pointer;transition:all .15s}
+.btn-meeting:hover{background:var(--navy-100);transform:translateY(-1px)}
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.ctx-bar{height:60px;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 var(--s8);gap:var(--s4);position:sticky;top:0;z-index:100}
+.ctx-title{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.ctx-right{margin-left:auto;display:flex;align-items:center;gap:var(--s3)}
+.ctx-edition{font-size:12px;color:var(--text-3);font-weight:500}
+.ctx-client{display:flex;align-items:center;gap:var(--s2);padding:5px 12px;background:var(--navy-050);border:1px solid var(--navy-border);border-radius:var(--rF);font-size:12px;font-weight:600;color:var(--navy)}
+.ctx-client .dot{width:8px;height:8px;border-radius:50%;background:var(--c-balanceado)}
+/* Product selector */
+.pc-selector{display:flex;align-items:center;gap:var(--s2);padding:6px 12px;border:1px solid var(--border);border-radius:var(--r3);background:var(--surface);cursor:pointer;transition:all .15s;position:relative;font-size:12px;font-weight:600}
+.pc-selector:hover{border-color:var(--navy-border);box-shadow:var(--sh1)}
+.pc-vehicle-icon{font-size:14px}.pc-vehicle-name{color:var(--text-2)}
+.pc-series-badge{padding:2px 7px;border-radius:var(--rF);font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.pc-arrow{color:var(--text-3);font-size:10px;transition:transform .15s}
+.pc-selector.open .pc-arrow{transform:rotate(180deg)}
+.pc-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);box-shadow:var(--sh3);min-width:340px;z-index:500;overflow:hidden}
+.pc-dropdown.open{display:block}
+.pc-dropdown-header{padding:var(--s4) var(--s5);font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border);background:var(--navy-050)}
+.pc-vehicle-group{padding:var(--s4) var(--s5) var(--s3)}
+.pc-vehicle-label{display:flex;align-items:center;gap:var(--s2);font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:var(--s2)}
+.pc-series-row{display:flex;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s2)}
+.pc-series-btn{padding:6px 12px;border-radius:var(--r2);border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:700;cursor:pointer;transition:all .13s;color:var(--text-2)}
+.pc-series-btn:hover{border-color:var(--action);color:var(--action)}
+.pc-series-btn.active{border-color:var(--navy);background:var(--navy);color:#fff}
+.pc-series-info{font-size:11px;color:var(--text-3);line-height:1.5;margin-bottom:var(--s2)}
+.pc-vehicle-separator{border:none;border-top:1px solid var(--border);margin:0}
+.pc-banner{background:var(--navy-050);border-bottom:1px solid var(--border);padding:9px var(--s8);display:flex;align-items:center;gap:var(--s4);font-size:12px}
+.pc-banner-icon{font-size:15px}.pc-banner-text{color:var(--text-2);line-height:1.4}.pc-banner strong{color:var(--navy);font-weight:700}
+/* Meeting mode */
+body.meeting-mode .pperf .retytd,body.meeting-mode .nav-group-label,body.meeting-mode .home-perf-section{display:none}
+body.meeting-mode .editorial-hero{padding:var(--s10) var(--s8)}
+.meeting-indicator{display:none;align-items:center;gap:6px;padding:4px 10px;background:var(--conv);color:#fff;border-radius:var(--rF);font-size:11px;font-weight:700}
+body.meeting-mode .meeting-indicator{display:flex}
+.btn-mm{display:flex;align-items:center;gap:6px;padding:5px 12px;border:1.5px solid var(--border);border-radius:var(--r3);background:var(--surface);font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .13s}
+.btn-mm:hover{border-color:var(--conv);color:var(--conv)}
+body.meeting-mode .btn-mm{background:var(--conv);color:#fff;border-color:var(--conv)}
+.screen{display:none;padding:var(--s8) var(--s8) var(--s10);max-width:1200px}.screen.active{display:block}
+.d-xl{font-size:44px;font-weight:800;line-height:1.05;letter-spacing:-.03em}
+.d-l{font-size:34px;font-weight:700;line-height:1.12;letter-spacing:-.025em}
+.d-m{font-size:27px;font-weight:700;line-height:1.2;letter-spacing:-.02em}
+.h-xl{font-size:22px;font-weight:700;letter-spacing:-.015em}
+.h-l{font-size:18px;font-weight:700;letter-spacing:-.01em}.h-m{font-size:16px;font-weight:600;letter-spacing:-.005em}.h-s{font-size:14px;font-weight:600}
+.body{font-size:14px;line-height:1.7}.body-l{font-size:15px;line-height:1.7}
+.label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.mono{font-feature-settings:"tnum"}.t-2{color:var(--text-2)}.t-3{color:var(--text-3)}
+.t-pos{color:var(--pos)}.t-neg{color:var(--neg)}.t-conv{color:var(--conv)}
+.flex{display:flex}.flex-col{display:flex;flex-direction:column}.items-center{align-items:center}.items-start{align-items:flex-start}
+.justify-between{justify-content:space-between}.justify-center{justify-content:center}
+.gap-1{gap:var(--s1)}.gap-2{gap:var(--s2)}.gap-3{gap:var(--s3)}.gap-4{gap:var(--s4)}.gap-5{gap:var(--s5)}.gap-6{gap:var(--s6)}
+.w-full{width:100%}.flex-wrap{flex-wrap:wrap}
+.mb-2{margin-bottom:var(--s2)}.mb-3{margin-bottom:var(--s3)}.mb-4{margin-bottom:var(--s4)}.mb-5{margin-bottom:var(--s5)}.mb-6{margin-bottom:var(--s6)}.mb-8{margin-bottom:var(--s8)}
+.mt-2{margin-top:var(--s2)}.mt-3{margin-top:var(--s3)}.mt-4{margin-top:var(--s4)}.mt-5{margin-top:var(--s5)}.mt-6{margin-top:var(--s6)}
+.text-right{text-align:right}.text-center{text-align:center}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r5);box-shadow:var(--sh1);padding:var(--s6)}
+.card-sm{padding:var(--s4) var(--s5)}
+.clickable{cursor:pointer;transition:all .18s cubic-bezier(.2,.7,.3,1)}.clickable:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:var(--rF);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.badge-structural{background:var(--navy);color:#fff}.badge-cyclical{background:var(--c-moderado-bg);color:#0369A1}
+.badge-tactical{background:var(--warn-bg);color:#92400E}.badge-positioning{background:var(--navy-100);color:var(--navy)}
+.badge-pos{background:var(--pos-bg);color:var(--pos)}.badge-neg{background:var(--neg-bg);color:var(--neg)}
+.badge-neutral{background:var(--gray-100);color:var(--text-2)}
+.cdots{display:flex;gap:3px;align-items:center}
+.cdot{width:7px;height:7px;border-radius:50%;background:var(--gray-200)}.cdot.on{background:var(--conv)}
+.pchip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:var(--rF);font-size:11px;font-weight:700;color:#fff}
+.pc-c{background:var(--c-conservador)}.pc-m{background:var(--c-moderado)}.pc-b{background:var(--c-balanceado)}.pc-cr{background:var(--c-crecimiento)}.pc-a{background:var(--c-agresivo)}
+.vchip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--rF);font-size:11px;font-weight:700}
+.vchip-fm{background:var(--c-moderado-bg);color:#0369A1}.vchip-seg{background:var(--navy-100);color:var(--navy)}.vchip-apv{background:var(--c-crecimiento-bg);color:#15803D}
+.vchip.off{background:var(--gray-100);color:var(--text-3);opacity:.5}
+.btn{display:inline-flex;align-items:center;gap:var(--s2);padding:10px 20px;border-radius:var(--r3);font-weight:600;font-size:13px;cursor:pointer;transition:all .15s;border:none;white-space:nowrap}
+.btn-primary{background:var(--action);color:#fff}.btn-primary:hover{background:var(--action-hover);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--navy-border);color:var(--navy);background:var(--navy-050)}
+.btn-conv{background:var(--navy);color:#fff;font-weight:700;padding:12px 24px}.btn-conv:hover{background:var(--navy-700);transform:translateY(-1px)}
+.btn-present{background:var(--navy);color:#fff;padding:11px 22px}.btn-present:hover{background:var(--navy-700);transform:translateY(-1px)}
+.divider{border:none;border-top:1px solid var(--border);margin:var(--s6) 0}
+.divider-sm{border:none;border-top:1px solid var(--border);margin:var(--s4) 0}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s5);margin-top:var(--s2)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5)}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s4)}
+.narrative{border-left:3px solid var(--conv);padding:var(--s4) var(--s5);background:var(--conv-bg);border-radius:0 var(--r3) var(--r3) 0;font-size:14px;color:var(--text-2);line-height:1.6}
+.narrative-action{border-left:3px solid var(--action);background:var(--action-light)}
+.adv-box{border:2px solid var(--conv-border);border-radius:var(--r4);padding:var(--s5);background:var(--conv-bg);margin-bottom:var(--s4)}
+.adv-box-header{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s3)}
+.conv-block{padding:var(--s5) 0;border-bottom:1px solid var(--border)}
+.conv-block:last-child{border-bottom:none}
+.conv-block-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--conv);margin-bottom:var(--s2);display:flex;align-items:center;gap:6px}
+.conv-block-not .conv-block-label{color:var(--neg)}
+.ev-item{display:flex;gap:var(--s3);padding:var(--s4) var(--s5);background:var(--gray-100);border-radius:var(--r3);margin-bottom:var(--s3)}
+.ev-icon{font-size:18px;flex-shrink:0;padding-top:1px}
+.ev-val{font-size:20px;font-weight:800;color:var(--pos);font-feature-settings:"tnum"}
+.risk-item{display:flex;gap:var(--s3);padding:var(--s3) var(--s4);background:var(--warn-bg);border-radius:var(--r3);margin-bottom:var(--s2);font-size:13px;align-items:flex-start}
+.risk-item .ri-icon{flex-shrink:0}
+.pperf{background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);box-shadow:var(--sh1);padding:var(--s4) var(--s5);cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.pperf::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pperf:hover{box-shadow:var(--sh2);transform:translateY(-1px)}
+.pperf.conservador::before{background:var(--c-conservador)}.pperf.moderado::before{background:var(--c-moderado)}.pperf.balanceado::before{background:var(--c-balanceado)}.pperf.crecimiento::before{background:var(--c-crecimiento)}.pperf.agresivo::before{background:var(--c-agresivo)}
+.pperf .name{font-size:11px;font-weight:700;color:var(--text-2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.pperf .ret1m{font-size:24px;font-weight:800;letter-spacing:-.025em;font-feature-settings:"tnum"}
+.pperf .retytd{font-size:12px;color:var(--text-2);font-feature-settings:"tnum";margin-top:2px}
+.pperf .trend{font-size:11px;font-weight:700;margin-top:4px}
+.ev-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);padding:var(--s4) var(--s5);box-shadow:var(--sh1);cursor:pointer;transition:all .15s}
+.ev-card:hover{box-shadow:var(--sh2);transform:translateY(-1px)}
+.ev-hdr{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s2)}
+.impact-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.impact-h{background:var(--neg)}.impact-m{background:var(--warn)}.impact-l{background:var(--pos)}
+.chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);overflow:hidden;padding:var(--s5)}
+.chart-svg{width:100%;display:block}
+.chart-legend{display:flex;gap:var(--s5);flex-wrap:wrap;margin-top:var(--s4);font-size:12px;font-weight:600}
+.legend-item{display:flex;align-items:center;gap:var(--s2)}
+.legend-line{width:24px;height:3px;border-radius:2px;flex-shrink:0}
+.legend-dash{border-top:3px dashed;border-radius:0;background:none!important}
+.slider-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);padding:var(--s6);margin-bottom:var(--s5)}
+.slider-title{font-size:13px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--s2)}
+.slider-val-display{font-size:48px;font-weight:800;letter-spacing:-.03em;color:var(--neg);font-feature-settings:"tnum";line-height:1;margin-bottom:var(--s2)}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:var(--rF);background:linear-gradient(to right,var(--neg) var(--p,0%),var(--gray-200) var(--p,0%));outline:none;cursor:pointer;margin:var(--s3) 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--neg);box-shadow:var(--sh2);cursor:pointer;transition:transform .1s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.slider-labels{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3)}
+.timing-table{width:100%;border-collapse:collapse;margin-top:var(--s4);font-size:13px}
+.timing-table th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);padding:var(--s2) var(--s3);border-bottom:1px solid var(--border)}
+.timing-table td{padding:10px var(--s3);border-bottom:1px solid var(--gray-100)}
+.timing-table tr.active-row td{background:var(--neg-bg)}
+.timing-table .highlight-row td{background:var(--action-light)}
+.scenario-pills{display:flex;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s5)}
+.scen-pill{padding:8px 16px;border-radius:var(--rF);font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:var(--surface);color:var(--text-2);transition:all .15s;white-space:nowrap}
+.scen-pill:hover{border-color:var(--conv);color:var(--conv)}
+.scen-pill.active{background:var(--conv);color:#fff;border-color:var(--conv)}
+.cost-hero{background:linear-gradient(135deg,#FEF2F2,#FFF5F5);border:2px solid #FECACA;border-radius:var(--r4);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5)}
+.cost-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#B91C1C;margin-bottom:var(--s2)}
+.cost-amount{font-size:56px;font-weight:900;color:var(--neg);letter-spacing:-.04em;font-feature-settings:"tnum";line-height:1;margin-bottom:var(--s2);transition:opacity .15s}
+.cost-sub{font-size:14px;color:#B91C1C;font-weight:500}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);margin-bottom:var(--s5)}
+.cbox{border-radius:var(--r4);padding:var(--s5);border:2px solid}
+.cbox-stayed{border-color:var(--action);background:var(--action-light)}
+.cbox-alt{border-color:var(--neg);background:var(--neg-bg)}
+.cbox .clabel{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:var(--s2)}
+.cbox .cval{font-size:28px;font-weight:800;letter-spacing:-.02em;font-feature-settings:"tnum";line-height:1.1}
+.cbox .csub{font-size:12px;color:var(--text-2);margin-top:var(--s1)}
+.sum-item{display:flex;gap:var(--s4);padding:var(--s4) var(--s5);background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);margin-bottom:var(--s3);align-items:flex-start;box-shadow:var(--sh1)}
+.sum-icon{width:40px;height:40px;border-radius:var(--r3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sum-checkmark{width:20px;height:20px;border-radius:50%;background:var(--pos);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;font-weight:800}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);padding:var(--s6);box-shadow:var(--sh1);cursor:pointer;transition:all .15s}
+.tool-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);border-color:var(--conv)}
+.tool-emoji{font-size:36px;margin-bottom:var(--s4)}
+.breadcrumb{display:flex;align-items:center;gap:var(--s2);font-size:12px;color:var(--text-3);margin-bottom:var(--s6);flex-wrap:wrap}
+.breadcrumb span{cursor:pointer}.breadcrumb span:hover{color:var(--action)}
+.breadcrumb .sep{color:var(--border)}.breadcrumb .cur{color:var(--text-1);font-weight:600;cursor:default}
+.editorial-hero{background:var(--surface);border:1px solid var(--border);border-radius:var(--r4);padding:var(--s8) var(--s8) var(--s7);box-shadow:var(--sh1);margin-bottom:var(--s5);border-left:4px solid var(--conv)}
+.editorial-eyebrow{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--conv);margin-bottom:var(--s3)}
+.info-row{display:flex;gap:var(--s5);align-items:flex-start;flex-wrap:wrap}
+.info-block{flex:1;min-width:130px}
+.info-block .ib-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-bottom:var(--s1)}
+.info-block .ib-val{font-size:15px;font-weight:600}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:var(--gray-100);border-radius:var(--rF);font-size:11px;font-weight:600;color:var(--text-2)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:150}.overlay.active{display:block}
+.menu-toggle{display:none;align-items:center;justify-content:center;width:40px;height:40px;background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-1)}
+.tabs{display:flex;gap:var(--s1);border-bottom:1px solid var(--border);margin-bottom:var(--s5);overflow-x:auto}
+.tab{padding:10px var(--s4);font-size:13px;font-weight:600;color:var(--text-2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .13s}
+.tab:hover{color:var(--text-1)}
+.tab.active{color:var(--action);border-bottom-color:var(--action)}
+.step-flow{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s6);flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:var(--s2);padding:6px 14px;border-radius:var(--rF);font-size:12px;font-weight:700;background:var(--gray-100);color:var(--text-3);cursor:pointer;transition:all .13s}
+.step:hover{background:var(--gray-200)}
+.step.active{background:var(--conv);color:#fff}
+.step.done{background:var(--conv-bg);color:var(--conv)}
+.step-arrow{color:var(--border);font-size:12px}
+.list-row{display:flex;align-items:center;gap:var(--s4);padding:var(--s4) var(--s5);border:1px solid var(--border);border-radius:var(--r4);margin-bottom:var(--s3);background:var(--surface);cursor:pointer;transition:all .15s;box-shadow:var(--sh1)}
+.list-row:hover{box-shadow:var(--sh2);transform:translateY(-1px);border-color:var(--conv)}
+.list-row-icon{width:44px;height:44px;border-radius:var(--r3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--conv-bg)}
+.faq-cat{display:flex;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s5)}
+.faq-cat-pill{padding:7px 14px;border-radius:var(--rF);font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:var(--surface);color:var(--text-2);transition:all .15s}
+.faq-cat-pill:hover{border-color:var(--conv);color:var(--conv)}
+.faq-cat-pill.active{background:var(--conv);color:#fff;border-color:var(--conv)}
+.faq-item{border:1px solid var(--border);border-radius:var(--r4);margin-bottom:var(--s3);overflow:hidden;background:var(--surface);box-shadow:var(--sh1)}
+.faq-q{padding:var(--s4) var(--s5);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:between;gap:var(--s3)}
+.faq-q:hover{background:var(--gray-050)}
+.faq-q .chev{margin-left:auto;color:var(--text-3);transition:transform .2s;flex-shrink:0}
+.faq-item.open .chev{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 var(--s5)}
+.faq-item.open .faq-a{max-height:600px;padding:0 var(--s5) var(--s5)}
+.donut-wrap{display:flex;align-items:center;gap:var(--s6);flex-wrap:wrap}
+.comp-bar{height:32px;border-radius:var(--r2);display:flex;overflow:hidden;margin-bottom:var(--s2)}
+.comp-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;transition:opacity .13s}
+.comp-seg:hover{opacity:.85}
+.inst-row{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);border-bottom:1px solid var(--gray-100);font-size:13px}
+.inst-row:last-child{border-bottom:none}
+.inst-pct{font-weight:700;font-feature-settings:"tnum";min-width:48px;text-align:right}
+.arch-badge{position:fixed;bottom:var(--s4);right:var(--s4);background:var(--gray-950);color:rgba(255,255,255,.7);padding:6px 12px;border-radius:var(--rF);font-size:10px;font-weight:700;letter-spacing:.05em;z-index:1000;pointer-events:none}
+.arch-badge strong{color:#34D399}
+.series-fm{background:#DBEAFE;color:#1E40AF}.series-seg{background:#E8EFF7;color:#112240}.series-apv{background:#DCFCE7;color:#15803D}
+/* ═══ PRODUCT DISCOVERY LAYER (secondary selector) ═══ */
+.discovery{background:var(--surface);border-bottom:1px solid var(--border);padding:var(--s4) var(--s8)}
+.discovery-head{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap}
+.discovery-title{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-right:var(--s2)}
+.vehicle-switch{display:flex;gap:2px;background:var(--gray-100);padding:3px;border-radius:var(--rF)}
+.vehicle-tab{display:flex;align-items:center;gap:5px;padding:5px 14px;border-radius:var(--rF);font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .15s;white-space:nowrap;border:none;background:none}
+.vehicle-tab:hover{color:var(--navy)}
+.vehicle-tab.active{background:var(--surface);color:var(--navy);box-shadow:var(--sh1);font-weight:700}
+.series-switch{display:flex;gap:var(--s2);align-items:center}
+.series-switch-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3)}
+.series-mini-btn{padding:4px 11px;border-radius:var(--rF);border:1px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--text-2);transition:all .13s}
+.series-mini-btn:hover{border-color:var(--navy-border);color:var(--navy)}
+.series-mini-btn.active{border-color:var(--navy);background:var(--navy);color:#fff}
+.cards-band{display:flex;gap:var(--s2);align-items:center;flex-wrap:wrap;margin-left:auto}
+/* slim profile pills (the FULL cards live in the Home hero) */
+.profile-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:var(--rF);border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .15s}
+.profile-pill:hover{border-color:var(--navy-border);color:var(--navy)}
+.profile-pill-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-400)}
+.profile-pill.conservador .profile-pill-dot{background:var(--c-conservador)}.profile-pill.moderado .profile-pill-dot{background:var(--c-moderado)}.profile-pill.balanceado .profile-pill-dot{background:var(--c-balanceado)}.profile-pill.crecimiento .profile-pill-dot{background:var(--c-crecimiento)}.profile-pill.agresivo .profile-pill-dot{background:var(--c-agresivo)}
+.profile-pill.active{border-color:var(--navy);background:var(--navy);color:#fff;font-weight:700}
+.profile-pill.active .profile-pill-dot{box-shadow:0 0 0 2px rgba(255,255,255,.35)}
+.profile-pill-engine{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:var(--rF);border:1px dashed var(--navy-border);background:transparent;font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .15s}
+.profile-pill-engine:hover{background:var(--navy-050)}
+/* legacy risk-dot util kept for hero */
+.risk-dots{display:flex;gap:3px}
+.risk-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-200)}
+/* ═══ EXECUTIVE CONTEXT BAR ═══ */
+.ctx-summary{background:var(--navy);padding:var(--s3) var(--s8);display:flex;gap:var(--s6);flex-wrap:wrap;align-items:center}
+.ctx-sum-item{display:flex;flex-direction:column;gap:2px}
+.ctx-sum-label{font-size:8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+.ctx-sum-val{font-size:12px;font-weight:700;color:#fff}
+.ctx-sum-sep{width:1px;height:26px;background:rgba(255,255,255,.14)}
+.ctx-sum-mix{display:flex;align-items:center;gap:7px}
+.ctx-sum-mixbar{width:60px;height:7px;border-radius:4px;display:flex;overflow:hidden;background:rgba(255,255,255,.15)}
+/* ═══ HERO PROFILE CARDS (Home — the dominant layer) ═══ */
+.profiles-hero{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s5)}
+.phero{border:1px solid var(--border);border-radius:var(--r6);padding:var(--s6);cursor:pointer;transition:all .2s cubic-bezier(.2,.7,.3,1);background:var(--surface);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh1)}
+.phero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:.85}
+.phero:hover{box-shadow:var(--sh2);transform:translateY(-4px)}
+.phero.active{border-width:1.5px;box-shadow:var(--sh2)}
+.phero.conservador{--pc:var(--c-conservador)}.phero.moderado{--pc:var(--c-moderado)}.phero.balanceado{--pc:var(--c-balanceado)}.phero.crecimiento{--pc:var(--c-crecimiento)}.phero.agresivo{--pc:var(--c-agresivo)}
+.phero::before{background:var(--pc)}
+.phero.active{border-color:var(--pc)}
+.phero.active::after{content:'✓ Activo';position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;letter-spacing:.04em;color:#fff;background:var(--pc);padding:3px 9px;border-radius:var(--rF)}
+.phero-name{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:var(--s5);color:var(--pc)}
+.phero-obj-label{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px}
+.phero-obj{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:var(--s5);color:var(--text-1)}
+.phero-risk{display:flex;align-items:center;gap:8px;margin-bottom:var(--s4)}
+.phero-risk .risk-dots{display:flex;gap:4px}
+.phero .risk-dot{width:9px;height:9px}
+.phero.conservador .risk-dot.on{background:var(--c-conservador)}.phero.moderado .risk-dot.on{background:var(--c-moderado)}.phero.balanceado .risk-dot.on{background:var(--c-balanceado)}.phero.crecimiento .risk-dot.on{background:var(--c-crecimiento)}.phero.agresivo .risk-dot.on{background:var(--c-agresivo)}
+.phero-meta{font-size:12px;color:var(--text-2);font-weight:600;margin-bottom:var(--s4);display:flex;align-items:center;gap:6px}
+.phero-mix{height:8px;border-radius:var(--rF);display:flex;overflow:hidden;margin-bottom:7px;background:var(--gray-100)}
+.phero-mix-legend{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:var(--s5)}
+.phero-enfoque{font-size:12px;color:var(--text-2);line-height:1.5;margin-top:auto;padding-top:var(--s4);border-top:1px solid var(--border)}
+.phero-enfoque strong{color:var(--text-1);font-weight:700}
+.phero-desc{font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:var(--s3)}
+@media(max-width:1100px){.profiles-hero{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.profiles-hero{grid-template-columns:1fr}}
+/* ═══ PROFILE ENGINE (premium modal) ═══ */
+.pe-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.32);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);opacity:0;transition:opacity .28s ease;align-items:flex-start;justify-content:center;overflow-y:auto;padding:var(--s10) var(--s5)}
+.pe-overlay.open{display:flex;opacity:1}
+.pe-modal{width:100%;max-width:680px;background:var(--surface);border-radius:var(--r6);box-shadow:var(--sh3);overflow:hidden;transform:scale(.97) translateY(8px);opacity:0;transition:transform .28s cubic-bezier(.2,.7,.3,1),opacity .28s ease;margin:auto}
+.pe-overlay.open .pe-modal{transform:scale(1) translateY(0);opacity:1}
+.pe-modal-head{display:flex;align-items:center;justify-content:space-between;padding:var(--s5) var(--s6);border-bottom:1px solid var(--border)}
+.pe-modal-title{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--navy)}
+.pe-close{width:32px;height:32px;border-radius:50%;border:none;background:var(--gray-100);color:var(--text-2);font-size:16px;cursor:pointer;transition:all .13s;display:flex;align-items:center;justify-content:center}
+.pe-close:hover{background:var(--gray-200);color:var(--text-1)}
+.pe-body{padding:var(--s8) var(--s8) var(--s7)}
+.survey-wrap{max-width:100%;margin:0 auto}
+.survey-progress{height:5px;background:var(--gray-100);border-radius:var(--rF);overflow:hidden;margin-bottom:var(--s3)}
+.survey-progress-bar{height:100%;background:var(--navy);border-radius:var(--rF);transition:width .35s cubic-bezier(.2,.7,.3,1)}
+.survey-progress-label{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:var(--s7)}
+.survey-q{font-size:23px;font-weight:700;letter-spacing:-.02em;line-height:1.3;margin-bottom:var(--s2)}
+.survey-note{font-size:13px;color:var(--text-3);margin-bottom:var(--s6)}
+.survey-opt{display:flex;align-items:flex-start;gap:var(--s4);padding:var(--s4) var(--s5);border:1px solid var(--border);border-radius:var(--r4);margin-bottom:var(--s3);cursor:pointer;transition:all .15s;background:var(--surface)}
+.survey-opt:hover{border-color:var(--navy-border);background:var(--navy-050)}
+.survey-opt.selected{border-color:var(--navy);background:var(--navy-050);box-shadow:0 0 0 1px var(--navy)}
+.survey-opt-key{width:32px;height:32px;border-radius:50%;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;color:var(--text-2);transition:all .15s}
+.survey-opt.selected .survey-opt-key{background:var(--navy);color:#fff}
+.survey-opt-text{font-size:14px;line-height:1.55;padding-top:5px}
+.result-hero{background:linear-gradient(150deg,var(--navy),var(--navy-700));border-radius:var(--r5);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5);color:#fff}
+.result-eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:var(--s3)}
+.result-profile{font-size:46px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:var(--s5);color:#fff}
+.result-score{display:inline-flex;gap:var(--s6);padding:var(--s4) var(--s7);background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:var(--rF)}
+.result-score-item{text-align:center}
+.result-score-num{font-size:22px;font-weight:800;font-feature-settings:'tnum';color:#fff}
+.result-score-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);margin-top:2px}
+@media(max-width:768px){.survey-q{font-size:19px}.result-profile{font-size:34px}.pe-body{padding:var(--s6) var(--s5)}.pe-overlay{padding:var(--s4)}.result-score{gap:var(--s4);padding:var(--s3) var(--s5)}}
+@media(max-width:1024px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:none}.main{margin-left:0}.g5{grid-template-columns:repeat(3,1fr)}.g3{grid-template-columns:1fr 1fr}.menu-toggle{display:flex}}
+@media(max-width:768px){.screen{padding:var(--s5) var(--s4)}.g5{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}.compare-grid{grid-template-columns:1fr}.d-l{font-size:26px}.cost-amount{font-size:40px}.slider-val-display{font-size:36px}.scenario-pills{flex-wrap:nowrap;overflow-x:auto}.pc-dropdown{min-width:280px}.ctx-client{display:none}.discovery{padding:var(--s3) var(--s4)}.ctx-summary{padding:var(--s3) var(--s4);gap:var(--s3)}.ctx-sum-sep{display:none}.discovery-head{gap:var(--s2)}.cards-band{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand"><div class="name">Investment Intelligence</div><div class="sub">LarrainVial AM × Consorcio</div></div>
+  <div class="nav-group-label">Contexto</div>
+  <div class="nav-item active" data-nav="home" onclick="go('home')"><span class="ni">🏠</span> Inicio</div>
+  <div class="nav-item" data-nav="profile-engine" onclick="go('profile-engine')"><span class="ni">🧭</span> Perfilamiento</div>
+  <div class="nav-item" data-nav="market" onclick="go('market')"><span class="ni">📊</span> Mercado</div>
+  <div class="nav-group-label">Conocimiento</div>
+  <div class="nav-item" data-nav="convictions" onclick="go('convictions')"><span class="ni">💡</span> Convicciones</div>
+  <div class="nav-item" data-nav="decisions" onclick="go('decisions')"><span class="ni">🎯</span> Decisiones</div>
+  <div class="nav-item" data-nav="questions" onclick="go('questions')"><span class="ni">❓</span> Preguntas</div>
+  <div class="nav-group-label">Herramientas BFE</div>
+  <div class="nav-item" data-nav="bfe" onclick="go('bfe')"><span class="ni">🔬</span> BFE Hub</div>
+  <div class="nav-item" data-nav="timing" onclick="go('timing')"><span class="ni">⏱</span> Market Timing</div>
+  <div class="nav-item" data-nav="dcl" onclick="go('dcl')"><span class="ni">🧮</span> Decision Lab</div>
+  <div class="nav-group-label">Portafolio</div>
+  <div class="nav-item" data-nav="portfolio" onclick="go('portfolio')"><span class="ni">🧭</span> Portfolio Explorer</div>
+  <div class="nav-item" data-nav="performance" onclick="go('performance')"><span class="ni">📉</span> Performance Lab</div>
+  <div class="sidebar-footer"><button class="btn-meeting" onclick="go('summary')">🎯 Generar Resumen</button></div>
+</aside>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="main">
+  <div class="ctx-bar">
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="ctx-title" id="ctx-title">Inicio · Mayo 2026</div>
+    <div class="ctx-right">
+      <div class="meeting-indicator">● Modo Reunión</div>
+      <button class="btn-mm" onclick="toggleMeetingMode()">🎤 <span id="mm-label">Modo Reunión</span></button>
+      <div class="pc-selector" id="pc-selector" onclick="toggleProductMenu(event)">
+        <span class="pc-vehicle-icon" id="pc-icon">🛡</span>
+        <span class="pc-vehicle-name" id="pc-vehicle-name">Seguros con Ahorro</span>
+        <span class="pc-series-badge series-seg" id="pc-series-badge">Serie F</span>
+        <span class="pc-arrow" id="pc-arrow">▾</span>
+        <div class="pc-dropdown" id="pc-dropdown" onclick="event.stopPropagation()">
+          <div class="pc-dropdown-header">Vehículo · Serie — Contexto Global</div>
+          <div class="pc-vehicle-group">
+            <div class="pc-vehicle-label">📋 Fondos Mutuos</div>
+            <div class="pc-series-row">
+              <button class="pc-series-btn" data-series="A" onclick="setContext('mutual_funds','A')">Serie A · 3.30%</button>
+              <button class="pc-series-btn" data-series="P" onclick="setContext('mutual_funds','P')">Serie P · 2.95%</button>
+            </div>
+            <div class="pc-series-info">Acceso directo. Liquidez total — el cliente puede entrar y salir cuando quiera.</div>
+          </div>
+          <hr class="pc-vehicle-separator">
+          <div class="pc-vehicle-group">
+            <div class="pc-vehicle-label">🛡 Seguros con Ahorro</div>
+            <div class="pc-series-row"><button class="pc-series-btn active" data-series="F" onclick="setContext('insurance_savings','F')">Serie F · 2.30%</button></div>
+            <div class="pc-series-info">Ahorro de mediano plazo con componente de protección.</div>
+          </div>
+          <hr class="pc-vehicle-separator">
+          <div class="pc-vehicle-group">
+            <div class="pc-vehicle-label">🏦 APV</div>
+            <div class="pc-series-row">
+              <button class="pc-series-btn" data-series="APV" onclick="setContext('apv','APV')">APV · 1.90%</button>
+              <button class="pc-series-btn" data-series="APV_AP" onclick="setContext('apv','APV_AP')">APV-AP · 1.10%</button>
+            </div>
+            <div class="pc-series-info">Horizonte previsional. Beneficio tributario que se pierde si se rescata antes.</div>
+          </div>
+        </div>
+      </div>
+      <div class="ctx-client"><div class="dot"></div> <span id="ctx-profile-label">Perfil Activo: Balanceado</span></div>
+      <div class="ctx-edition t-3">Mayo 2026</div>
+    </div>
+  </div>
+  <div class="pc-banner" id="pc-banner">
+    <span class="pc-banner-icon" id="pc-banner-icon">🛡</span>
+    <div class="pc-banner-text"><span id="pc-banner-text">Contexto activo: <strong>Seguros con Ahorro · Serie F</strong></span></div>
+  </div>
+
+  <!-- ★ PRODUCT DISCOVERY LAYER (secondary selector) ★ -->
+  <div class="discovery">
+    <div class="discovery-head">
+      <span class="discovery-title">Contexto</span>
+      <div class="vehicle-switch" id="vehicle-switch"></div>
+      <div class="series-switch" id="series-switch"></div>
+      <div class="cards-band" id="cards-band"></div>
+    </div>
+  </div>
+
+  <!-- ★ PERSISTENT CONTEXT SUMMARY ★ -->
+  <div class="ctx-summary" id="ctx-summary"></div>
+
+  <div id="screens"></div>
+</div>
+</div>
+<div class="arch-badge">IIP v3 · Contexto: <strong id="arch-label">Seg · F</strong></div>
+
+<!-- ★ INVESTMENT PROFILE ENGINE — premium modal ★ -->
+<div class="pe-overlay" id="pe-overlay">
+  <div class="pe-modal" onclick="event.stopPropagation()">
+    <div class="pe-modal-head">
+      <span class="pe-modal-title">Investment Profile Engine</span>
+      <button class="pe-close" onclick="closeProfileEngine()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="pe-body" id="profile-engine-body"></div>
+  </div>
+</div>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   PRODUCT ARCHITECTURE LAYER
+═══════════════════════════════════════════════════════════ */
+const VEHICLE_CONFIG = {
+  mutual_funds:      { label:'Fondos Mutuos',      icon:'📋', series:['A','P'],       vchip:'vchip-fm'  },
+  insurance_savings: { label:'Seguros con Ahorro', icon:'🛡', series:['F'],            vchip:'vchip-seg' },
+  apv:               { label:'APV',                icon:'🏦', series:['APV','APV_AP'], vchip:'vchip-apv' }
+};
+const SERIES_CONFIG = {
+  'A':     {label:'Serie A',short:'A',maxFee:3.30,vat:true,vehicle:'mutual_funds',badgeClass:'series-fm',settles:3},
+  'P':     {label:'Serie P',short:'P',maxFee:2.95,vat:true,vehicle:'mutual_funds',badgeClass:'series-fm',settles:2},
+  'F':     {label:'Serie F',short:'F',maxFee:2.30,vat:true,vehicle:'insurance_savings',badgeClass:'series-seg',settles:3},
+  'APV':   {label:'APV',short:'APV',maxFee:1.90,vat:false,vehicle:'apv',badgeClass:'series-apv',settles:2},
+  'APV_AP':{label:'APV-AP',short:'APV-AP',maxFee:1.10,vat:false,vehicle:'apv',badgeClass:'series-apv',settles:3}
+};
+const PROFILE_DATA = {
+  'A':     {conservador:{may:0.00,ytd:2.57},moderado:{may:0.79,ytd:3.80},balanceado:{may:1.78,ytd:5.26},crecimiento:{may:3.05,ytd:7.94},agresivo:{may:3.91,ytd:9.30}},
+  'P':     {conservador:{may:0.01,ytd:2.65},moderado:{may:0.81,ytd:3.93},balanceado:{may:1.82,ytd:5.44},crecimiento:{may:3.09,ytd:8.16},agresivo:{may:3.96,ytd:9.55}},
+  'F':     {conservador:{may:0.03,ytd:2.74},moderado:{may:0.84,ytd:4.06},balanceado:{may:1.86,ytd:5.63},crecimiento:{may:3.14,ytd:8.38},agresivo:{may:4.02,ytd:9.80}},
+  'APV':   {conservador:{may:0.06,ytd:2.89},moderado:{may:0.87,ytd:4.21},balanceado:{may:2.12,ytd:6.46},crecimiento:{may:3.56,ytd:9.53},agresivo:{may:4.54,ytd:11.00}},
+  'APV_AP':{conservador:{may:0.10,ytd:3.08},moderado:{may:0.92,ytd:4.45},balanceado:{may:2.19,ytd:6.81},crecimiento:{may:3.63,ytd:9.89},agresivo:{may:4.64,ytd:11.50}}
+};
+const DATASETS = {
+  'A':[1.57,-2.44,0.02,0.67,0.19,0.17,0.46,1.87,-0.79,-1.15,-1.30,-1.54,1.88,0.10,1.23,0.87,-0.39,0.88,1.66,0.34,1.22,-0.64,2.64,-1.45,2.60,-2.73,-8.40,4.43,-0.21,2.77,-0.70,3.28,-1.33,-0.18,4.65,-0.47,2.41,-1.60,-1.44,-0.38,1.26,-0.27,1.15,1.47,-1.00,-0.67,0.66,1.44,-4.45,-1.07,-0.12,1.20,0.08,2.19,-0.33,-1.11,-1.84,-0.45,2.58,-1.42,0.88,-0.51,-0.25,0.19,-0.67,2.08,3.38,-1.45,-1.36,-2.10,3.49,3.32,1.36,2.29,1.73,-2.49,-0.50,1.51,1.31,-0.18,0.78,1.02,1.41,-0.61,1.47,-0.40,-0.48,0.70,1.20,1.16,1.93,1.21,1.61,0.31,-0.22,-0.08,1.23,0.51,-1.07,2.74,1.78],
+  'P':[1.59,-2.41,0.05,0.70,0.22,0.20,0.49,1.88,-0.76,-1.12,-1.27,-1.51,1.91,0.12,1.26,0.90,-0.36,0.89,1.67,0.37,1.24,-0.61,2.66,-1.42,2.62,-2.71,-8.37,4.46,-0.18,2.80,-0.67,3.31,-1.30,-0.15,4.65,-0.44,2.44,-1.58,-1.41,-0.35,1.29,-0.24,1.18,1.50,-0.97,-0.64,0.69,1.47,-4.42,-1.04,-0.09,1.23,0.11,2.22,-0.34,-1.08,-1.81,-0.42,2.61,-1.39,0.91,-0.49,-0.22,0.22,-0.64,2.11,3.41,-1.42,-1.33,-2.07,3.52,3.28,1.39,2.31,1.75,-2.46,-0.47,1.54,1.33,-0.15,0.80,1.05,1.43,-0.58,1.49,-0.37,-0.45,0.73,1.22,1.18,1.96,1.24,1.63,0.33,-0.19,-0.05,1.25,0.53,-1.04,2.76,1.81],
+  'F':[1.63,-2.36,0.10,0.75,0.27,0.25,0.55,1.89,-0.71,-1.06,-1.22,-1.46,1.96,0.17,1.32,0.95,-0.30,0.91,1.69,0.42,1.29,-0.56,2.71,-1.37,2.67,-2.66,-8.32,4.51,-0.13,2.85,-0.61,3.37,-1.25,-0.10,4.65,-0.38,2.49,-1.53,-1.36,-0.30,1.35,-0.19,1.24,1.56,-0.92,-0.58,0.74,1.53,-4.37,-0.99,-0.03,1.28,0.16,2.27,-0.36,-1.03,-1.76,-0.36,2.67,-1.34,0.96,-0.44,-0.16,0.27,-0.59,2.17,3.47,-1.36,-1.28,-2.02,3.58,3.20,1.45,2.36,1.80,-2.41,-0.42,1.59,1.36,-0.10,0.85,1.10,1.48,-0.53,1.54,-0.32,-0.39,0.78,1.25,1.23,2.01,1.29,1.68,0.38,-0.14,0.00,1.29,0.58,-0.99,2.81,1.86],
+  'APV':[1.85,-2.33,0.14,0.79,0.31,0.28,0.58,2.04,-0.62,-1.03,-1.19,-1.43,2.00,0.20,1.35,0.99,-0.27,1.00,1.92,0.47,1.48,-0.52,3.15,-1.34,2.76,-2.52,-8.29,4.55,-0.09,2.89,-0.58,3.40,-1.22,-0.06,4.79,-0.35,2.92,-1.37,-1.32,-0.26,1.38,-0.15,1.28,1.59,-0.89,-0.55,0.78,1.56,-4.33,-0.96,0.00,1.31,0.20,2.31,-0.22,-0.99,-1.72,-0.33,2.70,-1.31,1.00,-0.40,-0.13,0.31,-0.55,2.20,3.51,-1.33,-1.25,-1.98,3.61,3.44,1.62,2.73,1.99,-2.38,-0.38,1.62,1.44,-0.06,0.99,1.28,1.64,-0.43,1.62,-0.29,-0.36,0.81,1.44,1.39,2.29,1.48,1.90,0.46,-0.08,0.03,1.45,0.67,-0.95,3.06,2.12],
+  'APV_AP':[1.85,-2.33,0.14,0.79,0.31,0.28,0.58,2.04,-0.62,-1.03,-1.19,-1.43,2.00,0.20,1.35,0.99,-0.27,1.00,1.92,0.47,1.48,-0.52,3.15,-1.34,2.76,-2.52,-8.29,4.55,-0.09,2.89,-0.58,3.40,-1.22,0.01,4.86,-0.28,2.99,-1.31,-1.25,-0.20,1.46,-0.09,1.35,1.66,-0.82,-0.48,0.85,1.63,-4.27,-0.90,0.07,1.38,0.26,2.37,-0.15,-0.92,-1.66,-0.26,2.77,-1.24,1.07,-0.34,-0.06,0.37,-0.49,2.27,3.58,-1.26,-1.18,-1.92,3.67,3.51,1.69,2.80,2.06,-2.31,-0.31,1.69,1.51,0.01,1.05,1.35,1.71,-0.36,1.69,-0.23,-0.29,0.88,1.51,1.46,2.36,1.55,1.97,0.53,-0.02,0.10,1.52,0.73,-0.89,3.13,2.19]
+};
+
+// PROFILES — discovery metadata (risk dots, RF/RV mix, horizon, objective)
+// Source: Revista Fondos Dinámicos pages 2-12 (estrategia de inversión, nivel de riesgo)
+const PROFILES = {
+  conservador:{key:'conservador',name:'Conservador',cls:'conservador',risk:2,riskLabel:'Conservador',rv:10,rf:90,horizon:'1+ años',obj:'Preservar capital con crecimiento estable',
+    enfoque:'Estabilidad y liquidez',desc:'Prioriza la preservación del capital. Acepta poco riesgo a cambio de retornos más predecibles y acceso rápido a su dinero.',vol:'1.29%',riskNum:3,
+    convictions:['permanecer','deuda_chilena','diversificacion'],decisions:['ancla_defensiva','no_decision'],
+    errors:['Rescatar ante la primera caída pequeña','Subestimar la inflación al buscar máxima seguridad']},
+  moderado:   {key:'moderado',   name:'Moderado',   cls:'moderado',   risk:3,riskLabel:'Moderado',   rv:30,rf:70,horizon:'2+ años',obj:'Crecimiento moderado con baja volatilidad',
+    enfoque:'Crecimiento prudente con control de riesgo',desc:'Busca crecer por encima de la inflación manteniendo la volatilidad acotada. Tolera fluctuaciones menores en horizontes de mediano plazo.',vol:'2.25%',riskNum:4,
+    convictions:['permanecer','diversificacion','deuda_chilena'],decisions:['aumentar_asia','ancla_defensiva'],
+    errors:['Mover el perfil a Conservador en cada episodio de volatilidad','Comparar el rendimiento mensual contra perfiles más agresivos']},
+  balanceado: {key:'balanceado', name:'Balanceado', cls:'balanceado', risk:4,riskLabel:'Balanceado', rv:50,rf:50,horizon:'2–3+ años',obj:'Equilibrio entre crecimiento y estabilidad',
+    enfoque:'Participación en crecimiento con control de volatilidad',desc:'Equilibra renta variable y renta fija para participar del crecimiento controlando la volatilidad. El perfil de referencia para la mayoría de horizontes de mediano plazo.',vol:'3.91%',riskNum:4,
+    convictions:['permanecer','diversificacion','asia_tech'],decisions:['aumentar_asia','mantener_caida'],
+    errors:['Salir en marzo 2020 y perderse la recuperación','Intentar cronometrar entradas y salidas del mercado']},
+  crecimiento:{key:'crecimiento',name:'Crecimiento',cls:'crecimiento',risk:4,riskLabel:'Crecimiento',rv:70,rf:30,horizon:'3+ años',obj:'Crecimiento de capital de mediano-largo plazo',
+    enfoque:'Crecimiento de capital con mayor exposición a renta variable',desc:'Prioriza el crecimiento del capital aceptando mayor volatilidad. Requiere un horizonte largo para absorber las fluctuaciones de la renta variable.',vol:'5.74%',riskNum:5,
+    convictions:['asia_tech','diversificacion','permanecer'],decisions:['aumentar_asia','mantener_caida'],
+    errors:['Reducir el riesgo cerca de una corrección, cristalizando pérdidas','Reaccionar a la volatilidad de corto plazo con un horizonte largo']},
+  agresivo:   {key:'agresivo',   name:'Agresivo',   cls:'agresivo',   risk:5,riskLabel:'Agresivo',   rv:90,rf:10,horizon:'3+ años',obj:'Máximo crecimiento asumiendo mayor volatilidad',
+    enfoque:'Alta tolerancia a volatilidad por máximo crecimiento',desc:'Busca el máximo crecimiento de largo plazo con alta exposición a renta variable. Tolera caídas profundas confiando en la recuperación del horizonte.',vol:'7.55%',riskNum:6,
+    convictions:['asia_tech','diversificacion','permanecer'],decisions:['aumentar_asia','mantener_caida'],
+    errors:['Vender en pánico durante las caídas más profundas','Confundir alta volatilidad con un error de estrategia']}
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ★ INVESTMENT PROFILE ENGINE — encuesta oficial FVTV008
+   Preguntas, alternativas, puntajes y tramos EXACTOS del documento
+═══════════════════════════════════════════════════════════ */
+const SURVEY = [
+  {n:1,q:'¿Consideras el monto a aportar un porcentaje relevante de tus ahorros e inversiones?',note:'No considerar activos inmobiliarios.',
+   options:[
+     {k:'A',score:5,text:'No. Este dinero no es relevante en relación a mis ahorros e inversiones.'},
+     {k:'B',score:0,text:'Sí. Este dinero representa más de la mitad de mis ahorros e inversiones.'},
+     {k:'C',score:1,text:'Sí. Pero este dinero representa menos de la mitad de mis ahorros e inversiones.'}]},
+  {n:2,q:'¿Qué describe mejor tu conducta durante los últimos 12 meses?',
+   options:[
+     {k:'A',score:1,text:'Sólo he ahorrado o invertido para un evento específico que ocurrirá dentro de los próximos 12 meses.'},
+     {k:'B',score:4,text:'Ahorro periódicamente.'},
+     {k:'C',score:0,text:'No he ahorrado o invertido durante los últimos 12 meses.'},
+     {k:'D',score:3,text:'Sólo he ahorrado o invertido para un evento específico que ocurrirá dentro de los próximos 3 años.'}]},
+  {n:3,q:'En el caso que pierdas tu principal fuente de ingresos, ¿cuánto tiempo te podrías mantener sólo de tus ahorros o inversiones?',
+   options:[
+     {k:'A',score:1,text:'Entre 6 meses y 1 año.'},
+     {k:'B',score:3,text:'Entre 1 y 3 años.'},
+     {k:'C',score:5,text:'Más de 3 años.'},
+     {k:'D',score:0,text:'Menos de 6 meses.'}]},
+  {n:4,q:'En relación a tu fuente de trabajo, ¿qué frase te describe mejor?',
+   options:[
+     {k:'A',score:1,text:'Dependiente o independiente con menos de 3 años de antigüedad laboral.'},
+     {k:'B',score:2,text:'Dependiente o independiente con más de 4 años de antigüedad laboral.'},
+     {k:'C',score:3,text:'Cuento con ingresos no laborales.'}]},
+  {n:5,q:'En relación a esta inversión, ¿cuánto tiempo esperarías ante una rentabilidad negativa para rescatar la inversión?',
+   options:[
+     {k:'A',score:0,text:'Esperaría 3 meses para ver si la situación mejora.'},
+     {k:'B',score:2,text:'Esperaría 6 meses para ver si la situación mejora.'},
+     {k:'C',score:3,text:'Esperaría 1 año para ver si la situación mejora.'},
+     {k:'D',score:0,text:'No esperaría. Solicitaría el rescate inmediatamente.'}]},
+  {n:6,q:'¿Cuándo piensas que es probable que utilices el dinero invertido?',
+   options:[
+     {k:'A',score:1,text:'Está destinado para un gasto dentro de los próximos 12 meses.'},
+     {k:'B',score:3,text:'Está destinado para un gasto que ocurrirá después de 3 años.'},
+     {k:'C',score:1,text:'Es parte de mis ahorros en caso de una eventualidad. No sé cuándo los necesitaré.'},
+     {k:'D',score:3,text:'Está destinado para mi jubilación.'}]},
+  {n:7,q:'¿Cada cuánto tiempo te informas sobre noticias económicas?',
+   options:[
+     {k:'A',score:5,text:'Diariamente.'},
+     {k:'B',score:3,text:'Semanal o mensualmente.'},
+     {k:'C',score:1,text:'Esporádicamente.'}]}
+];
+// Tramos oficiales (documento FVTV008)
+const SURVEY_BRACKETS = [
+  {min:3, max:8, profile:'conservador'},
+  {min:9, max:12,profile:'moderado'},
+  {min:13,max:17,profile:'balanceado'},
+  {min:18,max:21,profile:'crecimiento'},
+  {min:22,max:28,profile:'agresivo'}
+];
+function scoreToProfile(score){
+  for(const b of SURVEY_BRACKETS){ if(score>=b.min&&score<=b.max) return {profile:b.profile,bracket:b.min+'–'+b.max}; }
+  return {profile:'balanceado',bracket:'13–17'};
+}
+
+const PC = {
+  vehicle:'insurance_savings', series:'F', profile:'balanceado',
+  get sc(){return SERIES_CONFIG[this.series];}, get vc(){return VEHICLE_CONFIG[this.vehicle];},
+  get pf(){return PROFILES[this.profile];},
+  get ret(){return DATASETS[this.series];}, get pd(){return PROFILE_DATA[this.series];}
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ★ CONVICTION DATASET — the central node of the system
+   Each conviction: 8-part structure + per-vehicle advisory narrative
+═══════════════════════════════════════════════════════════ */
+const CONVICTIONS = {
+  permanecer: {
+    id:'permanecer', title:'Permanecer invertido supera al market timing en horizontes relevantes',
+    type:'Estructural', badge:'badge-structural', strength:5, age:'5+ años', icon:'🧭',
+    profiles:['c','m','b','cr','a'], horizon:'Permanente',
+    observamos:'Los inversores que intentan predecir entradas y salidas obtienen retornos consistentemente inferiores a quienes permanecen invertidos a lo largo del ciclo completo.',
+    importa:'El mayor destructor de valor no es el mercado: es la decisión de salir cuando el mercado cae. Los mejores meses suelen ocurrir justo después de los peores, cuando el miedo es máximo.',
+    podriaPasar:'En cualquier corrección futura, el impulso de "esperar a que se estabilice" reaparecerá. La evidencia histórica muestra que ese impulso, ejecutado, cristaliza pérdidas y pierde la recuperación.',
+    haciendo:'Mantenemos la exposición estratégica a través de las caídas, respetando el horizonte original de cada perfil en vez de reaccionar a movimientos de corto plazo.',
+    noHaciendo:'No estamos intentando cronometrar el mercado. No salimos a "refugio" en cada episodio de volatilidad. No prometemos evitar las caídas — prometemos no convertirlas en pérdidas permanentes.',
+    habilita:['Mantener la inversión durante la caída de marzo 2020','No reducir el perfil en episodios de volatilidad','Resistir la tentación del "refugio en DAP"'],
+    evidence:true,
+    perVehicle:{
+      mutual_funds:{ tag:'Riesgo conductual MÁXIMO', text:'En Fondos Mutuos la liquidez es total: el cliente puede rescatar en cualquier momento. Esto hace que el riesgo conductual de timing sea el más alto de los tres vehículos. La convicción de permanecer es, aquí, la más crítica de comunicar: nada estructural impide salir, solo la disciplina.', rec:'Refuerza el horizonte con cada conversación. La facilidad de rescatar es precisamente el riesgo.' },
+      insurance_savings:{ tag:'Horizonte semi-comprometido', text:'En Seguros con Ahorro existe un componente de mediano plazo que ancla parcialmente la decisión. El cliente ya internalizó un horizonte al contratar. La convicción de permanecer se apoya en ese compromiso inicial: recordar por qué se eligió este vehículo es el mejor argumento.', rec:'Conecta la permanencia con el objetivo de ahorro original que motivó el seguro.' },
+      apv:{ tag:'Salir cuesta DOBLE', text:'En APV el costo de salir es doble: el costo de mercado (perderse la recuperación) MÁS el costo tributario (perder el beneficio fiscal acumulado). El horizonte previsional es el más largo de todos. Aquí la convicción de permanecer no solo protege retorno: protege el beneficio tributario que es la razón de ser del vehículo.', rec:'Enfatiza que un rescate anticipado no solo pierde mercado, también gatilla la devolución del beneficio tributario.' }
+    }
+  },
+  asia_tech:{
+    id:'asia_tech', title:'La tecnología asiática lidera el ciclo de semiconductores e inteligencia artificial',
+    type:'Cíclica', badge:'badge-cyclical', strength:4, age:'20 meses', icon:'🌏',
+    profiles:['m','b','cr','a'], horizon:'3–6 meses',
+    observamos:'Asia Emergente rentó +8.42% en mayo. Corea del Sur y Taiwán aceleran impulsados por la demanda de semiconductores e infraestructura de IA, mientras los mercados desarrollados se mantienen más caros.',
+    importa:'El ciclo de IA es estructural pero la entrada de capital a Asia es cíclica. Capturar este momento de liderazgo regional agrega retorno por encima de una exposición global pasiva.',
+    podriaPasar:'Si el ciclo de semiconductores se enfría o aumentan las tensiones comerciales, la sobreponderación a Asia podría revertirse. Es una convicción cíclica, no permanente.',
+    haciendo:'Durante mayo aumentamos la exposición a renta variable asiática y estadounidense en los perfiles con mayor componente de renta variable.',
+    noHaciendo:'No estamos abandonando la diversificación global. No concentramos todo en Asia. No tratamos esta convicción como estructural — la revisaremos según evolucione el ciclo.',
+    habilita:['Aumentar Asia +0.9pp en Balanceado','Incrementar exposición a iShares Asia 50 ETF','Sobreponderar semiconductores vía tech ETFs'],
+    evidence:false,
+    perVehicle:{
+      mutual_funds:{ tag:'Implementación táctica directa', text:'En Fondos Mutuos esta convicción cíclica se puede implementar y ajustar con agilidad. La liquidez permite capturar el momento y salir si el ciclo se revierte. Es el vehículo natural para una convicción de horizonte 3–6 meses.', rec:'Apropiado para clientes que entienden el carácter táctico y revisable de esta posición.' },
+      insurance_savings:{ tag:'Vía la estrategia, no directa', text:'En Seguros con Ahorro la exposición a Asia llega a través de la estrategia gestionada del perfil, no como una apuesta individual. El cliente participa del liderazgo asiático sin tener que decidir el timing — el equipo lo gestiona dentro del mandato.', rec:'Comunica que el equipo captura estas oportunidades cíclicas dentro de la estrategia, sin acción del cliente.' },
+      apv:{ tag:'Componente de crecimiento de largo plazo', text:'En APV, una convicción cíclica como Asia se enmarca en el horizonte previsional largo. El liderazgo asiático de semiconductores e IA es un motor de crecimiento que, capturado consistentemente a lo largo de años, compone significativamente el ahorro previsional.', rec:'Enmarca Asia como motor de crecimiento de largo plazo, no como apuesta de corto plazo.' }
+    }
+  },
+  deuda_chilena:{
+    id:'deuda_chilena', title:'La deuda chilena funciona como ancla defensiva en un entorno geopolítico complejo',
+    type:'Posicionamiento', badge:'badge-positioning', strength:4, age:'14 meses', icon:'⚓',
+    profiles:['c','m','b'], horizon:'6–12 meses',
+    observamos:'El conflicto en Irán elevó el crudo sobre US$110 y reforzó temores de estanflación global. El Banco Central de Chile revisó los recortes de TPM, y el repunte del cobre benefició a los activos locales al cierre de mayo.',
+    importa:'En un entorno de incertidumbre geopolítica, la deuda chilena de alta calidad ofrece estabilidad y descorrelación frente a los shocks externos, especialmente para los perfiles más conservadores.',
+    podriaPasar:'Si la inflación local repunta o el cobre cae, el atractivo relativo de la deuda chilena podría disminuir. Mantenemos la posición mientras el entorno externo siga siendo el principal riesgo.',
+    haciendo:'Mantenemos la deuda chilena como componente ancla en los perfiles Conservador, Moderado y Balanceado, representando cerca del 88% de la deuda en el Conservador.',
+    noHaciendo:'No estamos sobreponderando deuda emergente de mayor riesgo. No buscamos rendimiento adicional sacrificando la función defensiva de esta posición.',
+    habilita:['Mantener ~88% de deuda en Chile (Conservador)','Sostener FM Consorcio Ahorro Dinámico como núcleo','No perseguir yield en deuda de mayor riesgo'],
+    evidence:false,
+    perVehicle:{
+      mutual_funds:{ tag:'Núcleo defensivo líquido', text:'En Fondos Mutuos la deuda chilena ancla la cartera con liquidez. El cliente puede ver el componente defensivo claramente y ajustar si su tolerancia al riesgo cambia.', rec:'Ideal para clientes que valoran estabilidad con acceso inmediato.' },
+      insurance_savings:{ tag:'Estabilidad para el ahorro', text:'En Seguros con Ahorro, la deuda chilena refuerza el carácter de preservación del vehículo. El componente defensivo se alinea naturalmente con el objetivo de ahorro protegido de mediano plazo.', rec:'Conecta la deuda local con la seguridad que el cliente busca en este vehículo.' },
+      apv:{ tag:'Ancla en horizonte largo', text:'En APV, la deuda chilena estabiliza la porción defensiva del ahorro previsional. Aun en horizontes largos, el ancla local reduce la volatilidad del camino sin sacrificar el beneficio tributario del vehículo.', rec:'Presenta la deuda local como estabilizador del recorrido previsional de largo plazo.' }
+    }
+  },
+  costo_panico:{
+    id:'costo_panico', title:'El costo de las decisiones emocionales es medible y casi siempre subestimado',
+    type:'Filosófica', badge:'badge-structural', strength:5, age:'5+ años', icon:'🧠',
+    profiles:['c','m','b','cr','a'], horizon:'Permanente',
+    observamos:'Cada caída de mercado genera un impulso de salida. Ese impulso, ejecutado, tiene un costo cuantificable que casi siempre supera lo que el inversor imagina en el momento de la decisión.',
+    importa:'Hacer visible y concreto el costo de salir —en pesos, con datos reales del propio portafolio— es la herramienta más poderosa para sostener una conversación de asesoría consistente.',
+    podriaPasar:'Sin esta visibilidad, el inversor seguirá subestimando el costo del pánico y repetirá el patrón en cada corrección. Con ella, la decisión se ancla en evidencia, no en emoción.',
+    haciendo:'Usamos el Behavioral Finance Engine para calcular, con datos históricos reales de la serie activa, exactamente cuánto habría costado cada decisión emocional alternativa.',
+    noHaciendo:'No usamos proyecciones inventadas ni escenarios hipotéticos sin base. Solo datos reales del Fondo Dinámico. No minimizamos el miedo del cliente — lo cuantificamos para poder conversarlo.',
+    habilita:['Demostrar el costo del rescate de marzo 2020','Cuantificar el costo del market timing','Anclar la conversación en evidencia, no en emoción'],
+    evidence:true,
+    perVehicle:{
+      mutual_funds:{ tag:'El costo es solo de mercado', text:'En Fondos Mutuos el costo del pánico es el costo de mercado: la diferencia entre permanecer y salir. Significativo, pero "limpio" — solo retorno perdido.', rec:'Cuantifica en pesos la diferencia entre permanecer y rescatar en la serie activa.' },
+      insurance_savings:{ tag:'Costo de mercado + reconfiguración', text:'En Seguros con Ahorro, salir implica el costo de mercado más la complejidad de reconfigurar el ahorro protegido. La decisión emocional tiene fricción adicional que conviene hacer visible.', rec:'Suma al costo de mercado el costo de deshacer la estructura de ahorro.' },
+      apv:{ tag:'Costo de mercado + costo tributario', text:'En APV el costo del pánico es el más alto: costo de mercado MÁS la pérdida del beneficio tributario acumulado. El BFE puede mostrar ambos componentes — y el componente tributario suele ser el que el cliente más subestima.', rec:'Demuestra que en APV el pánico cuesta doble: mercado e impuesto.' }
+    }
+  },
+  diversificacion:{
+    id:'diversificacion', title:'La diversificación entre clases de activo, regiones y monedas reduce el riesgo sin sacrificar retorno objetivo',
+    type:'Estructural', badge:'badge-structural', strength:5, age:'5+ años', icon:'🌐',
+    profiles:['c','m','b','cr','a'], horizon:'Permanente',
+    observamos:'Los activos no se mueven al unísono: cuando Latinoamérica quedó rezagada (-4.05%), Asia lideró (+8.42%). La diversificación captura esa heterogeneidad sistemáticamente.',
+    importa:'Cada perfil construye su retorno objetivo combinando clases de activo, regiones y monedas que se comportan distinto. Esto reduce la volatilidad del camino sin renunciar al retorno esperado.',
+    podriaPasar:'En episodios de correlación extrema (como marzo 2020) la diversificación ofrece menos protección temporal, pero se recupera su valor en la fase siguiente, como ocurrió en la recuperación de 2020.',
+    haciendo:'Construimos cada perfil con exposición a Chile, mercados desarrollados, emergentes, Asia y Latinoamérica, además de un componente de activos alternativos, calibrado según el nivel de riesgo del perfil.',
+    noHaciendo:'No concentramos en una sola región o clase de activo. No perseguimos el activo "ganador" del momento. No sacrificamos diversificación por rendimiento puntual.',
+    habilita:['Calibrar la mezcla RV/RF según perfil','Combinar Chile, desarrollados, Asia y LatAm','Incluir alternativos como descorrelacionador'],
+    evidence:false,
+    perVehicle:{
+      mutual_funds:{ tag:'Diversificación visible y ajustable', text:'En Fondos Mutuos el cliente ve la composición diversificada y puede ajustar su perfil. La transparencia de la mezcla es un argumento de confianza.', rec:'Muestra cómo la mezcla del perfil dispersa el riesgo entre regiones y clases.' },
+      insurance_savings:{ tag:'Diversificación gestionada', text:'En Seguros con Ahorro la diversificación es gestionada dentro de la estrategia. El cliente obtiene una cartera global diversificada sin tener que construirla — el equipo calibra la mezcla.', rec:'Comunica que la diversificación global llega gestionada, sin esfuerzo del cliente.' },
+      apv:{ tag:'Diversificación que compone en el tiempo', text:'En APV, la diversificación reduce la volatilidad del recorrido previsional largo. Un camino más estable, sostenido por décadas y potenciado por el beneficio tributario, compone mejor el ahorro final.', rec:'Enmarca la diversificación como reductora de la volatilidad del largo plazo previsional.' }
+    }
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ★ DECISION DATASET — every decision starts from a conviction
+═══════════════════════════════════════════════════════════ */
+const DECISIONS = {
+  aumentar_asia:{
+    id:'aumentar_asia', title:'Aumentar exposición a renta variable asiática y estadounidense', icon:'↑',
+    accion:'Aumentamos', month:'Mayo 2026', convictionId:'asia_tech', profiles:['m','b','cr','a'],
+    contexto:'Asia Emergente lideró el mes con +8.42%, confirmando el momentum de semiconductores e IA. Los mercados desarrollados se mantuvieron resilientes pese a la incertidumbre geopolítica.',
+    horizonte:'3–6 meses (táctico)', horizonteNote:'Posición cíclica revisable según evolucione el ciclo de semiconductores.',
+    riesgos:['Tensiones comerciales podrían revertir el flujo de capital a Asia','Un enfriamiento del ciclo de IA reduciría el atractivo','La sobreponderación regional aumenta la volatilidad de corto plazo'],
+    resultado:'Capturar el liderazgo regional asiático por encima de una exposición global pasiva, agregando retorno en los perfiles con mayor componente de renta variable.',
+    instruments:['iShares Asia 50 ETF','FHI Asia ex-Japan Equity Fund','Vanguard S&P 500 ETF','iShares Global Tech ETF']
+  },
+  mantener_caida:{
+    id:'mantener_caida', title:'No reducir el riesgo pese al conflicto en Medio Oriente', icon:'=',
+    accion:'Mantuvimos', month:'Mayo 2026', convictionId:'permanecer', profiles:['c','m','b','cr','a'],
+    contexto:'El conflicto en Irán elevó el crudo y reforzó temores de estanflación. El impulso natural sería reducir el riesgo. Decidimos no hacerlo.',
+    horizonte:'Permanente (estructural)', horizonteNote:'Esta decisión refleja la convicción estructural de permanecer invertido.',
+    riesgos:['Si el conflicto escala, la volatilidad de corto plazo aumentará','El cliente puede percibir la inacción como pasividad','Mantener riesgo en un shock requiere comunicación proactiva'],
+    resultado:'Sostener la exposición a riesgo respaldados por la resiliencia de utilidades corporativas y el liderazgo tecnológico, evitando cristalizar pérdidas por un shock geopolítico transitorio.',
+    instruments:['Sin cambios de instrumentos — mantención de la estrategia vigente']
+  },
+  ancla_defensiva:{
+    id:'ancla_defensiva', title:'Sostener la deuda chilena como ancla defensiva', icon:'⚓',
+    accion:'Sostuvimos', month:'Mayo 2026', convictionId:'deuda_chilena', profiles:['c','m','b'],
+    contexto:'Ante la incertidumbre geopolítica externa y el repunte del cobre, la deuda chilena de alta calidad ofrece estabilidad y descorrelación frente a los shocks globales.',
+    horizonte:'6–12 meses (posicionamiento)', horizonteNote:'Posición de posicionamiento que se mantiene mientras el riesgo externo domine.',
+    riesgos:['Un repunte de la inflación local reduciría su atractivo','Una caída del cobre afectaría los activos locales','El rendimiento es menor al de alternativas de mayor riesgo'],
+    resultado:'Estabilizar la porción defensiva de los perfiles conservadores y balanceados, priorizando la función de ancla por sobre la búsqueda de rendimiento adicional.',
+    instruments:['FM Consorcio Ahorro Dinámico','FM LV Ahorro UF','FI LV Retorno Local']
+  },
+  no_decision:{
+    id:'no_decision', title:'No realizar cambios en el perfil Conservador', icon:'○',
+    accion:'No actuamos', month:'Mayo 2026', convictionId:'permanecer', profiles:['c'],
+    contexto:'Durante mayo, el perfil Conservador no requirió ajustes. Su composición defensiva ya capturaba el entorno adecuadamente.',
+    horizonte:'N/A — decisión de no actuar', horizonteNote:'No actuar es una decisión deliberada con el mismo peso que cualquier cambio.',
+    riesgos:['El cliente puede esperar "actividad" como señal de gestión','La no-acción debe comunicarse como decisión, no como olvido'],
+    resultado:'Preservar la coherencia de la estrategia conservadora. La ausencia de cambios refleja que la posición actual sigue siendo la correcta — no una falta de gestión.',
+    instruments:['Sin cambios — la composición vigente se mantiene']
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ★ FAQ DATASET — anchored to convictions, vehicle-aware
+═══════════════════════════════════════════════════════════ */
+const FAQ_CATEGORIES = {
+  miedo:{label:'Miedo y caídas',icon:'😰'}, timing:{label:'Timing de mercado',icon:'⏱'},
+  vehiculo:{label:'Vehículo y series',icon:'🏦'}, horizonte:{label:'Horizonte y plazos',icon:'📅'}
+};
+const FAQS = [
+  {cat:'miedo', convictionId:'permanecer', q:'El mercado está cayendo, ¿no debería salir para proteger mi capital?',
+   a:'Históricamente, salir en las caídas es lo que convierte una baja temporal en una pérdida permanente. En el Fondo Dinámico Balanceado, marzo 2020 fue el peor mes (-8.32% en Serie F), pero abril fue +4.51% y el año cerró positivo. Quienes salieron en el peor momento se perdieron la recuperación. El Decision Lab puede mostrarle el costo exacto en pesos.'},
+  {cat:'miedo', convictionId:'costo_panico', q:'¿Cuánto cuesta realmente tomar una decisión por miedo?',
+   a:'Es medible y casi siempre se subestima. Con el Behavioral Finance Engine calculamos, con datos reales de su serie, cuánto habría costado cada decisión emocional. DYNAMIC_VEHICLE_COST'},
+  {cat:'timing', convictionId:'permanecer', q:'¿No sería mejor esperar a que el mercado se estabilice y luego volver a entrar?',
+   a:'El problema es que los mejores meses suelen ocurrir justo cuando el miedo es máximo. Los 5 mejores meses del Balanceado entre 2018 y 2026 ocurrieron todos en 2020 — el año del COVID. Salir para "esperar" casi garantiza perderse esos meses. El Market Timing Simulator lo demuestra con el slider.'},
+  {cat:'timing', convictionId:'asia_tech', q:'¿Por qué aumentaron Asia justo ahora? ¿No es perseguir lo que ya subió?',
+   a:'Es una convicción cíclica, no perseguir rendimiento. El liderazgo de semiconductores e IA en Corea y Taiwán tiene fundamentos estructurales, y la entrada de capital a la región está en una fase que esperamos capturar en los próximos 3–6 meses. La revisaremos según evolucione el ciclo — no es una posición permanente.'},
+  {cat:'vehiculo', convictionId:null, q:'¿Cuál es la diferencia entre las series y por qué importa para mí?',
+   a:'DYNAMIC_VEHICLE_FAQ'},
+  {cat:'vehiculo', convictionId:'costo_panico', q:'¿Por qué dicen que rescatar en APV "cuesta el doble"?',
+   a:'Porque en APV un rescate anticipado tiene dos costos: el costo de mercado (perderse la recuperación, como en cualquier vehículo) y el costo tributario (la devolución del beneficio fiscal acumulado). Por eso, en APV, la convicción de permanecer invertido protege no solo el retorno sino también la razón de ser del vehículo: su beneficio tributario.'},
+  {cat:'horizonte', convictionId:'permanecer', q:'¿Cuánto tiempo debería mantener mi inversión?',
+   a:'Depende de su perfil. El Conservador recomienda desde 1 año; el Balanceado desde 2–3 años; los perfiles de mayor riesgo desde 3 años o más. El horizonte no es arbitrario: es el tiempo que históricamente ha permitido que la estrategia capture su retorno objetivo absorbiendo la volatilidad del camino.'},
+  {cat:'horizonte', convictionId:'diversificacion', q:'Si todo cae al mismo tiempo en una crisis, ¿de qué sirve diversificar?',
+   a:'En episodios de correlación extrema como marzo 2020, la diversificación ofrece menos protección temporal — es cierto. Pero su valor se recupera en la fase siguiente: cuando Latinoamérica quedó rezagada (-4.05%), Asia lideró (+8.42%). La diversificación no elimina las caídas; reduce la volatilidad del camino y acelera la recuperación.'}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   ★ PORTFOLIO COMPOSITION — distinct per vehicle
+═══════════════════════════════════════════════════════════ */
+const PORTFOLIO_COMP = {
+  mutual_funds:{
+    objetivo:'Crecimiento equilibrado con liquidez total. El cliente prioriza retorno de mediano plazo manteniendo la capacidad de ajustar su posición.',
+    convictions:['diversificacion','asia_tech','permanecer'],
+    classes:[
+      {name:'Deuda',pct:56.9,color:'#64748B',sub:[{n:'Chile',p:40.2},{n:'Emergentes',p:6.7},{n:'High Yield Global',p:4.9},{n:'Investment Grade',p:2.8},{n:'Latinoamérica',p:2.3}]},
+      {name:'Acciones',pct:42.8,color:'#2563EB',sub:[{n:'Desarrollados',p:17.6},{n:'Chile',p:10.7},{n:'Asia',p:10.3},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
+      {name:'Alternativo',pct:0.3,color:'#D97706',sub:[{n:'Alternativo',p:0.3}]}
+    ],
+    instruments:[{n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:40.2},{n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:8.2},{n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.1},{n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:3.4},{n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.8},{n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.2}]
+  },
+  insurance_savings:{
+    objetivo:'Ahorro protegido de mediano plazo. El cliente busca crecimiento con un componente de protección, dentro de una estrategia gestionada.',
+    convictions:['permanecer','diversificacion','deuda_chilena'],
+    classes:[
+      {name:'Deuda',pct:56.9,color:'#64748B',sub:[{n:'Chile',p:40.2},{n:'Emergentes',p:6.7},{n:'High Yield Global',p:4.9},{n:'Investment Grade',p:2.8},{n:'Latinoamérica',p:2.3}]},
+      {name:'Acciones',pct:42.8,color:'#2563EB',sub:[{n:'Desarrollados',p:17.6},{n:'Chile',p:10.7},{n:'Asia',p:10.3},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
+      {name:'Alternativo',pct:0.3,color:'#D97706',sub:[{n:'Alternativo',p:0.3}]}
+    ],
+    instruments:[{n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:40.2},{n:'Tesorería de Chile',c:'Deuda Chile',p:12.0},{n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:8.2},{n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.1},{n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.8},{n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.2}]
+  },
+  apv:{
+    objetivo:'Ahorro previsional de largo plazo con beneficio tributario. El cliente compone su ahorro a lo largo de años, priorizando crecimiento sostenido y eficiencia fiscal.',
+    convictions:['permanecer','diversificacion','asia_tech'],
+    classes:[
+      {name:'Deuda',pct:54.0,color:'#64748B',sub:[{n:'Chile',p:38.0},{n:'Emergentes',p:7.0},{n:'High Yield Global',p:5.0},{n:'Investment Grade',p:2.5},{n:'Latinoamérica',p:1.5}]},
+      {name:'Acciones',pct:45.5,color:'#2563EB',sub:[{n:'Desarrollados',p:18.8},{n:'Chile',p:11.0},{n:'Asia',p:11.5},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
+      {name:'Alternativo',pct:0.5,color:'#D97706',sub:[{n:'Alternativo',p:0.5}]}
+    ],
+    instruments:[{n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:38.0},{n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:9.0},{n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.8},{n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:3.6},{n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:3.0},{n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.4}]
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ★ MARKET EVENTS
+═══════════════════════════════════════════════════════════ */
+const MARKET_EVENTS = [
+  {scope:'GEOPOLÍTICA',impact:'h',sign:'neg',title:'Conflicto en Irán eleva crudo a US$110/barril',detail:'La persistencia del conflicto disparó el precio del petróleo y reforzó temores de estanflación global. Refuerza la convicción de deuda chilena como ancla defensiva.',convictionId:'deuda_chilena'},
+  {scope:'MACRO · EE.UU.',impact:'h',sign:'neg',title:'IPC de EE.UU. sorprende al alza: 3.8% anual',detail:'La inflación persistente presiona los precios de bonos globales. Kevin Warsh asumió una Fed dividida que endureció su discurso sobre tasas.',convictionId:'deuda_chilena'},
+  {scope:'SECTOR · ASIA',impact:'h',sign:'pos',title:'Asia Emergente lidera: +8.42% en el mes',detail:'El ciclo de semiconductores e IA confirma la convicción del equipo. Corea del Sur y Taiwán aceleran impulsados por la demanda de infraestructura de IA.',convictionId:'asia_tech'},
+  {scope:'MACRO · CHILE',impact:'m',sign:'neutral',title:'Banco Central revisa recortes de TPM',detail:'Tras la contracción del PIB en el primer trimestre, el BC ajustó su senda de recortes para asegurar la convergencia a la meta de inflación. El cobre repuntó al cierre del mes.',convictionId:'deuda_chilena'},
+  {scope:'MERCADOS · LATAM',impact:'m',sign:'neg',title:'Latinoamérica rezagada: -4.05% en USD',detail:'La región quedó atrás frente a Asia y mercados desarrollados. Brasil mantuvo cautela por inflación persistente; México terminó su ciclo de flexibilización.',convictionId:'diversificacion'},
+  {scope:'MERCADOS · GLOBAL',impact:'l',sign:'pos',title:'iShares ACWI +4.8% — resiliencia corporativa',detail:'Pese a la incertidumbre, las utilidades corporativas y el liderazgo tecnológico sostuvieron los mercados globales. El IPSA rentó -1.1% en pesos.',convictionId:'permanecer'}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   PER-VEHICLE DYNAMIC ADVISORY (for Executive Home & FAQs)
+═══════════════════════════════════════════════════════════ */
+const VEHICLE_ADVISORY = {
+  mutual_funds:{
+    riskTitle:'Riesgo conductual: liquidez = tentación de timing',
+    riskText:'En Fondos Mutuos el cliente puede rescatar en cualquier momento. Esa libertad es precisamente el mayor riesgo conductual: nada estructural impide salir en una caída, solo la disciplina. La convicción de permanecer es la más crítica de reforzar aquí.',
+    decisionAngle:'En Fondos Mutuos las decisiones se implementan con agilidad y el cliente las ve reflejadas con liquidez total.',
+    faqVehicle:'Las series A (3.30%) y P (2.95%) son Fondos Mutuos de acceso directo. La diferencia principal entre ellas es la comisión: la Serie P tiene un costo menor. Ambas ofrecen liquidez total — puede entrar y salir cuando quiera. Esa flexibilidad es su mayor ventaja y, en las caídas, su mayor riesgo: la facilidad de rescatar puede llevar a decisiones emocionales costosas.',
+    costNote:'En Fondos Mutuos ese costo es puramente de mercado: la diferencia entre permanecer y salir, sin penalidades adicionales.'
+  },
+  insurance_savings:{
+    riskTitle:'Riesgo conductual: horizonte semi-comprometido',
+    riskText:'En Seguros con Ahorro el cliente ya internalizó un horizonte de mediano plazo al contratar. Eso ancla parcialmente la decisión. El mejor argumento contra el pánico es recordar el objetivo de ahorro que motivó el vehículo en primer lugar.',
+    decisionAngle:'En Seguros con Ahorro las decisiones llegan al cliente a través de la estrategia gestionada, sin requerir su acción directa.',
+    faqVehicle:'La Serie F (2.30%) corresponde al vehículo de Seguros con Ahorro: un instrumento de ahorro de mediano plazo con un componente de protección. A diferencia de los Fondos Mutuos, aquí usted contrató un horizonte y un objetivo. Esa estructura le ayuda a mantener la disciplina cuando el mercado se vuelve volátil.',
+    costNote:'En Seguros con Ahorro, al costo de mercado se suma la complejidad de reconfigurar el ahorro protegido — una fricción que conviene tener presente.'
+  },
+  apv:{
+    riskTitle:'Riesgo conductual: salir cuesta el doble',
+    riskText:'En APV el costo de salir es doble: costo de mercado MÁS costo tributario. El horizonte previsional es el más largo de todos. Un rescate anticipado no solo pierde la recuperación del mercado — también gatilla la devolución del beneficio tributario, que es la razón de ser del vehículo.',
+    decisionAngle:'En APV las decisiones se enmarcan en el horizonte previsional largo: lo que importa es la composición sostenida en el tiempo, no el movimiento del mes.',
+    faqVehicle:'Las series APV (1.90%) y APV-AP (1.10%) son ahorro previsional voluntario con beneficio tributario. La APV-AP tiene la comisión más baja porque incorpora aporte patronal. La gran diferencia frente a los otros vehículos: aquí el beneficio tributario es la razón de ser — y un rescate anticipado lo pierde. Por eso el horizonte es el más largo y la disciplina, la más valiosa.',
+    costNote:'En APV ese costo es el más alto de los tres vehículos: costo de mercado MÁS la pérdida del beneficio tributario acumulado.'
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   COMPUTATION CORE
+═══════════════════════════════════════════════════════════ */
+const INITIAL=10_000_000, MARCH_2020_IDX=26;
+const MONTH_NAMES=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const MONTHS_LABELS=[]; for(let y=2018;y<=2026;y++){const m=(y===2026)?5:12;for(let mm=1;mm<=m;mm++)MONTHS_LABELS.push(MONTH_NAMES[mm-1]+' '+y);}
+const fmt=n=>'$'+Math.round(n).toLocaleString('es-CL');
+const fmtPct=n=>(n>=0?'+':'')+n.toFixed(2)+'%';
+const fmtM=n=>'$'+(n/1_000_000).toFixed(2)+'M';
+const PCHIP_MAP={c:['pc-c','Cons.'],m:['pc-m','Mod.'],b:['pc-b','Bal.'],cr:['pc-cr','Crec.'],a:['pc-a','Agr.']};
+function trajectory(returns){const t=[INITIAL];let v=INITIAL;for(const r of returns){v*=(1+r/100);t.push(v);}return t;}
+function missNBest(n,returns){const ranked=returns.map((r,i)=>({r,i})).sort((a,b)=>b.r-a.r);const skip=new Set(ranked.slice(0,n).map(x=>x.i));return trajectory(returns.map((r,i)=>skip.has(i)?0:r));}
+function annualReturns(returns){const out=[];let yi=0;for(let y=2018;y<=2026;y++){const m=(y===2026)?5:12;let v=1;for(let k=0;k<m;k++){v*=(1+returns[yi+k]/100);}out.push({year:y,ret:(v-1)*100});yi+=m;}return out;}
+function maxDrawdown(returns){const t=trajectory(returns);let peak=t[0],maxDD=0,series=[];for(const v of t){if(v>peak)peak=v;const dd=(v/peak-1)*100;if(dd<maxDD)maxDD=dd;series.push(dd);}return{maxDD,series};}
+function volatility(returns){const m=returns.reduce((a,b)=>a+b,0)/returns.length;const variance=returns.reduce((a,b)=>a+(b-m)**2,0)/returns.length;return Math.sqrt(variance)*Math.sqrt(12);}
+function vchipClass(v){return VEHICLE_CONFIG[v].vchip;}
+
+/* ═══════════════════════════════════════════════════════════
+   SVG CHART ENGINE
+═══════════════════════════════════════════════════════════ */
+function $svg(tag,a={}){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(a).forEach(([k,v])=>el.setAttribute(k,v));return el;}
+function drawChart(svgId,datasets,opts={}){
+  const svg=document.getElementById(svgId);if(!svg)return;
+  while(svg.firstChild)svg.removeChild(svg.firstChild);
+  const W=900,H=280,pad={t:15,r:20,b:44,l:92};
+  const cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const vals=datasets.flatMap(d=>d.values);
+  let lo=Math.min(...vals),hi=Math.max(...vals);
+  if(opts.zeroBase){lo=Math.min(lo,0);} const span=hi-lo||1; lo-=span*0.03;hi+=span*0.03;
+  const n=datasets[0].values.length;
+  const xS=i=>pad.l+(i/(n-1))*cW, yS=v=>pad.t+cH-((v-lo)/(hi-lo))*cH;
+  svg.appendChild($svg('rect',{x:pad.l,y:pad.t,width:cW,height:cH,fill:'#FAFAFA',rx:4}));
+  for(let i=0;i<=5;i++){const vy=hi-(i/5)*(hi-lo),yp=yS(vy);
+    svg.appendChild($svg('line',{x1:pad.l,x2:pad.l+cW,y1:yp,y2:yp,stroke:'#EBEBEB','stroke-width':1}));
+    const t=$svg('text',{x:pad.l-8,y:yp+4,'text-anchor':'end',fill:'#9CA3AF','font-size':11,'font-family':'Inter,sans-serif','font-weight':600});
+    t.textContent=opts.fmt?opts.fmt(vy):'$'+(vy/1e6).toFixed(1)+'M';svg.appendChild(t);}
+  const yrs=[0,12,24,36,48,60,72,84,96,100],ylb=['2018','2019','2020','2021','2022','2023','2024','2025','2026','May26'];
+  yrs.forEach((idx,j)=>{if(idx>=n)return;const xp=xS(idx);
+    svg.appendChild($svg('line',{x1:xp,x2:xp,y1:pad.t+cH,y2:pad.t+cH+5,stroke:'#D1D5DB','stroke-width':1}));
+    const t=$svg('text',{x:xp,y:pad.t+cH+17,'text-anchor':'middle',fill:'#9CA3AF','font-size':11,'font-family':'Inter,sans-serif','font-weight':600});
+    t.textContent=ylb[j];svg.appendChild(t);});
+  if(opts.markIdx!==undefined){const xp=xS(opts.markIdx);
+    svg.appendChild($svg('line',{x1:xp,x2:xp,y1:pad.t,y2:pad.t+cH,stroke:'#FCA5A5','stroke-width':1.5,'stroke-dasharray':'4,3'}));
+    const t=$svg('text',{x:xp+4,y:pad.t+14,fill:'#EF4444','font-size':10,'font-family':'Inter,sans-serif','font-weight':700});
+    t.textContent='Mar 2020';svg.appendChild(t);}
+  if(datasets[0].fill){const p0=datasets[0].values;
+    const pd='M '+xS(0)+' '+yS(p0[0])+' '+p0.slice(1).map((v,i)=>`L ${xS(i+1)} ${yS(v)}`).join(' ')+` L ${xS(p0.length-1)} ${pad.t+cH} L ${xS(0)} ${pad.t+cH} Z`;
+    svg.appendChild($svg('path',{d:pd,fill:datasets[0].fill,opacity:0.08}));}
+  datasets.forEach(ds=>{const pts=ds.values.map((v,i)=>`${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' ');
+    svg.appendChild($svg('polyline',{points:pts,fill:'none',stroke:ds.color||'#2563EB','stroke-width':ds.width||2.5,'stroke-dasharray':ds.dashed?'8,4':'none',opacity:ds.opacity||1,'stroke-linecap':'round','stroke-linejoin':'round'}));});
+  datasets.forEach(ds=>{const lv=ds.values[ds.values.length-1];
+    svg.appendChild($svg('circle',{cx:xS(ds.values.length-1),cy:yS(lv),r:5,fill:ds.color||'#2563EB',stroke:'#fff','stroke-width':2}));});
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN BUILDERS — all screens generated, fully navigable
+═══════════════════════════════════════════════════════════ */
+function profileChips(arr){return arr.map(p=>`<span class="pchip ${PCHIP_MAP[p][0]}">${PCHIP_MAP[p][1]}</span>`).join('');}
+function vehicleChips(active){return Object.keys(VEHICLE_CONFIG).map(v=>`<span class="vchip ${vchipClass(v)} ${v===active?'':'off'}">${VEHICLE_CONFIG[v].icon} ${VEHICLE_CONFIG[v].label}</span>`).join('');}
+
+/* ── HOME — Conviction-first (performance demoted) ── */
+function buildHome(){
+  const d=DECISIONS.aumentar_asia, adv=VEHICLE_ADVISORY[PC.vehicle];
+  const topConv=CONVICTIONS.asia_tech;
+  return `<div class="screen" id="screen-home">
+
+    <!-- 1. SOLUCIONES DE INVERSIÓN (PERFILES) — the core of the platform -->
+    <div class="flex items-center justify-between mb-2 flex-wrap gap-3">
+      <div><div class="d-l">Soluciones de Inversión</div><div class="t-2 mt-2" style="max-width:640px">Toda la plataforma gira alrededor del perfil. Selecciona uno para ver sus convicciones, decisiones, composición e instrumentos. ¿No sabes cuál corresponde? <span class="t-conv" style="font-weight:700;cursor:pointer" onclick="go('profile-engine')">Realiza el perfilamiento →</span></div></div>
+      <button class="btn btn-conv" onclick="go('profile-engine')">🧭 Descubrir mi perfil</button>
+    </div>
+    <div class="profiles-hero mb-6" id="home-profiles"></div>
+
+    <!-- 2. CONTEXTO ACTIVO -->
+    <div class="sec-hdr"><div class="h-m">Contexto activo</div><div class="t-3 label" style="font-size:9px">Sincronizado con todos los módulos</div></div>
+    <div class="card mb-6" id="home-active-context"></div>
+
+    <!-- 3. CONVICCIÓN DESTACADA -->
+    <div class="sec-hdr"><div class="h-m">Convicción destacada</div><div class="t-3 label" style="font-size:9px">El nodo central del sistema</div></div>
+    <div class="card clickable mb-5" style="border-left:4px solid var(--conv)" onclick="openConviction('asia_tech')">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <span class="badge ${topConv.badge}">${topConv.type}</span>
+        <div class="cdots">${[1,2,3,4,5].map(i=>`<div class="cdot ${i<=topConv.strength?'on':''}"></div>`).join('')}</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text-2)">Alta · Activa ${topConv.age}</span>
+        <div class="flex gap-1" style="margin-left:auto">${profileChips(topConv.profiles)}</div>
+      </div>
+      <div class="h-l mb-2">${topConv.icon} ${topConv.title}</div>
+      <div class="body t-2 mb-3">${topConv.observamos}</div>
+      <div class="t-conv" style="font-size:13px;font-weight:700">Ver convicción completa →</div>
+    </div>
+
+    <!-- 4. DECISIÓN SUGERIDA -->
+    <div class="sec-hdr"><div class="h-m">Decisión que habilita</div></div>
+    <div class="card clickable mb-5" style="border-left:4px solid var(--action)" onclick="openDecision('aumentar_asia')">
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
+        <span class="badge" style="background:#DBEAFE;color:var(--action)">↑ ${d.accion}</span>
+        <span class="badge badge-neutral">${d.month}</span>
+        <span class="t-3" style="font-size:11px;font-weight:600;margin-left:auto">Deriva de: Tecnología asiática</span>
+      </div>
+      <div class="h-m mb-2">${d.title}</div>
+      <div class="body t-2 mb-3">${d.contexto}</div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class="tag">⏱ ${d.horizonte}</span>
+        ${profileChips(d.profiles)}
+        <span class="t-2" style="font-size:13px;font-weight:700;margin-left:auto">Ver decisión completa →</span>
+      </div>
+    </div>
+
+    <!-- 5. RIESGO CONDUCTUAL (per-vehicle) -->
+    <div class="sec-hdr"><div class="h-m">Riesgo conductual</div><div class="vchip ${vchipClass(PC.vehicle)}" id="home-risk-vehicle">${PC.vc.icon} ${PC.vc.label}</div></div>
+    <div class="card mb-5" style="border-left:4px solid var(--warn);background:var(--warn-bg)">
+      <div class="h-s mb-2" id="home-risk-title">${adv.riskTitle}</div>
+      <div class="body t-2" id="home-risk-text">${adv.riskText}</div>
+      <div class="mt-3"><button class="btn btn-ghost" onclick="openConviction('costo_panico')">Ver convicción: el costo del pánico →</button></div>
+    </div>
+
+    <!-- 6. PREGUNTA FRECUENTE -->
+    <div class="sec-hdr"><div class="h-m">Pregunta frecuente del mes</div></div>
+    <div class="card clickable mb-5" onclick="go('questions')">
+      <div class="flex items-center gap-2 mb-2"><span class="badge badge-neutral">${FAQ_CATEGORIES.miedo.icon} Miedo y caídas</span></div>
+      <div class="h-s mb-2">${FAQS[0].q}</div>
+      <div class="body t-2">${FAQS[0].a.slice(0,160)}…</div>
+      <div class="t-conv mt-3" style="font-size:13px;font-weight:700">Ver todas las preguntas →</div>
+    </div>
+
+    <!-- 7. INTELIGENCIA DE MERCADO -->
+    <div class="sec-hdr"><div class="h-m">Inteligencia de mercado</div><span class="t-3 label" style="font-size:9px;cursor:pointer" onclick="go('market')">Ver timeline completo →</span></div>
+    <div class="g3 mb-5">${MARKET_EVENTS.slice(0,3).map((e,i)=>marketCard(e,i)).join('')}</div>
+
+    <!-- 8. REFERENCIAS DE PERFORMANCE (demoted, collapsible) -->
+    <div class="home-perf-section">
+      <details class="card" style="padding:var(--s4) var(--s5)">
+        <summary style="cursor:pointer;font-weight:600;font-size:14px;color:var(--text-2)">📊 Referencias de performance (secundario) <span class="t-3" id="home-series-label" style="font-weight:500">· ${PC.sc.label}</span></summary>
+        <div class="t-3 body mt-3" style="font-size:12px">La rentabilidad es un resultado, no el punto de partida. Se muestra como referencia, subordinada al perfil y la convicción que la generó.</div>
+        <div class="g5 mt-4">
+          ${['conservador','moderado','balanceado','crecimiento','agresivo'].map(p=>{
+            const dd=PC.pd[p];const risk=PROFILES[p].riskNum;
+            return `<div class="pperf ${p}" onclick="go('performance')">
+              <div class="name">${p}</div>
+              <div class="ret1m mono ${dd.may>=0?'t-pos':'t-neg'}" id="ret-may-${p}">${fmtPct(dd.may)}</div>
+              <div class="retytd" id="ret-ytd-${p}">${fmtPct(dd.ytd)} YTD</div>
+              <div class="trend">Riesgo ${risk}/7</div></div>`;}).join('')}
+        </div>
+      </details>
+    </div>
+
+    <div class="flex gap-3 mt-5 flex-wrap">
+      <button class="btn btn-primary" onclick="go('convictions')">💡 Ver todas las convicciones →</button>
+      <button class="btn btn-ghost" onclick="go('bfe')">🔬 Demostrar con datos</button>
+      <button class="btn btn-present" onclick="go('summary')" style="margin-left:auto">★ Generar resumen</button>
+    </div>
+  </div>`;
+}
+function renderHomeProfiles(){
+  const el=document.getElementById('home-profiles');if(!el)return;
+  el.innerHTML=Object.values(PROFILES).map(p=>{
+    const active=p.key===PC.profile;
+    const dots=[1,2,3,4,5].map(i=>`<span class="risk-dot ${i<=p.risk?'on':''}"></span>`).join('');
+    return `<div class="phero ${p.cls} ${active?'active':''}" onclick="selectCard('${p.key}')">
+      <div class="phero-name">${p.name}</div>
+      <div class="phero-obj-label">Objetivo</div>
+      <div class="phero-obj">${p.obj}</div>
+      <div class="phero-risk"><span class="risk-dots">${dots}</span><span class="pcard-risk-label">${p.riskLabel}</span></div>
+      <div class="phero-meta">📅 Horizonte ${p.horizon}</div>
+      <div class="phero-mix"><div style="width:${p.rv}%;background:var(--c-balanceado)"></div><div style="width:${p.rf}%;background:var(--c-conservador);opacity:.5"></div></div>
+      <div class="phero-mix-legend"><span style="color:var(--c-balanceado)">${p.rv}% RV</span><span style="color:var(--text-2)">${p.rf}% RF</span></div>
+      <div class="phero-enfoque"><strong>Enfoque:</strong> ${p.enfoque}</div>
+    </div>`;}).join('');
+}
+function renderHomeActiveContext(){
+  const el=document.getElementById('home-active-context');if(!el)return;
+  const p=PC.pf;
+  el.innerHTML=`<div class="info-row">
+    <div class="info-block"><div class="ib-label">Perfil activo</div><div class="ib-val">${p.name}</div></div>
+    <div class="info-block"><div class="ib-label">Vehículo</div><div class="ib-val">${PC.vc.icon} ${PC.vc.label}</div></div>
+    <div class="info-block"><div class="ib-label">Serie</div><div class="ib-val">${PC.sc.label}</div></div>
+    <div class="info-block"><div class="ib-label">Riesgo</div><div class="ib-val">${'●'.repeat(p.risk)}${'○'.repeat(5-p.risk)}</div></div>
+    <div class="info-block"><div class="ib-label">Horizonte</div><div class="ib-val">${p.horizon}</div></div>
+    <div class="info-block"><div class="ib-label">Asignación</div><div class="ib-val">${p.rv}% RV / ${p.rf}% RF</div></div>
+  </div>
+  <div class="narrative mt-4" style="font-size:13px">Al cambiar el perfil arriba, todos los módulos —Convicciones, Decisiones, Portfolio Explorer, Performance Lab, BFE, Market Timing y FAQ— se actualizan automáticamente con el contexto del perfil seleccionado.</div>`;
+}
+
+function marketCard(e,i){
+  const signBadge=e.sign==='pos'?'<span class="badge badge-pos" style="margin-left:auto">Positivo</span>':e.sign==='neg'?'<span class="badge badge-neg" style="margin-left:auto">Negativo</span>':'<span class="badge badge-neutral" style="margin-left:auto">Neutral</span>';
+  return `<div class="ev-card" onclick="go('market')">
+    <div class="ev-hdr"><div class="impact-dot impact-${e.impact}"></div><span class="label t-3" style="font-size:9px">${e.scope} · ${e.impact==='h'?'ALTO':e.impact==='m'?'MEDIO':'BAJO'}</span>${signBadge}</div>
+    <div class="h-s mb-2">${e.title}</div><div class="t-2 body">${e.detail.slice(0,90)}…</div></div>`;
+}
+
+/* ── MARKET ── */
+function buildMarket(){
+  return `<div class="screen" id="screen-market">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Mercado</span></div>
+    <div class="d-m mb-2">Contexto de Mercado · Mayo 2026</div>
+    <div class="t-2 mb-6" style="max-width:680px">Cada evento de mercado está conectado a la convicción que informa. El contexto no se lee solo: se interpreta a través de las convicciones del equipo.</div>
+    <div id="market-events"></div>
+  </div>`;
+}
+function renderMarketEvents(){
+  const el=document.getElementById('market-events');if(!el)return;
+  el.innerHTML=MARKET_EVENTS.map(e=>{
+    const conv=e.convictionId?CONVICTIONS[e.convictionId]:null;
+    const signColor=e.sign==='pos'?'var(--pos)':e.sign==='neg'?'var(--neg)':'var(--text-2)';
+    return `<div class="card mb-3">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <div class="impact-dot impact-${e.impact}"></div>
+        <span class="label t-3" style="font-size:10px">${e.scope}</span>
+        <span class="badge ${e.sign==='pos'?'badge-pos':e.sign==='neg'?'badge-neg':'badge-neutral'}">${e.impact==='h'?'Impacto alto':e.impact==='m'?'Impacto medio':'Impacto bajo'}</span>
+      </div>
+      <div class="h-m mb-2">${e.title}</div>
+      <div class="body t-2 mb-4">${e.detail}</div>
+      ${conv?`<div class="narrative" style="cursor:pointer" onclick="openConviction('${conv.id}')">
+        <strong>Conecta con la convicción:</strong> ${conv.icon} ${conv.title} →</div>`:''}
+    </div>`;}).join('');
+}
+
+/* ── CONVICTIONS LIST ── */
+function buildConvictions(){
+  return `<div class="screen" id="screen-convictions">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Convicciones</span></div>
+    <div class="d-m mb-2">Centro de Convicciones</div>
+    <div class="t-2 mb-4" style="max-width:720px">La convicción es el nodo central del sistema: todo —decisiones, posiciones, instrumentos— se deriva de aquí. Cada convicción se adapta en narrativa y recomendación según el vehículo activo.</div>
+    <div class="narrative mb-6" id="conv-list-context"></div>
+    <div id="conv-list"></div>
+  </div>`;
+}
+function renderConvList(){
+  const el=document.getElementById('conv-list');if(!el)return;
+  document.getElementById('conv-list-context').innerHTML=`<strong>Contexto activo: ${PC.vc.icon} ${PC.vc.label} · ${PC.sc.label}.</strong> Cada convicción mostrará abajo su implicancia específica para este vehículo. Cambia el vehículo en el selector para ver cómo cambia la narrativa.`;
+  el.innerHTML=Object.values(CONVICTIONS).map(c=>{
+    const pv=c.perVehicle[PC.vehicle];
+    return `<div class="card clickable mb-3" style="border-left:4px solid var(--conv)" onclick="openConviction('${c.id}')">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <span class="badge ${c.badge}">${c.type}</span>
+        <div class="cdots">${[1,2,3,4,5].map(i=>`<div class="cdot ${i<=c.strength?'on':''}"></div>`).join('')}</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text-2)">Activa ${c.age}</span>
+        ${c.evidence?'<span class="badge badge-pos">🔬 Con evidencia</span>':''}
+        <div class="flex gap-1" style="margin-left:auto">${profileChips(c.profiles)}</div>
+      </div>
+      <div class="h-m mb-2">${c.icon} ${c.title}</div>
+      <div class="adv-box" style="margin-bottom:0;margin-top:var(--s3)">
+        <div class="adv-box-header"><span class="vchip ${vchipClass(PC.vehicle)}">${PC.vc.icon} ${PC.vc.label}</span><span class="badge badge-neutral">${pv.tag}</span></div>
+        <div class="body t-2" style="font-size:13px">${pv.text.slice(0,180)}…</div>
+      </div>
+      <div class="t-conv mt-3" style="font-size:13px;font-weight:700">Abrir convicción completa →</div>
+    </div>`;}).join('');
+}
+
+/* ── CONVICTION DETAIL (8-part + per-vehicle advisory) ── */
+function buildConvDetail(){
+  return `<div class="screen" id="screen-conv-detail">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('convictions')">Convicciones</span><span class="sep">›</span><span class="cur" id="cd-crumb">Detalle</span></div>
+    <div id="conv-detail-body"></div>
+  </div>`;
+}
+function renderConvDetail(id){
+  const c=CONVICTIONS[id];const pv=c.perVehicle[PC.vehicle];
+  document.getElementById('cd-crumb').textContent=c.title.slice(0,40)+'…';
+  const el=document.getElementById('conv-detail-body');
+  el.innerHTML=`
+    <div class="card mb-5">
+      <div class="flex items-center gap-3 mb-4 flex-wrap">
+        <span class="badge ${c.badge}">${c.type}</span>
+        <div class="cdots">${[1,2,3,4,5].map(i=>`<div class="cdot ${i<=c.strength?'on':''}"></div>`).join('')}</div>
+        <span style="font-size:11px;font-weight:700;color:var(--text-2)">Activa ${c.age}</span>
+        <div class="flex gap-1 flex-wrap" style="margin-left:auto">${profileChips(c.profiles)}</div>
+      </div>
+      <div class="d-m mb-4">${c.icon} ${c.title}</div>
+      <div class="info-row mb-2">
+        <div class="info-block"><div class="ib-label">Horizonte</div><div class="ib-val">${c.horizon}</div></div>
+        <div class="info-block"><div class="ib-label">Tipo</div><div class="ib-val">${c.type}</div></div>
+        <div class="info-block"><div class="ib-label">Perfiles</div><div class="ib-val">${c.profiles.length} de 5</div></div>
+        <div class="info-block"><div class="ib-label">Vehículo activo</div><div class="ib-val">${PC.vc.label}</div></div>
+      </div>
+    </div>
+
+    <!-- PER-VEHICLE ADVISORY -->
+    <div class="sec-hdr"><div class="h-m">Implicancia para el vehículo activo</div><div class="vchip ${vchipClass(PC.vehicle)}">${PC.vc.icon} ${PC.vc.label} · ${PC.sc.label}</div></div>
+    <div class="adv-box mb-6">
+      <div class="adv-box-header"><span class="badge" style="background:var(--conv);color:#fff">${pv.tag}</span></div>
+      <div class="body-l mb-3">${pv.text}</div>
+      <div class="narrative narrative-action"><strong>Recomendación de asesoría:</strong> ${pv.rec}</div>
+    </div>
+    <div class="card mb-6" style="background:var(--gray-100);box-shadow:none">
+      <div class="label t-3 mb-3" style="font-size:9px">Cómo cambia esta misma convicción según el vehículo</div>
+      <div class="g3">
+        ${Object.keys(VEHICLE_CONFIG).map(v=>`<div style="padding:var(--s3);border-radius:var(--r3);background:${v===PC.vehicle?'var(--conv-bg)':'var(--surface)'};border:1px solid ${v===PC.vehicle?'var(--conv-border)':'var(--border)'}">
+          <div class="vchip ${vchipClass(v)} mb-2" style="font-size:10px">${VEHICLE_CONFIG[v].icon} ${VEHICLE_CONFIG[v].label}</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:4px">${c.perVehicle[v].tag}</div>
+          <div class="t-2" style="font-size:12px;line-height:1.5">${c.perVehicle[v].text.slice(0,110)}…</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 8-PART STRUCTURE -->
+    <div class="sec-hdr"><div class="h-m">Estructura de la convicción</div></div>
+    <div class="card mb-5">
+      <div class="conv-block"><div class="conv-block-label">👁 Qué observamos</div><div class="body-l">${c.observamos}</div></div>
+      <div class="conv-block"><div class="conv-block-label">⚡ Por qué importa</div><div class="body-l">${c.importa}</div></div>
+      <div class="conv-block"><div class="conv-block-label">🔮 Qué podría pasar</div><div class="body-l">${c.podriaPasar}</div></div>
+      <div class="conv-block"><div class="conv-block-label">✅ Qué estamos haciendo</div><div class="body-l">${c.haciendo}</div></div>
+      <div class="conv-block conv-block-not"><div class="conv-block-label">🚫 Qué NO estamos haciendo</div><div class="body-l">${c.noHaciendo}</div></div>
+      <div class="conv-block"><div class="conv-block-label">🎯 Qué decisiones habilita</div>
+        ${c.habilita.map(h=>`<div class="flex gap-2 mb-2" style="align-items:flex-start"><span style="color:var(--conv);font-weight:800">→</span><span class="body">${h}</span></div>`).join('')}
+      </div>
+      <div class="conv-block"><div class="conv-block-label">🏦 Vehículos y series compatibles</div>
+        <div class="flex gap-2 flex-wrap mt-2">${vehicleChips(PC.vehicle)}</div>
+        <div class="t-3 mt-3" style="font-size:12px">Esta convicción aplica a todos los vehículos; su narrativa y recomendación se adaptan a cada uno (ver arriba).</div>
+      </div>
+    </div>
+
+    ${c.evidence?`<div class="card" style="background:linear-gradient(150deg,var(--navy-050),var(--navy-100));border:2px solid var(--conv-border);padding:var(--s7)">
+      <div class="flex items-center gap-4 mb-4 flex-wrap">
+        <div style="font-size:32px">🔬</div>
+        <div><div class="h-l mb-1">Esta convicción tiene evidencia cuantificable</div><div class="t-2 body">Demuestra el costo real con datos históricos de la ${PC.sc.label}.</div></div>
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <button class="btn btn-conv" onclick="go('bfe')">🔬 Demostrar con Datos →</button>
+        <button class="btn btn-ghost" onclick="go('timing')">⏱ Market Timing</button>
+        <button class="btn btn-ghost" onclick="go('dcl')">🧮 Decision Lab</button>
+      </div></div>`:`<div class="card" style="background:var(--gray-100);box-shadow:none">
+        <div class="flex items-center gap-3"><div style="font-size:24px">💡</div><div class="body t-2">Esta es una convicción de criterio. Se sostiene con el contexto de mercado y el posicionamiento del equipo, no con un simulador cuantitativo.</div></div>
+        <div class="mt-4"><button class="btn btn-ghost" onclick="go('decisions')">Ver decisiones que habilita →</button></div></div>`}
+  `;
+}
+
+/* ── DECISIONS LIST ── */
+function buildDecisions(){
+  return `<div class="screen" id="screen-decisions">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Decisiones</span></div>
+    <div class="d-m mb-2">Centro de Decisiones de Inversión</div>
+    <div class="t-2 mb-6" style="max-width:720px">Cada decisión comienza por la convicción que la origina — nunca por el producto ni el instrumento. Incluye una decisión de NO actuar, con el mismo peso visual que las demás.</div>
+    <div id="decisions-list"></div>
+  </div>`;
+}
+function renderDecisionsList(){
+  const el=document.getElementById('decisions-list');if(!el)return;
+  el.innerHTML=Object.values(DECISIONS).map(d=>{
+    const conv=CONVICTIONS[d.convictionId];
+    const accColor=d.accion==='Aumentamos'?'#DBEAFE':d.accion==='No actuamos'?'var(--gray-100)':'var(--gray-100)';
+    return `<div class="card clickable mb-3" onclick="openDecision('${d.id}')">
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
+        <span class="badge" style="background:${accColor};color:var(--text-1)">${d.icon} ${d.accion}</span>
+        <span class="badge badge-neutral">${d.month}</span>
+        <div class="flex gap-1" style="margin-left:auto">${profileChips(d.profiles)}</div>
+      </div>
+      <div class="h-m mb-3">${d.title}</div>
+      <div class="narrative" style="cursor:pointer"><strong>Deriva de la convicción:</strong> ${conv.icon} ${conv.title}</div>
+      <div class="flex items-center gap-3 mt-3 flex-wrap"><span class="tag">⏱ ${d.horizonte}</span><span class="t-conv" style="font-size:13px;font-weight:700;margin-left:auto">Ver decisión completa →</span></div>
+    </div>`;}).join('');
+}
+
+/* ── DECISION DETAIL ── */
+function buildDecisionDetail(){
+  return `<div class="screen" id="screen-decision-detail">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('decisions')">Decisiones</span><span class="sep">›</span><span class="cur" id="dd-crumb">Detalle</span></div>
+    <div id="decision-detail-body"></div>
+  </div>`;
+}
+function renderDecisionDetail(id){
+  const d=DECISIONS[id];const conv=CONVICTIONS[d.convictionId];
+  document.getElementById('dd-crumb').textContent=d.title.slice(0,36)+'…';
+  document.getElementById('decision-detail-body').innerHTML=`
+    <div class="card mb-5">
+      <div class="flex items-center gap-2 mb-4 flex-wrap">
+        <span class="badge" style="background:var(--action);color:#fff">${d.icon} ${d.accion}</span>
+        <span class="badge badge-neutral">${d.month}</span>
+        <div class="flex gap-1 flex-wrap" style="margin-left:auto">${profileChips(d.profiles)}</div>
+      </div>
+      <div class="d-m mb-4">${d.title}</div>
+    </div>
+    <!-- Starts from CONVICTION, not product -->
+    <div class="adv-box mb-5" style="cursor:pointer" onclick="openConviction('${conv.id}')">
+      <div class="conv-block-label" style="margin-bottom:6px">🧭 Convicción que la origina</div>
+      <div class="h-m mb-1">${conv.icon} ${conv.title}</div>
+      <div class="t-conv" style="font-size:13px;font-weight:700">Ver convicción →</div>
+    </div>
+    <div class="card mb-3"><div class="conv-block-label">📍 Contexto</div><div class="body-l">${d.contexto}</div></div>
+    <div class="g2 mb-3">
+      <div class="card"><div class="conv-block-label">⏱ Horizonte</div><div class="h-m mb-1">${d.horizonte}</div><div class="body t-2">${d.horizonteNote}</div></div>
+      <div class="card"><div class="conv-block-label">🎯 Resultado esperado</div><div class="body-l">${d.resultado}</div></div>
+    </div>
+    <div class="card mb-3"><div class="conv-block-label conv-block-not" style="color:var(--warn)">⚠️ Riesgos asociados</div>
+      ${d.riesgos.map(r=>`<div class="risk-item"><span class="ri-icon">⚠️</span><span>${r}</span></div>`).join('')}
+    </div>
+    <div class="card mb-3">
+      <div class="conv-block-label">🏦 Vehículos y series compatibles</div>
+      <div class="flex gap-2 flex-wrap mt-2 mb-3">${vehicleChips(PC.vehicle)}</div>
+      <div class="adv-box" style="margin-bottom:0">
+        <div class="adv-box-header"><span class="vchip ${vchipClass(PC.vehicle)}">${PC.vc.icon} ${PC.vc.label}</span></div>
+        <div class="body t-2" id="decision-vehicle-angle">${VEHICLE_ADVISORY[PC.vehicle].decisionAngle}</div>
+      </div>
+    </div>
+    <div class="card mb-5"><div class="conv-block-label">📦 Instrumentos afectados (último, no primero)</div>
+      <div class="t-3 mb-3" style="font-size:12px">Los instrumentos aparecen al final de la cadena de decisión, nunca al inicio.</div>
+      ${d.instruments.map(i=>`<div class="inst-row"><span style="color:var(--text-3)">•</span><span>${i}</span></div>`).join('')}
+    </div>
+    <div class="flex gap-3 flex-wrap">
+      <button class="btn btn-primary" onclick="openConviction('${conv.id}')">← Ver la convicción</button>
+      <button class="btn btn-ghost" onclick="go('decisions')">Todas las decisiones</button>
+      <button class="btn btn-ghost" onclick="go('portfolio')">Ver en el portafolio →</button>
+    </div>
+  `;
+}
+
+/* ── QUESTIONS HUB ── */
+let _activeFaqCat='all';
+function buildQuestions(){
+  return `<div class="screen" id="screen-questions">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Preguntas</span></div>
+    <div class="d-m mb-2">Centro de Preguntas del Cliente</div>
+    <div class="t-2 mb-5" style="max-width:720px">Cada respuesta está anclada a una convicción. Algunas respuestas se adaptan al vehículo activo. Filtra por categoría.</div>
+    <div class="faq-cat" id="faq-cats"></div>
+    <div id="faq-list"></div>
+  </div>`;
+}
+function renderFaqCats(){
+  const el=document.getElementById('faq-cats');if(!el)return;
+  let html=`<div class="faq-cat-pill ${_activeFaqCat==='all'?'active':''}" onclick="setFaqCat('all')">Todas</div>`;
+  html+=Object.entries(FAQ_CATEGORIES).map(([k,v])=>`<div class="faq-cat-pill ${_activeFaqCat===k?'active':''}" onclick="setFaqCat('${k}')">${v.icon} ${v.label}</div>`).join('');
+  el.innerHTML=html;
+}
+function setFaqCat(cat){_activeFaqCat=cat;renderFaqCats();renderFaqList();}
+function resolveFaqAnswer(faq){
+  let a=faq.a;
+  a=a.replace('DYNAMIC_VEHICLE_FAQ',VEHICLE_ADVISORY[PC.vehicle].faqVehicle);
+  a=a.replace('DYNAMIC_VEHICLE_COST',VEHICLE_ADVISORY[PC.vehicle].costNote);
+  return a;
+}
+function renderFaqList(){
+  const el=document.getElementById('faq-list');if(!el)return;
+  const items=FAQS.filter(f=>_activeFaqCat==='all'||f.cat===_activeFaqCat);
+  el.innerHTML=items.map((f,i)=>{
+    const conv=f.convictionId?CONVICTIONS[f.convictionId]:null;
+    const isDynamic=f.a.includes('DYNAMIC');
+    return `<div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})">
+        <span>${f.q}</span>
+        ${isDynamic?`<span class="vchip ${vchipClass(PC.vehicle)}" style="font-size:9px">${PC.vc.icon} adaptada</span>`:''}
+        <span class="chev">▾</span>
+      </div>
+      <div class="faq-a">
+        <div class="body-l mb-3" style="padding-top:var(--s2)">${resolveFaqAnswer(f)}</div>
+        ${conv?`<div class="narrative" style="cursor:pointer;font-size:13px" onclick="openConviction('${conv.id}')"><strong>Convicción:</strong> ${conv.icon} ${conv.title} →</div>`:'<div class="tag">Pregunta sobre vehículos y series</div>'}
+      </div>
+    </div>`;}).join('');
+}
+function toggleFaq(i){document.getElementById('faq-'+i).classList.toggle('open');}
+
+/* ── PORTFOLIO EXPLORER (5-step: Perfil→Objetivo→Convicciones→Composición→Instrumentos) ── */
+let _portStep=0;
+const PORT_STEPS=['Perfil','Objetivo','Convicciones','Composición','Instrumentos'];
+function buildPortfolio(){
+  return `<div class="screen" id="screen-portfolio">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Portfolio Explorer</span></div>
+    <div class="d-m mb-2">Portfolio Explorer</div>
+    <div class="t-2 mb-5" style="max-width:720px">La navegación sigue la jerarquía del producto: Perfil → Objetivo → Convicciones → Composición → Instrumentos. Nunca empezamos por el instrumento.</div>
+    <div class="step-flow" id="port-steps"></div>
+    <div id="port-content"></div>
+  </div>`;
+}
+function renderPortSteps(){
+  const el=document.getElementById('port-steps');if(!el)return;
+  el.innerHTML=PORT_STEPS.map((s,i)=>`<div class="step ${i===_portStep?'active':i<_portStep?'done':''}" onclick="portStep(${i})">${i+1} · ${s}</div>${i<PORT_STEPS.length-1?'<span class="step-arrow">→</span>':''}`).join('');
+}
+function portStep(i){_portStep=i;renderPortSteps();renderPortContent();}
+function renderPortContent(){
+  const el=document.getElementById('port-content');if(!el)return;
+  const comp=PORTFOLIO_COMP[PC.vehicle];
+  if(_portStep===0){
+    const pf=PC.pf;const pchipCls={conservador:'pc-c',moderado:'pc-m',balanceado:'pc-b',crecimiento:'pc-cr',agresivo:'pc-a'}[pf.key];
+    const dots='●'.repeat(pf.risk)+'○'.repeat(5-pf.risk);
+    el.innerHTML=`<div class="card">
+      <div class="conv-block-label">Paso 1 · Perfil</div>
+      <div class="flex items-center gap-3 mb-3"><span class="pchip ${pchipCls}" style="font-size:14px;padding:4px 14px">Perfil ${pf.name}</span><span class="badge badge-neutral">${dots} ${pf.riskLabel}</span></div>
+      <div class="body-l mb-4">El perfil ${pf.name} busca: ${pf.obj.toLowerCase()}. Asignación objetivo: ${pf.rv}% renta variable, ${pf.rf}% renta fija.</div>
+      <div class="info-row">
+        <div class="info-block"><div class="ib-label">Vehículo activo</div><div class="ib-val">${PC.vc.icon} ${PC.vc.label}</div></div>
+        <div class="info-block"><div class="ib-label">Serie</div><div class="ib-val">${PC.sc.label}</div></div>
+        <div class="info-block"><div class="ib-label">Comisión máx.</div><div class="ib-val">${PC.sc.maxFee}% ${PC.sc.vat?'IVA incl.':'exento'}</div></div>
+        <div class="info-block"><div class="ib-label">Horizonte recom.</div><div class="ib-val">${pf.horizon}</div></div>
+      </div>
+      <div class="mt-5"><button class="btn btn-primary" onclick="portStep(1)">Siguiente: Objetivo →</button></div>
+    </div>`;
+  } else if(_portStep===1){
+    el.innerHTML=`<div class="card">
+      <div class="conv-block-label">Paso 2 · Objetivo</div>
+      <div class="h-m mb-3">¿Qué busca este perfil en ${PC.vc.label}?</div>
+      <div class="body-l mb-4">${comp.objetivo}</div>
+      <div class="mt-3"><button class="btn btn-primary" onclick="portStep(2)">Siguiente: Convicciones →</button> <button class="btn btn-ghost" onclick="portStep(0)">← Perfil</button></div>
+    </div>`;
+  } else if(_portStep===2){
+    el.innerHTML=`<div class="card">
+      <div class="conv-block-label">Paso 3 · Convicciones que sostienen la composición</div>
+      <div class="t-2 body mb-4">Antes de ver qué hay en la cartera, entendemos por qué está ahí. Estas son las convicciones que dan forma a este portafolio en ${PC.vc.label}:</div>
+      ${comp.convictions.map(cid=>{const c=CONVICTIONS[cid];return `<div class="list-row" onclick="openConviction('${c.id}')"><div class="list-row-icon">${c.icon}</div><div style="flex:1"><div class="h-s mb-1">${c.title}</div><div class="t-3" style="font-size:12px">${c.type} · ${c.perVehicle[PC.vehicle].tag}</div></div><span class="t-conv">→</span></div>`;}).join('')}
+      <div class="mt-4"><button class="btn btn-primary" onclick="portStep(3)">Siguiente: Composición →</button> <button class="btn btn-ghost" onclick="portStep(1)">← Objetivo</button></div>
+    </div>`;
+  } else if(_portStep===3){
+    el.innerHTML=`<div class="card">
+      <div class="conv-block-label">Paso 4 · Composición (${PC.vc.label})</div>
+      <div class="t-2 body mb-4">La composición cambia según el vehículo. Esta es la mezcla para <strong>${PC.vc.label} · ${PC.sc.label}</strong>:</div>
+      <div class="comp-bar">${comp.classes.map(cl=>`<div class="comp-seg" style="width:${cl.pct}%;background:${cl.color}" title="${cl.name} ${cl.pct}%">${cl.pct>8?cl.name+' '+cl.pct+'%':''}</div>`).join('')}</div>
+      <div class="flex gap-4 flex-wrap mt-3 mb-4">${comp.classes.map(cl=>`<div class="flex items-center gap-2"><div style="width:12px;height:12px;border-radius:3px;background:${cl.color}"></div><span style="font-size:13px;font-weight:600">${cl.name} · ${cl.pct}%</span></div>`).join('')}</div>
+      <hr class="divider-sm">
+      ${comp.classes.map(cl=>`<div class="mb-4"><div class="h-s mb-2" style="color:${cl.color}">${cl.name} · ${cl.pct}%</div>
+        ${cl.sub.map(s=>`<div class="flex items-center gap-3 mb-2"><div style="flex:1"><div style="height:8px;border-radius:4px;background:var(--gray-100);overflow:hidden"><div style="height:100%;width:${Math.min(s.p/cl.pct*100,100)}%;background:${cl.color};opacity:.7"></div></div></div><span style="font-size:12px;min-width:140px">${s.n}</span><span class="inst-pct">${s.p}%</span></div>`).join('')}</div>`).join('')}
+      <div class="mt-4"><button class="btn btn-primary" onclick="portStep(4)">Siguiente: Instrumentos →</button> <button class="btn btn-ghost" onclick="portStep(2)">← Convicciones</button></div>
+    </div>`;
+  } else {
+    el.innerHTML=`<div class="card">
+      <div class="conv-block-label">Paso 5 · Instrumentos (el último nivel)</div>
+      <div class="t-2 body mb-4">Solo ahora —después de perfil, objetivo, convicciones y composición— llegamos a los instrumentos concretos en ${PC.vc.label}:</div>
+      ${comp.instruments.map(i=>`<div class="inst-row"><span style="flex:1;font-weight:600">${i.n}</span><span class="tag">${i.c}</span><span class="inst-pct">${i.p}%</span></div>`).join('')}
+      <div class="narrative mt-4">Cada instrumento es trazable hasta arriba: pertenece a una clase de activo, que responde a una convicción, que se deriva del contexto. Nunca al revés.</div>
+      <div class="mt-4"><button class="btn btn-ghost" onclick="portStep(0)">↺ Reiniciar recorrido</button> <button class="btn btn-ghost" onclick="portStep(3)">← Composición</button></div>
+    </div>`;
+  }
+}
+
+/* ── PERFORMANCE LAB (6 tabs) ── */
+let _perfTab='acum';
+function buildPerformance(){
+  return `<div class="screen" id="screen-performance">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Performance Lab</span></div>
+    <div class="d-m mb-2">Performance Lab</div>
+    <div class="t-2 mb-2" style="max-width:720px">Análisis avanzado del Fondo Dinámico Balanceado. Las métricas son un resultado de las convicciones — no su punto de partida.</div>
+    <div class="narrative mb-5" id="perf-context"></div>
+    <div class="tabs" id="perf-tabs"></div>
+    <div id="perf-content"></div>
+  </div>`;
+}
+const PERF_TABS=[['acum','Acumulada'],['anual','Anualizada'],['drawdown','Drawdown'],['volatility','Volatilidad'],['recovery','Recuperación'],['compare','Comparaciones']];
+function renderPerfTabs(){
+  const el=document.getElementById('perf-tabs');if(!el)return;
+  el.innerHTML=PERF_TABS.map(([k,l])=>`<div class="tab ${_perfTab===k?'active':''}" onclick="perfTab('${k}')">${l}</div>`).join('');
+  document.getElementById('perf-context').innerHTML=`<strong>${PC.vc.icon} ${PC.vc.label} · ${PC.sc.label}.</strong> Todas las métricas se calculan con los datos reales de esta serie. Cambia el vehículo para recalcular.`;
+}
+function perfTab(t){_perfTab=t;renderPerfTabs();renderPerfContent();}
+function renderPerfContent(){
+  const el=document.getElementById('perf-content');if(!el)return;
+  const ret=PC.ret;const traj=trajectory(ret);const finalV=traj[traj.length-1];
+  if(_perfTab==='acum'){
+    el.innerHTML=`<div class="card mb-5"><div class="flex items-center justify-between mb-4 flex-wrap"><div class="h-m">Rentabilidad acumulada · $10M base</div><div class="t-3" style="font-size:11px;font-weight:600">${PC.sc.label}</div></div>
+      <svg class="chart-svg" id="perf-chart"></svg></div>
+      <div class="g3"><div class="card"><div class="ib-label">Valor final</div><div class="d-m mono t-pos">${fmt(finalV)}</div><div class="t-2" style="font-size:12px">desde $10.000.000 (Ene 2018)</div></div>
+      <div class="card"><div class="ib-label">Retorno total</div><div class="d-m mono">${fmtPct((finalV/INITIAL-1)*100)}</div><div class="t-2" style="font-size:12px">acumulado 2018–2026</div></div>
+      <div class="card"><div class="ib-label">Meses positivos</div><div class="d-m mono">${ret.filter(r=>r>0).length}/${ret.length}</div><div class="t-2" style="font-size:12px">${(ret.filter(r=>r>0).length/ret.length*100).toFixed(0)}% del tiempo</div></div></div>`;
+    setTimeout(()=>drawChart('perf-chart',[{values:traj,color:'var(--conv)',width:2.5,fill:'#2563EB'}]),30);
+  } else if(_perfTab==='anual'){
+    const ann=annualReturns(ret);
+    el.innerHTML=`<div class="card"><div class="h-m mb-4">Rentabilidad por año · ${PC.sc.label}</div>
+      <div style="display:flex;align-items:flex-end;gap:var(--s3);height:200px;padding:var(--s4) 0">
+        ${ann.map(a=>{const h=Math.max(Math.abs(a.ret)*8,4);const pos=a.ret>=0;return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:11px;font-weight:700;margin-bottom:4px;color:${pos?'var(--pos)':'var(--neg)'}">${fmtPct(a.ret)}</div><div style="width:100%;height:${h}px;background:${pos?'var(--pos)':'var(--neg)'};border-radius:4px 4px 0 0;opacity:.85"></div><div class="t-3" style="font-size:10px;margin-top:6px">${a.year===2026?'26*':a.year}</div></div>`;}).join('')}
+      </div><div class="t-3 mt-3" style="font-size:11px">*2026 es parcial (Ene–May). Datos reales de la ${PC.sc.label}.</div></div>`;
+  } else if(_perfTab==='drawdown'){
+    const dd=maxDrawdown(ret);
+    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Drawdown histórico · ${PC.sc.label}</div>
+      <div class="t-2 body mb-4">El drawdown mide la caída desde el punto más alto. El peor momento fue marzo 2020.</div>
+      <svg class="chart-svg" id="perf-chart"></svg></div>
+      <div class="g2"><div class="card cbox-alt" style="border-width:2px"><div class="clabel" style="color:var(--neg)">Máximo drawdown</div><div class="cval mono t-neg">${dd.maxDD.toFixed(2)}%</div><div class="csub">Caída COVID — marzo 2020</div></div>
+      <div class="card cbox-stayed" style="border-width:2px"><div class="clabel" style="color:var(--action)">Recuperación</div><div class="cval mono t-pos">5 meses</div><div class="csub">Tiempo en volver al máximo previo</div></div></div>`;
+    setTimeout(()=>drawChart('perf-chart',[{values:dd.series,color:'var(--neg)',width:2,fill:'#DC2626'}],{fmt:v=>v.toFixed(0)+'%',zeroBase:true,markIdx:MARCH_2020_IDX+1}),30);
+  } else if(_perfTab==='volatility'){
+    const vol=volatility(ret);
+    const profiles={Conservador:1.29,Moderado:2.25,Balanceado:3.91,Crecimiento:5.74,Agresivo:7.55};
+    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Volatilidad anualizada</div>
+      <div class="t-2 body mb-4">La volatilidad mide cuánto fluctúa el retorno. Mayor perfil de riesgo, mayor volatilidad — y mayor retorno esperado.</div>
+      <div style="display:flex;align-items:flex-end;gap:var(--s4);height:180px;padding:var(--s4) 0">
+        ${Object.entries(profiles).map(([n,v])=>{const h=v/7.55*150;const isBal=n==='Balanceado';return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700;margin-bottom:4px">${v}%</div><div style="width:100%;height:${h}px;background:${isBal?'var(--conv)':'var(--gray-400)'};border-radius:4px 4px 0 0"></div><div class="t-3" style="font-size:10px;margin-top:6px;font-weight:${isBal?700:400}">${n}</div></div>`;}).join('')}
+      </div></div>
+      <div class="card"><div class="ib-label">Volatilidad calculada · Balanceado (mensual anualizada)</div><div class="d-m mono">${vol.toFixed(2)}%</div><div class="t-2" style="font-size:12px">Calculada sobre los retornos mensuales de la ${PC.sc.label}. La cifra oficial de volatilidad diaria del Balanceado Serie A es 3.91%.</div></div>`;
+  } else if(_perfTab==='recovery'){
+    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-3">Análisis de recuperación · COVID 2020</div>
+      <div class="ev-item"><div class="ev-icon">📉</div><div><div class="ev-val t-neg">-8.32%</div><div class="h-s mb-1">Marzo 2020 — el peor mes</div><div class="body t-2">El punto más bajo. Máximo miedo, máximo impulso de salir.</div></div></div>
+      <div class="ev-item"><div class="ev-icon">📈</div><div><div class="ev-val t-pos">+4.51%</div><div class="h-s mb-1">Abril 2020 — el rebote</div><div class="body t-2">El mejor mes vino inmediatamente después del peor.</div></div></div>
+      <div class="ev-item"><div class="ev-icon">⏱</div><div><div class="ev-val t-pos">5 meses</div><div class="h-s mb-1">Tiempo de recuperación total</div><div class="body t-2">En 5 meses el fondo volvió a su máximo previo a la caída.</div></div></div>
+      <div class="ev-item"><div class="ev-icon">✅</div><div><div class="ev-val t-pos">+3.95%</div><div class="h-s mb-1">Año 2020 completo</div><div class="body t-2">Pese al peor shock en 90 años, el año cerró positivo.</div></div></div>
+    </div>
+    <div class="narrative">Esta es la evidencia central de la convicción "Permanecer invertido". <span class="t-conv" style="cursor:pointer;font-weight:700" onclick="openConviction('permanecer')">Ver convicción →</span></div>`;
+  } else {
+    // compare across series — this is where series comparison legitimately lives
+    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Comparación entre series · mismo $10M, mismo período</div>
+      <div class="t-2 body mb-4">La diferencia entre series es la comisión acumulada. A mayor plazo, mayor el impacto. Esto informa la conversación de vehículo — no es el foco del producto, es un dato de apoyo.</div>
+      <svg class="chart-svg" id="perf-chart"></svg></div>
+      <div id="compare-table"></div>`;
+    setTimeout(()=>{
+      const series=['A','P','F','APV','APV_AP'];
+      const colors={A:'#94A3B8',P:'#64748B',F:'#2563EB',APV:'#10B981',APV_AP:'#059669'};
+      const datasets=series.map(s=>({values:trajectory(DATASETS[s]),color:colors[s],width:s===PC.series?3:1.8,opacity:s===PC.series?1:0.65}));
+      drawChart('perf-chart',datasets);
+      const finals=series.map(s=>({s,v:trajectory(DATASETS[s])[101]}));
+      document.getElementById('compare-table').innerHTML=`<div class="card"><table class="timing-table"><thead><tr><th>Serie</th><th>Vehículo</th><th style="text-align:right">Valor final</th><th style="text-align:right">vs. Serie A</th></tr></thead><tbody>
+        ${finals.map(f=>{const base=finals[0].v;const diff=f.v-base;const isActive=f.s===PC.series;return `<tr class="${isActive?'highlight-row':''}"><td><strong>${SERIES_CONFIG[f.s].label}</strong>${isActive?' ●':''}</td><td>${VEHICLE_CONFIG[SERIES_CONFIG[f.s].vehicle].label}</td><td style="text-align:right;font-feature-settings:'tnum';font-weight:700">${fmt(f.v)}</td><td style="text-align:right;font-feature-settings:'tnum';color:${diff>0?'var(--pos)':'var(--text-2)'}">${f.s==='A'?'—':'+'+fmt(diff)}</td></tr>`;}).join('')}
+      </tbody></table><div class="t-3 mt-3" style="font-size:11px">La diferencia entre Serie A y APV-AP sobre $10M en 8.5 años es ~$3.2M: el costo acumulado de la comisión diferencial.</div></div>`;
+    },30);
+  }
+}
+
+/* ── BFE HUB ── */
+function buildBFE(){
+  return `<div class="screen" id="screen-bfe">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">BFE Hub</span></div>
+    <div class="mb-5"><div class="label mb-2 t-conv">Behavioral Finance Engine · <span id="bfe-series-note">${PC.sc.label}</span></div>
+    <div class="d-m mb-3">El argumento más poderoso no son las palabras. Son los números del propio portafolio.</div>
+    <div class="body t-2" style="max-width:680px">Estas herramientas convierten la convicción "el costo del pánico es medible" en evidencia concreta, usando datos reales de <strong id="bfe-vehicle-note">${PC.vc.label} (${PC.sc.label})</strong>.</div></div>
+    <div class="adv-box mb-5" style="cursor:pointer" onclick="openConviction('costo_panico')">
+      <div class="adv-box-header"><span class="badge" style="background:var(--conv);color:#fff">🧠 Convicción que sostiene estas herramientas</span></div>
+      <div class="h-s">El costo de las decisiones emocionales es medible y casi siempre subestimado →</div>
+    </div>
+    <div class="g2 mb-6">
+      <div class="tool-card" onclick="go('timing')"><div class="tool-emoji">⏱</div><div class="h-l mb-2">Market Timing Simulator</div>
+        <div class="body t-2 mb-4">¿Qué pasa si intenta "salir y volver en el momento correcto"? El slider muestra en tiempo real el costo de perderse los mejores meses.</div>
+        <div class="flex gap-2 flex-wrap mb-4"><span class="tag">Slider interactivo</span><span class="tag">Datos reales 2018–2026</span></div>
+        <button class="btn btn-primary">Abrir →</button></div>
+      <div class="tool-card" onclick="go('dcl')"><div class="tool-emoji">🧮</div><div class="h-l mb-2">Decision Consequence Lab</div>
+        <div class="body t-2 mb-4">¿Qué habría pasado si rescataba en la caída de 2020? Compara contra DAP, renta fija, cambio de perfil y cambio de vehículo.</div>
+        <div class="flex gap-2 flex-wrap mb-4"><span class="tag">6 escenarios</span><span class="tag">Costo en pesos</span><span class="tag">★ Cambio de vehículo</span></div>
+        <button class="btn btn-primary">Abrir →</button></div>
+    </div>
+    <div class="card" style="background:var(--gray-950);border:none;color:#fff;padding:var(--s6)">
+      <div class="flex items-center gap-4"><div style="font-size:28px">💡</div><div><div class="h-m mb-1" style="color:#fff">Nota arquitectónica</div><div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.6">Todos los cálculos usan el <strong style="color:#34D399" id="bfe-arch-note">dataset de ${PC.sc.label}</strong>. Al cambiar Vehículo/Serie, los simuladores recalculan con la serie activa.</div></div></div>
+    </div></div>`;
+}
+
+/* ── MARKET TIMING ── */
+const MISS_SCENARIOS=[{n:0,label:'Invertido siempre (referencia)'},{n:5,label:'Te pierdes los 5 mejores meses'},{n:10,label:'Te pierdes los 10 mejores meses'},{n:20,label:'Te pierdes los 20 mejores meses'},{n:30,label:'Te pierdes los 30 mejores meses'}];
+function buildTiming(){
+  return `<div class="screen" id="screen-timing">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('bfe')">BFE Hub</span><span class="sep">›</span><span class="cur">Market Timing</span></div>
+    <div class="mb-5"><div class="label mb-2 t-conv">Market Timing Simulator · Balanceado · <span id="timing-series-label">${PC.sc.label}</span></div>
+    <div class="d-m mb-3">¿Qué pasaría si no estuviera invertido en los mejores meses?</div>
+    <div class="body t-2" style="max-width:640px">$10.000.000 invertidos en enero 2018. Usa el slider para ver el impacto de perderse los N mejores meses.</div></div>
+    <div class="slider-section"><div class="slider-title">Meses fuera del mercado</div>
+      <div class="slider-val-display mono" id="slider-cost-display">$0</div>
+      <div style="font-size:13px;color:var(--pos);font-weight:600;margin-bottom:var(--s4)" id="slider-sub">Si se quedó invertido siempre: sin costo de oportunidad.</div>
+      <input type="range" id="timing-slider" min="0" max="30" value="0" style="--p:0%" oninput="onSlider(this.value)">
+      <div class="slider-labels"><span>0</span><span>10</span><span>20</span><span>30 meses</span></div></div>
+    <div class="card mb-5"><div class="h-m mb-4">Impacto en $10.000.000 (Ene 2018)</div>
+      <div style="overflow-x:auto"><table class="timing-table"><thead><tr><th>Situación</th><th style="text-align:right">Capital hoy</th><th style="text-align:right">Retorno</th><th style="text-align:right">Diferencia</th></tr></thead><tbody id="timing-tbody"></tbody></table></div></div>
+    <div class="chart-wrap mb-5"><div class="flex items-center justify-between mb-4 flex-wrap"><div class="h-m">Trayectoria 2018–2026</div><div class="t-3" style="font-size:11px;font-weight:600"><span id="chart-series-label">${PC.sc.label}</span> · Base $10M</div></div>
+      <svg class="chart-svg" id="timing-chart"></svg>
+      <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span>Invertido siempre</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="legend-miss-label">Sin meses perdidos</span></div></div></div>
+    <div class="card mb-5"><div class="h-m mb-2">Los mejores meses (2018–2026)</div><div class="t-2 mb-4" style="font-size:13px">Ocurrieron en los períodos de mayor incertidumbre. Quien salió por miedo, los perdió.</div><div class="flex flex-wrap gap-2" id="best-months-display"></div></div>
+    <div class="narrative mb-5">Los 5 mejores meses del Balanceado entre 2018 y 2026 ocurrieron en 2020 — el año del COVID. Salir en marzo 2020 y volver en julio habría perdido 4 de los 5 mejores meses de toda la historia del fondo. <span class="t-conv" style="font-weight:700;cursor:pointer" onclick="openConviction('permanecer')">Ver convicción →</span></div>
+    <div class="flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="go('dcl')">Decision Lab →</button><button class="btn btn-ghost" onclick="go('bfe')">← BFE Hub</button></div></div>`;
+}
+function onSlider(val){
+  val=parseInt(val);document.getElementById('timing-slider').style.setProperty('--p',(val/30*100)+'%');
+  const ret=PC.ret,base=trajectory(ret),baseF=base[base.length-1],missed=missNBest(val,ret),missF=missed[missed.length-1],cost=baseF-missF;
+  const cEl=document.getElementById('slider-cost-display'),sEl=document.getElementById('slider-sub');
+  if(val===0){cEl.textContent='$0';cEl.style.color='var(--pos)';sEl.textContent='Si se quedó invertido siempre: sin costo de oportunidad.';sEl.style.color='var(--pos)';}
+  else{cEl.textContent=fmt(cost);cEl.style.color='var(--neg)';sEl.textContent=`Costo de perderse los ${val} mejores meses del Balanceado (${PC.sc.label}).`;sEl.style.color='var(--neg)';}
+  document.getElementById('legend-miss-label').textContent=val===0?'Sin meses perdidos':`Perdiendo ${val} mejores meses`;
+  drawChart('timing-chart',[{values:base,color:'var(--action)',width:2.5,fill:'#2563EB'},{values:missed,color:'var(--neg)',width:2,dashed:true,opacity:val===0?0.15:1}]);
+  const tbody=document.getElementById('timing-tbody');tbody.innerHTML='';
+  MISS_SCENARIOS.forEach(({n,label})=>{const t=missNBest(n,ret),f=t[t.length-1],r=(f/INITIAL-1)*100,df=f-baseF,isBase=n===0,isActive=n===val;
+    const tr=document.createElement('tr');if(isActive&&!isBase)tr.className='active-row';if(isBase&&val===0)tr.className='highlight-row';
+    tr.innerHTML=`<td><strong>${label}</strong></td><td style="text-align:right;font-feature-settings:'tnum';font-weight:700">${fmt(f)}</td><td style="text-align:right;font-feature-settings:'tnum';color:${r>=0?'var(--pos)':'var(--neg)'}">${fmtPct(r)}</td><td style="text-align:right;font-feature-settings:'tnum';color:${isBase?'var(--text-2)':'var(--neg)'}">${isBase?'Referencia':fmt(df)}</td>`;
+    tbody.appendChild(tr);});
+}
+function renderBestMonths(){
+  const el=document.getElementById('best-months-display');if(!el)return;el.innerHTML='';
+  PC.ret.map((r,i)=>({r,i})).sort((a,b)=>b.r-a.r).slice(0,12).forEach(({r,i})=>{
+    const s=document.createElement('span');s.className='tag';s.style.cssText='background:var(--pos-bg);color:var(--pos);font-weight:700;font-feature-settings:"tnum"';s.textContent=`${MONTHS_LABELS[i]}: +${r.toFixed(2)}%`;el.appendChild(s);});
+}
+
+/* ── DCL ── */
+let _dclAlts=null;
+function buildDCL(){
+  return `<div class="screen" id="screen-dcl">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('bfe')">BFE Hub</span><span class="sep">›</span><span class="cur">Decision Lab</span></div>
+    <div class="mb-5"><div class="label mb-2 t-neg">Decision Consequence Lab · <span id="dcl-series-label">${PC.sc.label}</span></div>
+    <div class="d-m mb-3">¿Cuánto costó rescatar en marzo de 2020?</div>
+    <div class="body t-2" style="max-width:680px">Elige un escenario alternativo para ver el costo real de esa decisión, calculado en la serie activa.</div></div>
+    <div class="card mb-5" style="background:var(--gray-100);box-shadow:none"><div class="flex gap-5 flex-wrap items-center">
+      <div><div class="ib-label">Capital inicial</div><div class="h-l mono">$10.000.000</div></div>
+      <div><div class="ib-label">Evento</div><div class="h-l">Caída Marzo 2020</div></div>
+      <div><div class="ib-label">Vehículo · Serie</div><div class="flex items-center gap-2"><span class="pchip pc-b">Balanceado</span><span style="font-size:13px;font-weight:700" id="dcl-context-label">${PC.vc.label} · ${PC.sc.label}</span></div></div>
+    </div></div>
+    <div class="adv-box mb-5" style="cursor:pointer" onclick="openConviction('costo_panico')"><div class="adv-box-header"><span class="badge" style="background:var(--conv);color:#fff">🧠 Convicción</span><span class="badge badge-neutral" id="dcl-cost-note">${VEHICLE_ADVISORY[PC.vehicle].costNote.slice(0,46)}…</span></div><div class="h-s">El costo del pánico es medible y casi siempre subestimado →</div></div>
+    <div class="h-s mb-3">¿Qué hubiera hecho en marzo 2020?</div>
+    <div class="scenario-pills mb-5">
+      <div class="scen-pill active" onclick="selectScen(0,this)">✅ Mantener</div>
+      <div class="scen-pill" onclick="selectScen(1,this)">💰 DAP (4%)</div>
+      <div class="scen-pill" onclick="selectScen(2,this)">📄 Renta Fija</div>
+      <div class="scen-pill" onclick="selectScen(3,this)">🔽 Bajar a Conservador</div>
+      <div class="scen-pill" onclick="selectScen(4,this)">⏳ Salir y volver 6m</div>
+      <div class="scen-pill" onclick="selectScen(5,this)" style="border-color:var(--conv)">🔄 Cambio de vehículo</div></div>
+    <div class="cost-hero"><div class="cost-label" id="dcl-cost-label">Sin costo — mantener fue lo correcto</div><div class="cost-amount mono" id="dcl-cost-amount">$0</div><div class="cost-sub" id="dcl-cost-sub">Línea de referencia.</div></div>
+    <div class="compare-grid"><div class="cbox cbox-stayed"><div class="clabel" style="color:var(--action)">✅ Si se quedó invertido</div><div class="cval mono t-pos" id="stayed-val">${fmt(trajectory(PC.ret)[101])}</div><div class="csub" id="stayed-sub">Capital a mayo 2026</div></div>
+      <div class="cbox cbox-alt"><div class="clabel" style="color:var(--neg)" id="alt-label">Línea de referencia</div><div class="cval mono t-neg" id="alt-val">—</div><div class="csub" id="alt-sub">Selecciona un escenario.</div></div></div>
+    <div class="chart-wrap mb-5"><div class="flex items-center justify-between mb-4 flex-wrap"><div class="h-m">Trayectoria · Ene 2018 → May 2026</div><div class="t-3" style="font-size:11px;font-weight:600"><span id="dcl-chart-series-label">${PC.sc.label}</span></div></div>
+      <svg class="chart-svg" id="dcl-chart"></svg>
+      <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span id="dcl-legend-stay">Balanceado ${PC.sc.short} — invertido</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="dcl-legend-alt">Selecciona un escenario</span></div></div></div>
+    <div class="narrative mb-5" id="dcl-narrative">Línea de referencia. El Balanceado cayó en marzo 2020 pero se recuperó en 5 meses.</div>
+    <div class="flex gap-3 flex-wrap"><button class="btn btn-present" onclick="go('summary')">★ Generar Resumen</button><button class="btn btn-ghost" onclick="go('timing')">← Market Timing</button></div></div>`;
+}
+function buildDCLAlts(returns){
+  const stay=trajectory(returns),V_m=stay[MARCH_2020_IDX+1],DAP=4.0/12/100,RF=3.0/12/100;
+  const dap=[...stay.slice(0,MARCH_2020_IDX+2)];let vd=V_m;for(let i=MARCH_2020_IDX+1;i<returns.length;i++){vd*=(1+DAP);dap.push(vd);}
+  const rf=[...stay.slice(0,MARCH_2020_IDX+2)];let vr=V_m;for(let i=MARCH_2020_IDX+1;i<returns.length;i++){vr*=(1+RF);rf.push(vr);}
+  const cons=[...stay.slice(0,MARCH_2020_IDX+2)];let vc=V_m;for(let i=MARCH_2020_IDX+1;i<returns.length;i++){vc*=(1+returns[i]*0.55/100);cons.push(vc);}
+  const ex6=[...stay.slice(0,MARCH_2020_IDX+2)];let ve=V_m;for(let i=0;i<6;i++){ve*=(1+0.25/100);ex6.push(ve);}for(let i=MARCH_2020_IDX+7;i<returns.length;i++){ve*=(1+returns[i]/100);ex6.push(ve);}
+  let switchSeries,switchLabel;
+  if(PC.series==='A'||PC.series==='P'){switchSeries='APV';switchLabel='APV (si hubiera usado APV desde el inicio)';}
+  else if(PC.series==='F'){switchSeries='APV';switchLabel='APV (en vez de Serie F)';}
+  else if(PC.series==='APV'){switchSeries='APV_AP';switchLabel='APV-AP (comisión mínima con aporte patronal)';}
+  else{switchSeries='F';switchLabel='Serie F (Seguros con Ahorro)';}
+  return{stay,dap,rf,cons,ex6,switchTraj:trajectory(DATASETS[switchSeries]),switchSeries,switchLabel};
+}
+function getScenarios(){
+  if(!_dclAlts)_dclAlts=buildDCLAlts(PC.ret);
+  const stayF=_dclAlts.stay[_dclAlts.stay.length-1],{switchTraj,switchLabel,switchSeries}=_dclAlts,switchF=switchTraj[switchTraj.length-1],isBetter=switchF>stayF;
+  return[
+    {label:'Mantener',altLabel:'Línea de referencia',color:'var(--action)',traj:_dclAlts.stay,final:stayF,costLabel:'Sin costo — mantener fue lo correcto',narrative:`Línea de referencia. El Balanceado (${PC.sc.label}) cayó en marzo 2020 pero se recuperó en 5 meses y cerró 2020 positivo.`},
+    {label:'DAP',altLabel:'DAP al 4% anual',color:'var(--neg)',traj:_dclAlts.dap,final:_dclAlts.dap[_dclAlts.dap.length-1],costLabel:'Costo de haber ido a un DAP',narrative:`Rescatar en marzo 2020 y mover a DAP al 4%. Los meses de recuperación se perdieron. En ${PC.sc.label} la diferencia es significativa.`},
+    {label:'Renta Fija',altLabel:'Renta Fija (3%)',color:'var(--neg)',traj:_dclAlts.rf,final:_dclAlts.rf[_dclAlts.rf.length-1],costLabel:'Costo de irse a renta fija',narrative:'Moverse a renta fija en el punto más bajo. La recuperación de renta variable fue mucho más rápida.'},
+    {label:'Conservador',altLabel:'Conservador desde mar-2020',color:'var(--warn)',traj:_dclAlts.cons,final:_dclAlts.cons[_dclAlts.cons.length-1],costLabel:'Costo de bajar el perfil en el peor momento',narrative:'Cambiar a Conservador en plena caída cristalizó la pérdida y limitó la participación en la recuperación.'},
+    {label:'Salir 6m',altLabel:'Salir mar, volver oct 2020',color:'var(--warn)',traj:_dclAlts.ex6,final:_dclAlts.ex6[_dclAlts.ex6.length-1],costLabel:'Costo de perderse 6 meses de recuperación',narrative:'Salir para "esperar" y volver en octubre 2020. Se perdieron abril (+4.51%), agosto (+3.37%) y noviembre (+4.65%).'},
+    {label:'Cambio vehículo',altLabel:switchLabel,color:isBetter?'var(--pos)':'var(--neg)',traj:switchTraj,final:switchF,isSwitch:true,switchSeries,costLabel:isBetter?`Ganancia potencial en ${SERIES_CONFIG[switchSeries].label}`:`Diferencia vs ${SERIES_CONFIG[switchSeries].label}`,narrative:isBetter?`Simulación de cambio de vehículo. En ${SERIES_CONFIG[switchSeries].label} (${VEHICLE_CONFIG[SERIES_CONFIG[switchSeries].vehicle].label}) el resultado sería ${fmt(switchF)} — ${fmt(switchF-stayF)} más que en ${PC.sc.label}. La diferencia es la comisión acumulada en 8.5 años.`:`En ${SERIES_CONFIG[switchSeries].label} el resultado sería ${fmt(switchF)}. Cambia la serie activa para comparar.`}
+  ];
+}
+function animateNumber(el,from,to,dur=500){const t0=performance.now(),d=to-from;(function step(t){const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(from+d*e));if(p<1)requestAnimationFrame(step);})(performance.now());}
+function selectScen(idx,el){
+  _dclAlts=null;const scens=getScenarios();
+  document.querySelectorAll('.scen-pill').forEach(p=>p.classList.remove('active'));if(el)el.classList.add('active');
+  const sc=scens[Math.min(idx,scens.length-1)],stayF=scens[0].final,isBase=idx===0,costEl=document.getElementById('dcl-cost-amount');
+  const prevC=parseInt((costEl.textContent||'0').replace(/[^0-9]/g,''))||0,diff=Math.abs(stayF-sc.final),isBetter=sc.isSwitch&&sc.final>stayF;
+  document.getElementById('dcl-cost-label').textContent=sc.costLabel;
+  const hero=document.querySelector('.cost-hero');
+  if(isBase){costEl.style.color='var(--pos)';costEl.textContent='$0';document.getElementById('dcl-cost-sub').textContent='Línea de referencia. Cada escenario se compara contra este resultado.';hero.style.cssText='background:linear-gradient(135deg,#F0FDF4,#FAFFFA);border:2px solid #86EFAC;border-radius:var(--r4);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5)';}
+  else if(isBetter){costEl.style.color='var(--pos)';animateNumber(costEl,prevC,diff);document.getElementById('dcl-cost-sub').textContent='Ganancia adicional al usar una serie con menor comisión.';hero.style.cssText='background:linear-gradient(135deg,#F0FDF4,#FAFFFA);border:2px solid #86EFAC;border-radius:var(--r4);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5)';}
+  else{costEl.style.color='var(--neg)';animateNumber(costEl,prevC,diff);document.getElementById('dcl-cost-sub').textContent=`El ${((diff/stayF)*100).toFixed(1)}% del capital se perdió por no permanecer invertido.`;hero.style.cssText='background:linear-gradient(135deg,#FEF2F2,#FFF5F5);border:2px solid #FECACA;border-radius:var(--r4);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5)';}
+  document.getElementById('stayed-val').textContent=fmt(stayF);
+  const altV=document.getElementById('alt-val'),altL=document.getElementById('alt-label'),altS=document.getElementById('alt-sub');
+  if(isBase){altL.textContent='¿Cuál habría sido el resultado?';altV.textContent='—';altV.style.color='var(--text-2)';altS.textContent='Selecciona un escenario alternativo.';}
+  else{altL.textContent=sc.altLabel;animateNumber(altV,parseInt((altV.textContent||'0').replace(/[^0-9]/g,''))||0,sc.final);altV.style.color=isBetter?'var(--pos)':'var(--neg)';altS.textContent=fmtPct((sc.final/INITIAL-1)*100)+' total';}
+  document.getElementById('dcl-legend-alt').textContent=isBase?'Selecciona un escenario':sc.altLabel;
+  document.getElementById('dcl-narrative').innerHTML=sc.narrative;
+  drawChart('dcl-chart',[{values:scens[0].traj,color:'var(--action)',width:2.5,fill:'#2563EB'},{values:sc.traj,color:isBase?'rgba(100,116,139,0.2)':sc.color,width:2,dashed:!isBase,opacity:isBase?0.3:1}],{markIdx:MARCH_2020_IDX+1});
+}
+
+/* ── SUMMARY ── */
+function buildSummary(){
+  return `<div class="screen" id="screen-summary">
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Resumen de Reunión</span></div>
+    <div class="d-m mb-2">Resumen de Reunión</div>
+    <div class="t-2 mb-6"><span id="sum-profile">Perfil Activo: ${PC.pf.name}</span> · Junio 2026 · <span id="sum-series-note">${PC.vc.label} · ${PC.sc.label}</span></div>
+    <div class="card mb-5"><div class="h-s mb-3">📝 Nota de asesoría</div><div class="body t-2" style="line-height:1.7">El foco de esta conversación fue la convicción de permanecer invertido y el costo medible de salir en los momentos de mayor incertidumbre. Los datos revisados corresponden a la <strong id="sum-series-inline">${PC.sc.label}</strong>.</div></div>
+    <div class="h-s mb-3">Lo que revisamos (en orden de la jerarquía):</div>
+    <div class="sum-item"><div class="sum-icon" style="background:#EFF6FF">📊</div><div style="flex:1"><div class="h-s mb-1">Contexto — Mayo 2026</div><div class="body t-2">Asia +8.42%, conflicto en Irán, repunte del cobre.</div></div><div class="sum-checkmark">✓</div></div>
+    <div class="sum-item"><div class="sum-icon" style="background:var(--navy-100)">💡</div><div style="flex:1"><div class="h-s mb-1">Convicción: Permanecer Invertido</div><div class="body t-2">El nodo central. Evidencia del Balanceado en 2020: quienes permanecieron cerraron el año positivo.</div></div><div class="sum-checkmark">✓</div></div>
+    <div class="sum-item"><div class="sum-icon" style="background:#FEF3C7">⚡</div><div style="flex:1"><div class="h-s mb-1">Riesgo conductual — <span id="sum-risk-vehicle">${PC.vc.label}</span></div><div class="body t-2" id="sum-risk-text">${VEHICLE_ADVISORY[PC.vehicle].riskText.slice(0,140)}…</div></div><div class="sum-checkmark">✓</div></div>
+    <div class="sum-item"><div class="sum-icon" style="background:#F0FDF4">🧮</div><div style="flex:1"><div class="h-s mb-1">Decision Lab — costo del rescate de marzo 2020</div><div class="body t-2">Calculado en pesos de la <strong id="sum-series-dcl">${PC.sc.label}</strong>.</div></div><div class="sum-checkmark">✓</div></div>
+    <div class="card mt-5 mb-5" style="background:var(--gray-950);border:none;color:#fff;padding:var(--s7)"><div class="label mb-3" style="color:rgba(255,255,255,.4);font-size:9px">El mensaje más importante</div><div class="d-m mb-3" style="color:#fff;font-size:22px">"No es el mercado lo que destruye valor. Es la decisión de salir cuando el mercado cae."</div><div style="font-size:13px;color:rgba(255,255,255,.5)">Fondo Dinámico Balanceado · <span id="sum-series-footer">${PC.sc.label}</span> · 2018–2026</div></div>
+    <div class="h-s mb-3">Enviar resumen</div>
+    <div class="flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="alert('✓ Resumen enviado por WhatsApp')">💬 WhatsApp</button><button class="btn btn-ghost" onclick="alert('✓ Resumen enviado por email')">📧 Email</button><button class="btn btn-ghost" onclick="alert('✓ Link copiado')">🔗 Copiar link</button><button class="btn btn-ghost" style="margin-left:auto" onclick="go('home')">← Inicio</button></div>
+    <div class="t-3 mt-6" style="font-size:11px;line-height:1.6">Rentabilidades pasadas no garantizan rentabilidades futuras. Los valores de las cuotas de los fondos mutuos son variables. LarrainVial Asset Management Administradora General de Fondos S.A.</div></div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOUNT ALL SCREENS
+═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   ★ INVESTMENT PROFILE ENGINE — survey UI + scoring
+═══════════════════════════════════════════════════════════ */
+let _surveyStep=0; // 0 = intro, 1..7 = questions, 8 = result
+let _surveyAnswers={}; // {qNum: {k, score}}
+function renderProfileEngine(){
+  const el=document.getElementById('profile-engine-body');if(!el)return;
+  if(_surveyStep===0){
+    el.innerHTML=`<div class="survey-wrap text-center">
+      <div class="result-eyebrow">Investment Profile Engine</div>
+      <div class="d-l mb-4">Descubre tu perfil de inversionista</div>
+      <div class="body-l t-2 mb-6" style="max-width:560px;margin:0 auto">7 preguntas que determinan tu perfil según la encuesta oficial. El resultado define tus convicciones, estrategia, composición e instrumentos — el punto de entrada de toda la plataforma.</div>
+      <div class="card mb-6" style="text-align:left;max-width:560px;margin:0 auto var(--s6)">
+        <div class="conv-block-label">El flujo que inicia aquí</div>
+        <div class="flex items-center gap-2 flex-wrap mt-2" style="font-size:13px;font-weight:700;color:var(--text-2)">
+          <span class="t-conv">Perfilamiento</span><span class="t-3">→</span><span>Perfil</span><span class="t-3">→</span><span>Convicciones</span><span class="t-3">→</span><span>Estrategia</span><span class="t-3">→</span><span>Composición</span><span class="t-3">→</span><span>Instrumentos</span>
+        </div>
+      </div>
+      <button class="btn btn-conv" style="font-size:15px;padding:14px 32px" onclick="surveyGo(1)">Comenzar perfilamiento →</button>
+    </div>`;
+  } else if(_surveyStep>=1 && _surveyStep<=7){
+    const sq=SURVEY[_surveyStep-1];
+    const pct=Math.round((_surveyStep-1)/7*100);
+    const ans=_surveyAnswers[sq.n];
+    el.innerHTML=`<div class="survey-wrap">
+      <div class="survey-progress"><div class="survey-progress-bar" style="width:${Math.round(_surveyStep/7*100)}%"></div></div>
+      <div class="survey-progress-label"><span>Pregunta ${_surveyStep} de 7</span><span>${Math.round(_surveyStep/7*100)}% completado</span></div>
+      <div class="survey-q">${sq.q}</div>
+      ${sq.note?`<div class="survey-note">${sq.note}</div>`:'<div class="mb-6"></div>'}
+      ${sq.options.map(o=>`<div class="survey-opt ${ans&&ans.k===o.k?'selected':''}" onclick="surveyAnswer(${sq.n},'${o.k}',${o.score})">
+        <div class="survey-opt-key">${o.k}</div><div class="survey-opt-text">${o.text}</div></div>`).join('')}
+      <div class="flex gap-3 mt-5 justify-between">
+        ${_surveyStep>1?`<button class="btn btn-ghost" onclick="surveyGo(${_surveyStep-1})">← Anterior</button>`:'<span></span>'}
+        ${ans?`<button class="btn btn-conv" onclick="surveyNext()">${_surveyStep===7?'Ver mi perfil →':'Siguiente →'}</button>`:'<span class="t-3" style="font-size:12px;align-self:center">Selecciona una opción para continuar</span>'}
+      </div>
+    </div>`;
+  } else {
+    // result
+    const total=Object.values(_surveyAnswers).reduce((a,b)=>a+b.score,0);
+    const {profile,bracket}=scoreToProfile(total);
+    const p=PROFILES[profile];
+    const dots='●'.repeat(p.risk)+'○'.repeat(5-p.risk);
+    el.innerHTML=`<div class="survey-wrap" style="max-width:820px">
+      <div class="result-hero">
+        <div class="result-eyebrow">Perfil detectado</div>
+        <div class="result-profile" style="color:var(--c-${profile})">${p.name}</div>
+        <div class="result-score">
+          <div class="result-score-item"><div class="result-score-num">${total}</div><div class="result-score-label">Puntaje</div></div>
+          <div class="result-score-item"><div class="result-score-num">${bracket}</div><div class="result-score-label">Tramo</div></div>
+          <div class="result-score-item"><div class="result-score-num">${dots}</div><div class="result-score-label">Riesgo</div></div>
+        </div>
+      </div>
+      <div class="card mb-4"><div class="conv-block-label">Qué significa tu perfil</div><div class="body-l">${p.desc}</div></div>
+      <div class="g3 mb-4">
+        <div class="card"><div class="ib-label">Horizonte sugerido</div><div class="h-m">${p.horizon}</div></div>
+        <div class="card"><div class="ib-label">Nivel de riesgo</div><div class="h-m">${dots} (${p.riskNum}/7)</div></div>
+        <div class="card"><div class="ib-label">Volatilidad esperada</div><div class="h-m">${p.vol}</div><div class="t-3" style="font-size:11px">anualizada (Serie A)</div></div>
+      </div>
+      <div class="card mb-4"><div class="conv-block-label">Composición recomendada</div>
+        <div class="comp-bar mt-2"><div class="comp-seg" style="width:${p.rv}%;background:var(--c-balanceado)">${p.rv}% RV</div><div class="comp-seg" style="width:${p.rf}%;background:var(--c-conservador);opacity:.7">${p.rf}% RF</div></div>
+        <div class="t-2 mt-3" style="font-size:13px"><strong>Objetivo:</strong> ${p.obj}. <strong>Enfoque:</strong> ${p.enfoque}.</div>
+      </div>
+      <div class="g2 mb-4">
+        <div class="card"><div class="conv-block-label">Convicciones más relevantes</div>
+          ${p.convictions.map(cid=>`<div class="list-row" style="margin-bottom:var(--s2);padding:var(--s3) var(--s4)" onclick="selectCard('${profile}');openConviction('${cid}')"><div class="list-row-icon" style="width:34px;height:34px;font-size:16px">${CONVICTIONS[cid].icon}</div><div style="flex:1;font-size:13px;font-weight:600">${CONVICTIONS[cid].title.slice(0,60)}…</div></div>`).join('')}
+        </div>
+        <div class="card"><div class="conv-block-label">Decisiones típicas</div>
+          ${p.decisions.map(did=>`<div class="list-row" style="margin-bottom:var(--s2);padding:var(--s3) var(--s4)" onclick="selectCard('${profile}');openDecision('${did}')"><div class="list-row-icon" style="width:34px;height:34px;font-size:16px">${DECISIONS[did].icon}</div><div style="flex:1;font-size:13px;font-weight:600">${DECISIONS[did].title.slice(0,56)}…</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="card mb-5" style="border-left:4px solid var(--warn);background:var(--warn-bg)"><div class="conv-block-label" style="color:var(--warn)">⚠️ Errores conductuales frecuentes en este perfil</div>
+        ${p.errors.map(e=>`<div class="risk-item"><span class="ri-icon">⚠️</span><span>${e}</span></div>`).join('')}
+      </div>
+      <div class="card mb-5" style="background:var(--conv-bg);border:2px solid var(--conv-border)">
+        <div class="h-m mb-2">Tu perfil ya está activo en toda la plataforma</div>
+        <div class="body t-2 mb-4">Al confirmar, el ProductContext se sincroniza: Executive Home, Convicciones, Decisiones, Portfolio Explorer, Performance Lab, BFE, Market Timing y FAQ se adaptan al perfil <strong>${p.name}</strong>.</div>
+        <div class="flex gap-3 flex-wrap">
+          <button class="btn btn-conv" onclick="surveyApply('${profile}')">✓ Continuar hacia la estrategia →</button>
+          <button class="btn btn-ghost" onclick="surveyApply('${profile}','portfolio')">Abrir solución recomendada</button>
+          <button class="btn btn-ghost" onclick="surveyApply('${profile}','convictions')">Abrir Convictions Center</button>
+        </div>
+      </div>
+      <div class="text-center"><button class="btn btn-ghost" onclick="surveyReset()">↺ Repetir perfilamiento</button></div>
+    </div>`;
+  }
+}
+function surveyGo(step){_surveyStep=step;renderProfileEngine();peScrollTop();}
+function surveyAnswer(qNum,k,score){_surveyAnswers[qNum]={k,score};renderProfileEngine();}
+function surveyNext(){if(_surveyStep<7)surveyGo(_surveyStep+1);else surveyGo(8);}
+function surveyReset(){_surveyStep=0;_surveyAnswers={};renderProfileEngine();peScrollTop();}
+function peScrollTop(){const o=document.getElementById('pe-overlay');if(o)o.scrollTop=0;}
+function surveyApply(profile,dest){
+  PC.profile=profile;          // sync ProductContext / Profile Context
+  closeProfileEngine();         // close the modal
+  applyProductContext();        // all modules react
+  if(dest==='portfolio')go('portfolio');
+  else if(dest==='convictions')go('convictions');
+  else go('home');
+}
+
+function mountScreens(){
+  document.getElementById('screens').innerHTML=
+    buildHome()+buildMarket()+buildConvictions()+buildConvDetail()+buildDecisions()+buildDecisionDetail()+
+    buildQuestions()+buildBFE()+buildTiming()+buildDCL()+buildPortfolio()+buildPerformance()+buildSummary();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ★ APPLY PRODUCT CONTEXT — all modules react (not just returns)
+═══════════════════════════════════════════════════════════ */
+function setContext(vehicle,series){PC.vehicle=vehicle;PC.series=series;closeProductMenu();applyProductContext();}
+
+/* ═══════════════════════════════════════════════════════════
+   ★ PRODUCT DISCOVERY LAYER — cards-first, not dropdown-first
+═══════════════════════════════════════════════════════════ */
+function selectCard(profile){PC.profile=profile;applyProductContext();}
+function selectVehicleDiscovery(vehicle){
+  // pick the first series of the chosen vehicle
+  PC.vehicle=vehicle;PC.series=VEHICLE_CONFIG[vehicle].series[0];applyProductContext();
+}
+function selectSeriesDiscovery(series){PC.vehicle=SERIES_CONFIG[series].vehicle;PC.series=series;applyProductContext();}
+
+function renderDiscovery(){
+  // 1. Vehicle switch (segmented control)
+  const vs=document.getElementById('vehicle-switch');
+  vs.innerHTML=Object.entries(VEHICLE_CONFIG).map(([k,v])=>
+    `<button class="vehicle-tab ${k===PC.vehicle?'active':''}" onclick="selectVehicleDiscovery('${k}')">${v.icon} ${v.label}</button>`).join('');
+  // 2. Series switch (mini buttons for the active vehicle)
+  const ss=document.getElementById('series-switch');
+  ss.innerHTML=`<span class="series-switch-label">Serie</span>`+PC.vc.series.map(s=>
+    `<button class="series-mini-btn ${s===PC.series?'active':''}" onclick="selectSeriesDiscovery('${s}')">${SERIES_CONFIG[s].label}</button>`).join('');
+  // 3. Slim profile selector (secondary) — full cards live in the Home hero
+  const band=document.getElementById('cards-band');
+  band.innerHTML=`<span class="series-switch-label" style="align-self:center">Perfil</span>`+Object.values(PROFILES).map(p=>{
+    const active=p.key===PC.profile;
+    return `<button class="profile-pill ${p.cls} ${active?'active':''}" onclick="selectCard('${p.key}')">
+      <span class="profile-pill-dot"></span>${p.name}</button>`;}).join('')+
+    `<button class="profile-pill-engine" onclick="go('profile-engine')">🧭 Perfilar</button>`;
+  // 4. Persistent context summary band
+  const sum=document.getElementById('ctx-summary');
+  const p=PC.pf;
+  sum.innerHTML=`
+    <div class="ctx-sum-item"><span class="ctx-sum-label">Vehículo</span><span class="ctx-sum-val">${PC.vc.icon} ${PC.vc.label}</span></div>
+    <div class="ctx-sum-sep"></div>
+    <div class="ctx-sum-item"><span class="ctx-sum-label">Serie</span><span class="ctx-sum-val">${PC.sc.label}</span></div>
+    <div class="ctx-sum-sep"></div>
+    <div class="ctx-sum-item"><span class="ctx-sum-label">Perfil</span><span class="ctx-sum-val">${p.name}</span></div>
+    <div class="ctx-sum-sep"></div>
+    <div class="ctx-sum-item"><span class="ctx-sum-label">Riesgo</span><span class="ctx-sum-val">${'●'.repeat(p.risk)}${'○'.repeat(5-p.risk)} ${p.riskLabel}</span></div>
+    <div class="ctx-sum-sep"></div>
+    <div class="ctx-sum-item"><span class="ctx-sum-label">Horizonte</span><span class="ctx-sum-val">${p.horizon}</span></div>
+    <div class="ctx-sum-sep"></div>
+    <div class="ctx-sum-item"><span class="ctx-sum-label">Asignación</span>
+      <div class="ctx-sum-mix"><div class="ctx-sum-mixbar"><div style="width:${p.rv}%;background:var(--c-balanceado)"></div><div style="width:${p.rf}%;background:var(--c-conservador);opacity:.5"></div></div>
+      <span class="ctx-sum-val">${p.rv}% RV / ${p.rf}% RF</span></div></div>
+    <div class="ctx-sum-sep"></div>
+    <div class="ctx-sum-item" style="flex:1;min-width:160px"><span class="ctx-sum-label">Objetivo</span><span class="ctx-sum-val" style="font-weight:600;color:var(--text-2)">${p.obj}</span></div>
+  `;
+}
+
+function applyProductContext(){
+  const sc=PC.sc,vc=PC.vc,adv=VEHICLE_ADVISORY[PC.vehicle];
+  // Selector UI
+  document.getElementById('pc-icon').textContent=vc.icon;
+  document.getElementById('pc-vehicle-name').textContent=vc.label;
+  const badge=document.getElementById('pc-series-badge');badge.textContent=sc.label;badge.className='pc-series-badge '+sc.badgeClass;
+  document.querySelectorAll('.pc-series-btn').forEach(b=>b.classList.toggle('active',b.dataset.series===PC.series));
+  // Banner
+  document.getElementById('pc-banner-icon').textContent=vc.icon;
+  document.getElementById('pc-banner-text').innerHTML=`Contexto activo: <strong>${vc.label} · ${sc.label}</strong> · Comisión máx: <strong>${sc.maxFee}% ${sc.vat?'IVA incl.':'exento IVA'}</strong> · Las convicciones, decisiones, FAQs, riesgos y narrativas se adaptan a este vehículo.`;
+  document.getElementById('arch-label').textContent=vc.icon+' '+sc.short;
+  // Update legacy header profile label to reflect active profile
+  document.getElementById('ctx-profile-label').textContent='Perfil Activo: '+PC.pf.name;
+  // ★ Product Discovery Layer reacts (cards + context summary)
+  renderDiscovery();
+  // Rebuild screens that depend heavily on PC (convictions list, conv detail, decisions, FAQ, portfolio, perf, BFE) by re-mounting and restoring view
+  const current=_currentScreen;
+  // Re-mount everything so per-vehicle narratives refresh
+  mountScreens();
+  // restore current screen
+  showScreen(current,true);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════ */
+const TITLES={home:'Inicio · Mayo 2026','profile-engine':'Perfilamiento del Inversionista',market:'Mercado · Mayo 2026',convictions:'Convicciones',
+  'conv-detail':'Convicción · Detalle',decisions:'Decisiones de Inversión','decision-detail':'Decisión · Detalle',
+  questions:'Preguntas del Cliente',bfe:'Behavioral Finance Engine',timing:'Market Timing Simulator',
+  dcl:'Decision Consequence Lab',portfolio:'Portfolio Explorer',performance:'Performance Lab',summary:'Resumen de Reunión'};
+let _currentScreen='home';
+function showScreen(id,silent){
+  _currentScreen=id;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const t=document.getElementById('screen-'+id);if(t)t.classList.add('active');
+  document.getElementById('ctx-title').textContent=TITLES[id]||id;
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===id));
+  // per-screen hydration
+  if(id==='home'){renderHomeProfiles();renderHomeActiveContext();}
+  if(id==='market')renderMarketEvents();
+  if(id==='convictions')renderConvList();
+  if(id==='decisions')renderDecisionsList();
+  if(id==='questions'){renderFaqCats();renderFaqList();}
+  if(id==='portfolio'){renderPortSteps();renderPortContent();}
+  if(id==='performance'){renderPerfTabs();renderPerfContent();}
+  if(id==='timing'){setTimeout(()=>{onSlider(parseInt(document.getElementById('timing-slider').value||0));renderBestMonths();},30);}
+  if(id==='dcl'){setTimeout(()=>{selectScen(0,document.querySelectorAll('.scen-pill')[0]);},30);}
+  if(!silent){closeSidebar();window.scrollTo({top:0,behavior:'smooth'});}
+}
+function go(id){
+  if(id==='profile-engine'){openProfileEngine();return;}
+  showScreen(id);
+}
+function openProfileEngine(){
+  renderProfileEngine();
+  const ov=document.getElementById('pe-overlay');
+  ov.classList.add('open');
+  document.body.style.overflow='hidden';
+  closeSidebar();
+}
+function closeProfileEngine(){
+  document.getElementById('pe-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function openConviction(id){showScreen('conv-detail');renderConvDetail(id);}
+function openDecision(id){showScreen('decision-detail');renderDecisionDetail(id);}
+
+function toggleProductMenu(e){if(e)e.stopPropagation();const dd=document.getElementById('pc-dropdown'),sel=document.getElementById('pc-selector');const open=dd.classList.contains('open');dd.classList.toggle('open');sel.classList.toggle('open');if(!open)setTimeout(()=>document.addEventListener('click',()=>closeProductMenu(),{once:true}),10);}
+function closeProductMenu(){document.getElementById('pc-dropdown').classList.remove('open');document.getElementById('pc-selector').classList.remove('open');}
+function toggleMeetingMode(){document.body.classList.toggle('meeting-mode');document.getElementById('mm-label').textContent=document.body.classList.contains('meeting-mode')?'Salir de Reunión':'Modo Reunión';}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('active');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('active');}
+
+/* INIT */
+window.addEventListener('load',()=>{
+  mountScreens();applyProductContext();showScreen('home');
+  document.getElementById('pe-overlay').addEventListener('click',e=>{if(e.target.id==='pe-overlay')closeProfileEngine();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeProfileEngine();});
+});
+</script>
+</body>
+</html>
