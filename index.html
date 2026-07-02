@@ -50,7 +50,7 @@ body{font-family:'Manrope','Inter',-apple-system,'Segoe UI',sans-serif;letter-sp
 .nav-item .nl{line-height:1}
 .btn-meeting{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:9px 16px;background:#fff;color:var(--navy);border:none;border-radius:var(--r3);font-weight:700;font-size:12px;cursor:pointer;transition:all .15s;font-family:inherit}
 .btn-meeting:hover{background:var(--navy-100);transform:translateY(-1px)}
-.main{margin-left:0;flex:1;display:flex;flex-direction:column;min-height:100vh;padding-bottom:84px}
+.main{margin-left:0;flex:1;display:flex;flex-direction:column;min-height:100vh;padding-bottom:84px;min-width:0}
 .ctx-bar{height:60px;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 var(--s8);gap:var(--s4);position:sticky;top:0;z-index:100}
 .ctx-title{font-size:15px;font-weight:600;letter-spacing:-.01em}
 .ctx-right{margin-left:auto;display:flex;align-items:center;gap:var(--s3)}
@@ -125,9 +125,9 @@ body.meeting-mode .btn-mm{background:var(--conv);color:#fff;border-color:var(--c
 .divider{border:none;border-top:1px solid var(--border);margin:var(--s6) 0}
 .divider-sm{border:none;border-top:1px solid var(--border);margin:var(--s4) 0}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s5);margin-top:var(--s2)}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
-.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5)}
-.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s4)}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5)}
+.g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s4)}
 .narrative{border-left:3px solid var(--conv);padding:var(--s4) var(--s5);background:var(--conv-bg);border-radius:0 var(--r3) var(--r3) 0;font-size:14px;color:var(--text-2);line-height:1.6}
 .narrative-action{border-left:3px solid var(--action);background:var(--action-light)}
 .adv-box{border:2px solid var(--conv-border);border-radius:var(--r4);padding:var(--s5);background:var(--conv-bg);margin-bottom:var(--s4)}
@@ -324,16 +324,16 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .pat-name{font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--pc)}
 .pat-active-chip{font-size:9px;font-weight:800;letter-spacing:.05em;color:#fff;background:var(--pc);padding:3px 10px;border-radius:var(--rF)}
 .pat-obj{font-size:14px;font-weight:600;line-height:1.45;color:var(--text-1);margin-bottom:var(--s4)}
-.pat-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3) var(--s5);margin-bottom:var(--s4)}
+.pat-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s3) var(--s5);margin-bottom:var(--s4)}
 .pat-kv .k{font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3);margin-bottom:3px}
 .pat-kv .v{font-size:13px;font-weight:700}
 .pat-mix{height:8px;border-radius:var(--rF);display:flex;overflow:hidden;background:var(--gray-100);margin-bottom:6px}
 .pat-mixleg{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:var(--s3)}
 .pat-enfoque{font-size:12px;color:var(--text-2);line-height:1.5;margin-top:auto;padding-top:var(--s3);border-top:1px solid var(--border)}
 .pat-enfoque strong{color:var(--text-1)}
-@media(max-width:1024px){.pacc{flex-direction:column;height:auto;gap:var(--s3)}.pat{min-height:60px}.pat.active{min-height:300px}.pat-collapsed{flex-direction:row;gap:var(--s4);padding:0 var(--s5);justify-content:flex-start}.pat-vrisk small{display:inline;margin-left:6px}.pat-vhint{display:none}.pat-expanded{min-width:0}}
+@media(max-width:1024px){.pat-vrisk small{display:inline;margin-left:6px}.pat-vhint{display:none}}
 /* ═══ ALT HOME — bento mosaic ═══ */
-.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(140px,auto);gap:var(--s4)}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(140px,auto);gap:var(--s4)}
 .bento-tile{border:1px solid var(--border);border-radius:var(--r5);background:var(--surface);box-shadow:var(--sh1);padding:var(--s5);position:relative;overflow:hidden;cursor:pointer;transition:all .2s cubic-bezier(.2,.7,.3,1);display:flex;flex-direction:column}
 .bento-tile:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
 .bento-tile.static{cursor:default}.bento-tile.static:hover{transform:none;box-shadow:var(--sh1)}
@@ -351,7 +351,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 @media(max-width:1100px){.psstrip{grid-template-columns:repeat(3,1fr)}.bento{grid-template-columns:repeat(2,1fr)}.bento-conv,.bento-decision,.bento-risk,.bento-faq,.bento-market{grid-column:span 2}.bento-conv{grid-row:auto}}
 @media(max-width:768px){.psstrip{grid-template-columns:1fr 1fr}.bento{grid-template-columns:1fr}.bento-conv,.bento-decision,.bento-risk,.bento-faq,.bento-market{grid-column:span 1}}
 /* ═══ DECISIONS — card grid ═══ */
-.dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5)}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5)}
 .dcard{border:1px solid var(--border);border-radius:var(--r5);background:var(--surface);box-shadow:var(--sh1);padding:var(--s6);cursor:pointer;transition:all .2s cubic-bezier(.2,.7,.3,1);display:flex;flex-direction:column;border-top:3px solid var(--action)}
 .dcard:hover{box-shadow:var(--sh2);transform:translateY(-3px)}
 .dcard-no{border-top-color:var(--text-3)}
@@ -363,13 +363,70 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .dcard-arrow{margin-top:auto;font-size:13px;font-weight:700;color:var(--action);padding-top:var(--s2)}
 @media(max-width:768px){.dgrid{grid-template-columns:1fr}}
 /* ═══ FAQ — card grid + modal ═══ */
-.faqgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.faqgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4)}
 .faqcard{border:1px solid var(--border);border-radius:var(--r5);background:var(--surface);box-shadow:var(--sh1);padding:var(--s5);cursor:pointer;transition:all .2s cubic-bezier(.2,.7,.3,1);display:flex;flex-direction:column}
 .faqcard:hover{box-shadow:var(--sh2);transform:translateY(-3px)}
 .faqcard-top{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s3);flex-wrap:wrap}
 .faqcard-q{font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.35;margin-bottom:var(--s3)}
 .faqcard-conv{font-size:12px;color:var(--text-2);line-height:1.4;margin-bottom:var(--s4)}
 .faqcard-arrow{margin-top:auto;font-size:12px;font-weight:700;color:var(--conv)}
+/* ═══ "MÁS" BOTTOM SHEET (mobile) ═══ */
+.sheet-overlay{display:none;position:fixed;inset:0;z-index:1100;background:rgba(15,23,42,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;transition:opacity .25s;align-items:flex-end}
+.sheet-overlay.open{display:flex;opacity:1}
+.sheet{width:100%;background:var(--surface);border-radius:20px 20px 0 0;padding:10px var(--s5) calc(var(--s6) + env(safe-area-inset-bottom));box-shadow:var(--sh3);transform:translateY(24px);transition:transform .3s cubic-bezier(.2,.8,.3,1)}
+.sheet-overlay.open .sheet{transform:translateY(0)}
+.sheet-handle{width:38px;height:4px;border-radius:var(--rF);background:var(--gray-200);margin:0 auto var(--s4)}
+.sheet-title{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);text-align:center;margin-bottom:var(--s5)}
+.sheet-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s4)}
+.sheet-item{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;text-align:center}
+.sheet-item span{font-size:10.5px;font-weight:700;color:var(--text-2);line-height:1.2}
+.sheet-ic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:var(--sh1);transition:transform .15s}
+.sheet-item:active .sheet-ic{transform:scale(.92)}
+.nav-more{display:none}
+/* ═══ MOBILE OVERHAUL ═══ */
+@media(max-width:820px){
+  html,body{overflow-x:hidden;max-width:100vw}
+  .screen{max-width:100vw}
+  /* top area: keep it minimal — title + product selector only */
+  .ctx-bar{height:52px;padding:0 var(--s4);gap:var(--s2)}
+  .ctx-title{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .btn-mm,.meeting-indicator,.ctx-edition,.ctx-client{display:none !important}
+  .pc-vehicle-name{display:none}
+  .pc-banner{display:none}
+  .discovery{display:none}
+  /* navy summary: single compact line (Serie · Perfil · mix) */
+  .ctx-summary{padding:8px var(--s4);gap:var(--s4);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .ctx-summary::-webkit-scrollbar{display:none}
+  .cs-sec,.ctx-sum-sep{display:none}
+  .ctx-sum-item{flex-direction:row;align-items:center;gap:7px;white-space:nowrap}
+  .ctx-sum-label{font-size:8px}
+  /* dock: 5 tabs, no scroll, iOS style */
+  .dock{height:calc(60px + env(safe-area-inset-bottom));padding:0 var(--s2) env(safe-area-inset-bottom);gap:0}
+  .dock-brand,.dock-sep,.btn-meeting{display:none}
+  .nav-sec{display:none}
+  .nav-more{display:flex}
+  .dock-items{overflow:visible;justify-content:space-around;gap:0}
+  .nav-item{padding:0 6px;font-size:9.5px;flex:1}
+  .nav-item.active{border-top-color:transparent;background:none}
+  .nav-item.active .ni{color:#fff}
+  .nav-item.active .nl{color:#fff;font-weight:800}
+  .main{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .arch-badge{display:none}
+  /* accordion: expanded card grows naturally (no clipping) */
+  .pacc{flex-direction:column;height:auto;gap:var(--s3)}
+  .pat{min-height:58px}
+  .pat.active{min-height:0}
+  .pat-collapsed{position:absolute;inset:0;flex-direction:row;gap:var(--s4);padding:0 var(--s5);justify-content:flex-start;align-items:center}
+  .pat-expanded{position:relative;inset:auto;min-width:0;opacity:1;display:none;padding:var(--s5)}
+  .pat.active .pat-expanded{display:flex}
+  .pat.active .pat-collapsed{display:none}
+  .pat-name{font-size:19px}
+  .pat-grid{grid-template-columns:1fr 1fr;gap:var(--s3)}
+  /* headline + spacing */
+  .screen{padding:var(--s5) var(--s4) var(--s8)}
+  .d-l{font-size:24px}
+  .d-m{font-size:21px}
+}
 /* ═══ MEETING MODE — client presentation view ═══ */
 .mm-view{display:none;position:fixed;inset:0;z-index:900;background:var(--bg);overflow-y:auto}
 .mm-view.open{display:block}
@@ -385,7 +442,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .mm-obj{font-size:16px;color:rgba(255,255,255,.82);max-width:560px;line-height:1.55;margin-bottom:var(--s6)}
 .mm-mix{height:12px;border-radius:var(--rF);display:flex;overflow:hidden;background:rgba(255,255,255,.14);margin-bottom:8px;max-width:560px}
 .mm-mixleg{display:flex;justify-content:space-between;font-size:13px;font-weight:700;max-width:560px}
-.mm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-bottom:var(--s5)}
+.mm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4);margin-bottom:var(--s5)}
 .mm-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r5);padding:var(--s6);box-shadow:var(--sh1);text-align:center}
 .mm-stat .k{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3);margin-bottom:var(--s2)}
 .mm-stat .v{font-size:36px;font-weight:800;letter-spacing:-.02em;font-feature-settings:'tnum'}
@@ -399,7 +456,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .mm-note strong{color:var(--text-1)}
 @media(max-width:900px){.mm-stats{grid-template-columns:1fr}.mm-row{grid-template-columns:1fr}.mm-profile{font-size:34px}}
 /* ═══ CONVICTIONS — card grid ═══ */
-.cvgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.cvgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4)}
 .cvcard{border:1px solid var(--border);border-radius:var(--r5);background:var(--surface);box-shadow:var(--sh1);padding:var(--s5);cursor:pointer;transition:all .2s cubic-bezier(.2,.7,.3,1);display:flex;flex-direction:column}
 .cvcard:hover{box-shadow:var(--sh2);transform:translateY(-3px)}
 .cvcard-top{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s4);flex-wrap:wrap}
@@ -454,19 +511,20 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   <div class="dock-brand"><div class="name">Investment<br>Intelligence</div></div>
   <div class="dock-items">
     <div class="nav-item active" data-nav="home" onclick="go('home')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span><span class="nl">Inicio</span></div>
-    <div class="nav-item" data-nav="profile-engine" onclick="go('profile-engine')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></span><span class="nl">Perfilar</span></div>
-    <div class="nav-item" data-nav="market" onclick="go('market')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m6 15 4-5 3 3 5-7"/></svg></span><span class="nl">Mercado</span></div>
+    <div class="nav-item nav-sec" data-nav="profile-engine" onclick="go('profile-engine')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></span><span class="nl">Perfilar</span></div>
+    <div class="nav-item nav-sec" data-nav="market" onclick="go('market')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m6 15 4-5 3 3 5-7"/></svg></span><span class="nl">Mercado</span></div>
     <div class="dock-sep"></div>
     <div class="nav-item" data-nav="convictions" onclick="go('convictions')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.7.6 1 1.3 1 2.1h5c0-.8.3-1.5 1-2.1A6 6 0 0 0 12 3z"/></svg></span><span class="nl">Convicciones</span></div>
     <div class="nav-item" data-nav="decisions" onclick="go('decisions')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg></span><span class="nl">Decisiones</span></div>
     <div class="nav-item" data-nav="questions" onclick="go('questions')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 1 0-3.1 6.3L21 19z"/><path d="M9.8 9.5a2.3 2.3 0 0 1 4.5.7c0 1.5-2.2 2-2.2 3.1"/><circle cx="12" cy="16.4" r=".4" fill="currentColor"/></svg></span><span class="nl">Preguntas</span></div>
     <div class="dock-sep"></div>
-    <div class="nav-item" data-nav="bfe" onclick="go('bfe')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M5 5l1.8 1.8M17.2 17.2 19 19M19 5l-1.8 1.8M6.8 17.2 5 19"/></svg></span><span class="nl">Motor</span></div>
-    <div class="nav-item" data-nav="timing" onclick="go('timing')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span><span class="nl">Timing</span></div>
-    <div class="nav-item" data-nav="dcl" onclick="go('dcl')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="nl">Costo</span></div>
+    <div class="nav-item nav-sec" data-nav="bfe" onclick="go('bfe')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M5 5l1.8 1.8M17.2 17.2 19 19M19 5l-1.8 1.8M6.8 17.2 5 19"/></svg></span><span class="nl">Motor</span></div>
+    <div class="nav-item nav-sec" data-nav="timing" onclick="go('timing')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span><span class="nl">Timing</span></div>
+    <div class="nav-item nav-sec" data-nav="dcl" onclick="go('dcl')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="nl">Costo</span></div>
     <div class="dock-sep"></div>
-    <div class="nav-item" data-nav="portfolio" onclick="go('portfolio')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg></span><span class="nl">Portfolio</span></div>
-    <div class="nav-item" data-nav="performance" onclick="go('performance')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="M7 15v-3M11 15V8M15 15v-5M19 15V6"/></svg></span><span class="nl">Performance</span></div>
+    <div class="nav-item nav-sec" data-nav="portfolio" onclick="go('portfolio')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg></span><span class="nl">Portfolio</span></div>
+    <div class="nav-item nav-sec" data-nav="performance" onclick="go('performance')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="M7 15v-3M11 15V8M15 15v-5M19 15V6"/></svg></span><span class="nl">Performance</span></div>
+    <div class="nav-item nav-more" onclick="openMoreSheet()"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span><span class="nl">Más</span></div>
   </div>
   <button class="btn-meeting" onclick="go('summary')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16l-3.5-2.5L12 20l-3.5-2.5L5 20z"/><path d="M9 9h6M9 13h4"/></svg> Resumen</button>
 </nav>
@@ -571,6 +629,24 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 
 <!-- ★ MEETING MODE — client presentation ★ -->
 <div class="mm-view" id="mm-view"><div class="mm-shell" id="mm-shell"></div></div>
+
+<!-- ★ MOBILE "MÁS" SHEET ★ -->
+<div class="sheet-overlay" id="more-sheet">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Todos los módulos</div>
+    <div class="sheet-grid">
+      <div class="sheet-item" onclick="goFromSheet('profile-engine')"><div class="sheet-ic" style="background:var(--navy-050)">🧭</div><span>Perfilar</span></div>
+      <div class="sheet-item" onclick="goFromSheet('market')"><div class="sheet-ic" style="background:var(--c-moderado-bg)">📊</div><span>Mercado</span></div>
+      <div class="sheet-item" onclick="goFromSheet('bfe')"><div class="sheet-ic" style="background:var(--navy-100)">🔬</div><span>Motor de Decisiones</span></div>
+      <div class="sheet-item" onclick="goFromSheet('timing')"><div class="sheet-ic" style="background:var(--warn-bg)">⏱</div><span>Timing de Mercado</span></div>
+      <div class="sheet-item" onclick="goFromSheet('dcl')"><div class="sheet-ic" style="background:var(--c-agresivo-bg)">🧮</div><span>Costo de Decidir</span></div>
+      <div class="sheet-item" onclick="goFromSheet('portfolio')"><div class="sheet-ic" style="background:var(--c-crecimiento-bg)">◔</div><span>Portfolio Explorer</span></div>
+      <div class="sheet-item" onclick="goFromSheet('performance')"><div class="sheet-ic" style="background:var(--navy-050)">📈</div><span>Performance Lab</span></div>
+      <div class="sheet-item" onclick="goFromSheet('summary')"><div class="sheet-ic" style="background:var(--navy);color:#fff">📄</div><span>Resumen</span></div>
+    </div>
+  </div>
+</div>
 <script>
 /* ═══════════════════════════════════════════════════════════
    PRODUCT ARCHITECTURE LAYER
@@ -1952,21 +2028,21 @@ function renderDiscovery(){
   const sum=document.getElementById('ctx-summary');
   const p=PC.pf;
   sum.innerHTML=`
-    <div class="ctx-sum-item"><span class="ctx-sum-label">Vehículo</span><span class="ctx-sum-val">${PC.vc.icon} ${PC.vc.label}</span></div>
+    <div class="ctx-sum-item cs-sec"><span class="ctx-sum-label">Vehículo</span><span class="ctx-sum-val">${PC.vc.icon} ${PC.vc.label}</span></div>
     <div class="ctx-sum-sep"></div>
     <div class="ctx-sum-item"><span class="ctx-sum-label">Serie</span><span class="ctx-sum-val">${PC.sc.label}</span></div>
     <div class="ctx-sum-sep"></div>
     <div class="ctx-sum-item"><span class="ctx-sum-label">Perfil</span><span class="ctx-sum-val">${p.name}</span></div>
     <div class="ctx-sum-sep"></div>
-    <div class="ctx-sum-item"><span class="ctx-sum-label">Riesgo</span><span class="ctx-sum-val">${'●'.repeat(p.risk)}${'○'.repeat(5-p.risk)} ${p.riskLabel}</span></div>
+    <div class="ctx-sum-item cs-sec"><span class="ctx-sum-label">Riesgo</span><span class="ctx-sum-val">${'●'.repeat(p.risk)}${'○'.repeat(5-p.risk)} ${p.riskLabel}</span></div>
     <div class="ctx-sum-sep"></div>
-    <div class="ctx-sum-item"><span class="ctx-sum-label">Horizonte</span><span class="ctx-sum-val">${p.horizon}</span></div>
+    <div class="ctx-sum-item cs-sec"><span class="ctx-sum-label">Horizonte</span><span class="ctx-sum-val">${p.horizon}</span></div>
     <div class="ctx-sum-sep"></div>
     <div class="ctx-sum-item"><span class="ctx-sum-label">Asignación</span>
       <div class="ctx-sum-mix"><div class="ctx-sum-mixbar"><div style="width:${p.rv}%;background:var(--c-balanceado)"></div><div style="width:${p.rf}%;background:var(--c-conservador);opacity:.5"></div></div>
       <span class="ctx-sum-val">${p.rv}% RV / ${p.rf}% RF</span></div></div>
     <div class="ctx-sum-sep"></div>
-    <div class="ctx-sum-item" style="flex:1;min-width:160px"><span class="ctx-sum-label">Objetivo</span><span class="ctx-sum-val" style="font-weight:600;color:var(--text-2)">${p.obj}</span></div>
+    <div class="ctx-sum-item cs-sec" style="flex:1;min-width:160px"><span class="ctx-sum-label">Objetivo</span><span class="ctx-sum-val" style="font-weight:600;color:var(--text-2)">${p.obj}</span></div>
   `;
 }
 
@@ -2007,6 +2083,7 @@ function showScreen(id,silent){
   const t=document.getElementById('screen-'+id);if(t)t.classList.add('active');
   document.getElementById('ctx-title').textContent=TITLES[id]||id;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===id));
+  const moreBtn=document.querySelector('.nav-more');if(moreBtn)moreBtn.classList.toggle('active',['profile-engine','market','bfe','timing','dcl','portfolio','performance','summary'].includes(id));
   // per-screen hydration
   if(id==='home'){renderHomeProfiles();renderHomeActiveContext();}
   if(id==='market')renderMarketEvents();
@@ -2156,6 +2233,9 @@ function mmSimulate(){
   document.getElementById('mm-sim-cost').textContent=raw>0?'−$'+Math.round(cost).toLocaleString('es-CL'):'—';
 }
 
+function openMoreSheet(){const s=document.getElementById('more-sheet');s.classList.add('open');document.body.style.overflow='hidden';}
+function closeMoreSheet(){document.getElementById('more-sheet').classList.remove('open');document.body.style.overflow='';}
+function goFromSheet(id){closeMoreSheet();go(id);}
 function toggleSidebar(){}
 function closeSidebar(){}
 
@@ -2165,7 +2245,8 @@ window.addEventListener('load',()=>{
   document.getElementById('pe-overlay').addEventListener('click',e=>{if(e.target.id==='pe-overlay')closeProfileEngine();});
   document.getElementById('faq-overlay').addEventListener('click',e=>{if(e.target.id==='faq-overlay')closeFaq();});
   document.getElementById('detail-overlay').addEventListener('click',e=>{if(e.target.id==='detail-overlay')closeDetail();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProfileEngine();closeFaq();closeDetail();}});
+  document.getElementById('more-sheet').addEventListener('click',e=>{if(e.target.id==='more-sheet')closeMoreSheet();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProfileEngine();closeFaq();closeDetail();closeMoreSheet();}});
 });
 </script>
 </body>
