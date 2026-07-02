@@ -262,6 +262,15 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .profile-pill.active .profile-pill-dot{box-shadow:0 0 0 2px rgba(255,255,255,.35)}
 .profile-pill-engine{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:var(--rF);border:1px dashed var(--navy-border);background:transparent;font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .15s}
 .profile-pill-engine:hover{background:var(--navy-050)}
+.pf-opts{max-height:280px;overflow-y:auto}
+.pf-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:13px;transition:background .12s}
+.pf-opt:hover{background:var(--navy-050)}
+.pf-opt.active{background:var(--navy-050)}
+.pf-opt small{display:block;font-size:10.5px;color:var(--text-3);font-weight:600;margin-top:1px}
+.pf-opt-engine{border-top:1px solid var(--border);color:var(--navy);font-weight:700;justify-content:center}
+.cmp-check{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:var(--rF);border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;user-select:none;transition:all .13s;background:var(--surface)}
+.cmp-check input{accent-color:var(--pc);width:13px;height:13px}
+.cmp-check.on{border-color:var(--pc);background:color-mix(in srgb,var(--pc) 7%,var(--surface))}
 /* legacy risk-dot util kept for hero */
 .risk-dots{display:flex;gap:3px}
 .risk-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-200)}
@@ -679,13 +688,21 @@ const PROFILE_DATA = {
   'APV':   {conservador:{may:0.06,ytd:2.89},moderado:{may:0.87,ytd:4.21},balanceado:{may:2.12,ytd:6.46},crecimiento:{may:3.56,ytd:9.53},agresivo:{may:4.54,ytd:11.00}},
   'APV_AP':{conservador:{may:0.10,ytd:3.08},moderado:{may:0.92,ytd:4.45},balanceado:{may:2.19,ytd:6.81},crecimiento:{may:3.63,ytd:9.89},agresivo:{may:4.64,ytd:11.50}}
 };
-const DATASETS = {
+/* ★ RETORNOS MENSUALES REALES POR PERFIL × SERIE (Revista Jun-2026; validados contra Acumulado impreso) */
+const PROFILE_RETURNS = {
+ balanceado: {
   'A':[1.57,-2.44,0.02,0.67,0.19,0.17,0.46,1.87,-0.79,-1.15,-1.30,-1.54,1.88,0.10,1.23,0.87,-0.39,0.88,1.66,0.34,1.22,-0.64,2.64,-1.45,2.60,-2.73,-8.40,4.43,-0.21,2.77,-0.70,3.28,-1.33,-0.18,4.65,-0.47,2.41,-1.60,-1.44,-0.38,1.26,-0.27,1.15,1.47,-1.00,-0.67,0.66,1.44,-4.45,-1.07,-0.12,1.20,0.08,2.19,-0.33,-1.11,-1.84,-0.45,2.58,-1.42,0.88,-0.51,-0.25,0.19,-0.67,2.08,3.38,-1.45,-1.36,-2.10,3.49,3.32,1.36,2.29,1.73,-2.49,-0.50,1.51,1.31,-0.18,0.78,1.02,1.41,-0.61,1.47,-0.40,-0.48,0.70,1.20,1.16,1.93,1.21,1.61,0.31,-0.22,-0.08,1.23,0.51,-1.07,2.74,1.78],
   'P':[1.59,-2.41,0.05,0.70,0.22,0.20,0.49,1.88,-0.76,-1.12,-1.27,-1.51,1.91,0.12,1.26,0.90,-0.36,0.89,1.67,0.37,1.24,-0.61,2.66,-1.42,2.62,-2.71,-8.37,4.46,-0.18,2.80,-0.67,3.31,-1.30,-0.15,4.65,-0.44,2.44,-1.58,-1.41,-0.35,1.29,-0.24,1.18,1.50,-0.97,-0.64,0.69,1.47,-4.42,-1.04,-0.09,1.23,0.11,2.22,-0.34,-1.08,-1.81,-0.42,2.61,-1.39,0.91,-0.49,-0.22,0.22,-0.64,2.11,3.41,-1.42,-1.33,-2.07,3.52,3.28,1.39,2.31,1.75,-2.46,-0.47,1.54,1.33,-0.15,0.80,1.05,1.43,-0.58,1.49,-0.37,-0.45,0.73,1.22,1.18,1.96,1.24,1.63,0.33,-0.19,-0.05,1.25,0.53,-1.04,2.76,1.81],
   'F':[1.63,-2.36,0.10,0.75,0.27,0.25,0.55,1.89,-0.71,-1.06,-1.22,-1.46,1.96,0.17,1.32,0.95,-0.30,0.91,1.69,0.42,1.29,-0.56,2.71,-1.37,2.67,-2.66,-8.32,4.51,-0.13,2.85,-0.61,3.37,-1.25,-0.10,4.65,-0.38,2.49,-1.53,-1.36,-0.30,1.35,-0.19,1.24,1.56,-0.92,-0.58,0.74,1.53,-4.37,-0.99,-0.03,1.28,0.16,2.27,-0.36,-1.03,-1.76,-0.36,2.67,-1.34,0.96,-0.44,-0.16,0.27,-0.59,2.17,3.47,-1.36,-1.28,-2.02,3.58,3.20,1.45,2.36,1.80,-2.41,-0.42,1.59,1.36,-0.10,0.85,1.10,1.48,-0.53,1.54,-0.32,-0.39,0.78,1.25,1.23,2.01,1.29,1.68,0.38,-0.14,0.00,1.29,0.58,-0.99,2.81,1.86],
   'APV':[1.85,-2.33,0.14,0.79,0.31,0.28,0.58,2.04,-0.62,-1.03,-1.19,-1.43,2.00,0.20,1.35,0.99,-0.27,1.00,1.92,0.47,1.48,-0.52,3.15,-1.34,2.76,-2.52,-8.29,4.55,-0.09,2.89,-0.58,3.40,-1.22,-0.06,4.79,-0.35,2.92,-1.37,-1.32,-0.26,1.38,-0.15,1.28,1.59,-0.89,-0.55,0.78,1.56,-4.33,-0.96,0.00,1.31,0.20,2.31,-0.22,-0.99,-1.72,-0.33,2.70,-1.31,1.00,-0.40,-0.13,0.31,-0.55,2.20,3.51,-1.33,-1.25,-1.98,3.61,3.44,1.62,2.73,1.99,-2.38,-0.38,1.62,1.44,-0.06,0.99,1.28,1.64,-0.43,1.62,-0.29,-0.36,0.81,1.44,1.39,2.29,1.48,1.90,0.46,-0.08,0.03,1.45,0.67,-0.95,3.06,2.12],
   'APV_AP':[1.85,-2.33,0.14,0.79,0.31,0.28,0.58,2.04,-0.62,-1.03,-1.19,-1.43,2.00,0.20,1.35,0.99,-0.27,1.00,1.92,0.47,1.48,-0.52,3.15,-1.34,2.76,-2.52,-8.29,4.55,-0.09,2.89,-0.58,3.40,-1.22,0.01,4.86,-0.28,2.99,-1.31,-1.25,-0.20,1.46,-0.09,1.35,1.66,-0.82,-0.48,0.85,1.63,-4.27,-0.90,0.07,1.38,0.26,2.37,-0.15,-0.92,-1.66,-0.26,2.77,-1.24,1.07,-0.34,-0.06,0.37,-0.49,2.27,3.58,-1.26,-1.18,-1.92,3.67,3.51,1.69,2.80,2.06,-2.31,-0.31,1.69,1.51,0.01,1.05,1.35,1.71,-0.36,1.69,-0.23,-0.29,0.88,1.51,1.46,2.36,1.55,1.97,0.53,-0.02,0.10,1.52,0.73,-0.89,3.13,2.19]
+ },
+ conservador:{'A':[0.5,-0.23,0.12,0.1,0.53,0.35,0.33,0.63,-0.14,-0.35,-0.18,0.07,0.82,0.11,1.14,0.8,1.32,1.17,1.77,1.11,0.21,-2.28,-1.56,0.99,1.14,-1.65,-3.51,3.29,1.18,0.26,-0.1,1.69,-1.16,0.44,0.91,0.28,1.61,-0.92,-2.35,-1.94,-0.18,-2.02,0.05,1.05,-2.54,-1.16,1.39,0.98,-1.59,0.75,0.64,1.53,0.63,0.52,-0.43,-1.11,-2.01,0.01,2.44,0.38,0.46,0.42,0.2,-0.1,-0.46,1.15,1.19,-0.08,-0.97,-1.11,2.52,2.27,0.8,0.78,1.25,-0.67,0.43,0.48,1.49,1.14,1.65,-0.87,1.24,-0.21,0.82,0.72,0.68,1.1,-0.21,0.47,0.94,0.79,0.68,0.12,0.38,0.12,0.61,0.32,0.89,0.73,0],'P':[0.51,-0.22,0.13,0.11,0.54,0.36,0.34,0.64,-0.13,-0.34,-0.17,0.08,0.83,0.12,1.15,0.81,1.33,1.18,1.78,1.12,0.22,-2.27,-1.55,1,1.15,-1.64,-3.5,3.3,1.19,0.27,-0.09,1.7,-1.15,0.45,0.92,0.29,1.62,-0.91,-2.34,-1.93,-0.17,-2.01,0.06,1.06,-2.53,-1.15,1.4,0.99,-1.58,0.76,0.65,1.54,0.64,0.53,-0.42,-1.1,-2,0.02,2.45,0.39,0.47,0.43,0.21,-0.09,-0.45,1.16,1.2,-0.07,-0.96,-1.1,2.53,2.28,0.81,0.79,1.26,-0.66,0.44,0.49,1.5,1.15,1.66,-0.86,1.25,-0.2,0.83,0.73,0.69,1.11,-0.2,0.48,0.95,0.8,0.69,0.13,0.39,0.13,0.62,0.33,0.9,0.74,0.01],'F':[0.53,-0.2,0.15,0.13,0.56,0.38,0.36,0.66,-0.11,-0.32,-0.15,0.1,0.85,0.14,1.18,0.83,1.36,1.2,1.8,1.14,0.24,-2.24,-1.52,1.02,1.18,-1.62,-3.48,3.32,1.21,0.29,-0.07,1.72,-1.12,0.47,0.95,0.31,1.65,-0.89,-2.32,-1.91,-0.14,-1.99,0.08,1.08,-2.51,-1.13,1.43,1.02,-1.56,0.78,0.67,1.56,0.67,0.55,-0.39,-1.08,-1.97,0.05,2.48,0.42,0.5,0.45,0.24,-0.07,-0.43,1.18,1.22,-0.04,-0.94,-1.07,2.55,2.3,0.83,0.81,1.28,-0.64,0.46,0.52,1.52,1.18,1.68,-0.84,1.28,-0.17,0.85,0.75,0.71,1.14,-0.18,0.5,0.97,0.82,0.72,0.16,0.41,0.16,0.65,0.36,0.92,0.76,0.03],'APV':[0.56,-0.17,0.18,0.16,0.59,0.41,0.39,0.69,-0.08,-0.29,-0.12,0.13,0.88,0.17,1.21,0.86,1.39,1.23,1.83,1.17,0.27,-2.22,-1.5,1.05,1.21,-1.59,-3.45,3.35,1.24,0.32,-0.04,1.75,-1.09,0.5,0.98,0.34,1.68,-0.86,-2.29,-1.88,-0.11,-1.96,0.11,1.12,-2.48,-1.1,1.46,1.05,-1.53,0.81,0.7,1.59,0.7,0.58,-0.36,-1.05,-1.94,0.08,2.51,0.45,0.53,0.48,0.27,-0.04,-0.36,1.21,1.25,-0.01,-0.91,-1.04,2.58,2.33,0.86,0.84,1.31,-0.61,0.49,0.54,1.55,1.21,1.71,-0.81,1.3,-0.14,0.88,0.78,0.74,1.17,-0.15,0.53,1,0.85,0.74,0.19,0.44,0.19,0.68,0.38,0.95,0.79,0.06],'APV_AP':[0.56,-0.17,0.18,0.16,0.59,0.41,0.39,0.69,-0.08,-0.29,-0.12,0.13,0.88,0.17,1.21,0.86,1.39,1.23,1.83,1.17,0.27,-2.22,-1.5,1.05,1.21,-1.59,-3.45,3.35,1.24,0.32,-0.04,1.75,-1.09,0.55,1.02,0.39,1.72,-0.83,-2.25,-1.84,-0.07,-1.92,0.15,1.16,-2.44,-1.06,1.5,1.09,-1.49,0.85,0.74,1.63,0.74,0.62,-0.32,-1.01,-1.91,0.12,2.55,0.49,0.57,0.51,0.3,0,-0.36,1.25,1.29,0.02,-0.88,-1.01,2.61,2.37,0.9,0.88,1.35,-0.57,0.53,0.58,1.59,1.25,1.75,-0.77,1.34,-0.1,0.92,0.81,0.78,1.2,-0.11,0.57,1.04,0.89,0.78,0.22,0.48,0.23,0.71,0.42,0.99,0.82,0.1]},
+ moderado:{'A':[1.03,-1.26,0.13,0.29,0.43,0.34,0.41,1.3,-0.41,-0.57,-0.77,-0.69,1.31,0.15,1.17,0.88,0.65,0.97,1.84,0.88,0.57,-1.3,1.16,-0.29,1.95,-2.05,-5.5,3.64,0.4,1.14,-0.43,2.23,-1.28,0.21,2.31,-0.01,2.09,-1.21,-1.98,-1.25,0.59,-1.19,0.75,1.2,-2.1,-0.84,1.35,1.7,-2.55,0.13,0.31,1.25,0.46,1,-0.52,-1.05,-2.01,-0.14,2.54,-0.43,0.14,-0.24,0.7,0.12,-0.84,1.46,1.64,-0.81,-1.63,-1.46,3.63,2.67,0.61,1.03,1.39,-1.31,-0.22,0.95,1.45,0.68,1.27,-0.02,1.39,-0.26,1.1,0.17,0.19,1.1,0.41,0.71,1.59,0.86,1.01,0.33,0.19,0.03,0.88,0.41,-0.14,1.81,0.79],'P':[1.05,-1.25,0.15,0.31,0.45,0.36,0.43,1.32,-0.39,-0.55,-0.75,-0.67,1.33,0.17,1.19,0.9,0.67,0.99,1.86,0.9,0.59,-1.28,1.18,-0.27,1.97,-2.03,-5.49,3.66,0.42,1.16,-0.41,2.25,-1.26,0.23,2.33,0,2.11,-1.2,-1.96,-1.23,0.61,-1.17,0.77,1.22,-2.08,-0.82,1.37,1.72,-2.53,0.14,0.33,1.27,0.48,1.02,-0.5,-1.03,-1.99,-0.12,2.56,-0.41,0.16,-0.22,0.72,0.14,-0.82,1.48,1.66,-0.79,-1.61,-1.44,3.65,2.69,0.63,1.05,1.41,-1.3,-0.2,0.97,1.47,0.7,1.29,0,1.41,-0.24,1.12,0.18,0.21,1.12,0.43,0.73,1.61,0.88,1.03,0.35,0.21,0.05,0.9,0.43,-0.12,1.83,0.81],'F':[1.08,-1.22,0.18,0.34,0.48,0.39,0.46,1.35,-0.36,-0.52,-0.72,-0.64,1.36,0.2,1.22,0.93,0.7,1.02,1.89,0.93,0.62,-1.25,1.21,-0.24,2,-2,-5.46,3.69,0.45,1.19,-0.38,2.28,-1.23,0.26,2.36,0.03,2.14,-1.17,-1.93,-1.2,0.64,-1.14,0.8,1.25,-2.05,-0.79,1.4,1.75,-2.5,0.17,0.36,1.3,0.51,1.05,-0.47,-1,-1.96,-0.09,2.59,-0.38,0.19,-0.19,0.75,0.17,-0.79,1.51,1.69,-0.76,-1.58,-1.41,3.68,2.73,0.66,1.08,1.44,-1.27,-0.16,1,1.5,0.73,1.32,0.03,1.44,-0.21,1.15,0.21,0.24,1.15,0.46,0.76,1.64,0.92,1.06,0.38,0.24,0.08,0.94,0.46,-0.09,1.86,0.84],'APV':[1.11,-1.19,0.21,0.37,0.51,0.42,0.49,1.38,-0.33,-0.49,-0.69,-0.61,1.39,0.22,1.25,0.96,0.73,1.04,1.92,0.96,0.65,-1.22,1.24,-0.21,2.03,-1.97,-5.43,3.72,0.48,1.22,-0.35,2.31,-1.2,0.29,2.39,0.06,2.17,-1.14,-1.9,-1.17,0.67,-1.11,0.83,1.28,-2.02,-0.76,1.43,1.78,-2.47,0.2,0.39,1.33,0.54,1.07,-0.44,-0.73,-1.93,-0.06,2.62,-0.35,0.22,-0.17,0.78,0.19,-0.76,1.54,1.72,-0.73,-1.55,-1.38,3.71,2.76,0.75,1.17,1.53,-1.17,-0.08,1.09,1.59,0.82,1.41,0.12,1.53,-0.12,1.18,0.24,0.27,1.18,0.49,0.79,1.67,0.95,1.09,0.41,0.26,0.11,0.97,0.48,-0.06,1.89,0.87],'APV_AP':[1.11,-1.19,0.21,0.37,0.51,0.42,0.49,1.38,-0.33,-0.49,-0.69,-0.61,1.39,0.22,1.25,0.96,0.73,1.04,1.92,0.96,0.65,-1.22,1.24,-0.21,2.03,-1.97,-5.43,3.72,0.48,1.22,-0.35,2.31,-1.2,0.35,2.44,0.11,2.23,-1.1,-1.85,-1.13,0.72,-1.06,0.88,1.33,-1.98,-0.72,1.48,1.84,-2.42,0.25,0.44,1.37,0.59,1.12,-0.4,-0.92,-1.88,-0.02,2.67,-0.31,0.27,-0.11,0.83,0.25,-0.71,1.59,1.77,-0.68,-1.5,-1.33,3.76,2.8,0.73,1.15,1.52,-1.19,-0.09,1.08,1.58,0.81,1.4,0.11,1.52,-0.13,1.23,0.28,0.32,1.22,0.54,0.83,1.72,0.99,1.13,0.46,0.31,0.15,1.01,0.53,-0.02,1.94,0.92]},
+ crecimiento:{'A':[2.21,-3.52,-0.18,1.08,1.08,0.14,0.49,2.65,-1.17,-1.85,-1.73,-2.58,2.51,0.23,1.4,1.15,-1.26,0.76,1.88,0.04,1.89,-0.01,4.1,-2.46,3.27,-3.67,-11.14,5.74,-0.89,4.27,-1.62,4.1,-1.39,-1.03,6.63,-1.08,3.42,-1.59,-0.84,0.29,1.87,0.44,1.46,1.98,-0.8,-0.11,0.49,1.54,-5.9,-1.63,-0.28,0.77,-0.18,2.82,-0.06,-1.49,-2.04,-0.3,2.39,-3.01,1.05,-0.66,-0.96,0.67,-0.2,2.53,5.06,-1.98,-0.99,-2.35,3.55,4.03,2.15,3.65,2.33,-3.24,-0.84,2.08,0.87,-0.84,0.75,2.36,1.19,-0.42,1.48,-0.85,-0.75,0.61,2.05,1.79,2.66,1.37,2.28,0.38,-0.75,-0.33,1.49,0.74,-1.91,4.44,3.05],'P':[2.25,-3.48,-0.13,1.13,0.94,0.19,0.54,2.7,-1.12,-1.8,-1.68,-2.53,2.54,0.26,1.43,1.19,-1.23,0.8,1.9,0.08,1.89,0.02,4.13,-2.42,3.31,-3.59,-11.11,5.78,-0.85,4.3,-1.59,4.13,-1.36,-1,6.67,-1.05,3.3,-1.71,-0.96,0.17,1.75,0.32,1.34,1.86,-0.92,-0.23,0.37,1.42,-5.87,-1.6,-0.25,0.81,-0.14,2.85,-0.05,-1.46,-2,-0.27,2.43,-2.98,1.08,-0.63,-0.93,0.71,-0.17,2.56,5.09,-1.95,-0.96,-2.31,3.6,4.02,2.17,3.68,2.29,-3.21,-0.81,2.12,0.91,-0.81,0.79,2.37,1.22,-0.39,1.51,-0.82,-0.72,0.64,2.07,1.82,2.69,1.4,2.31,0.41,-0.72,-0.3,1.52,0.77,-1.88,4.47,3.08],'F':[2.32,-3.4,-0.04,1.23,0.68,0.27,0.63,2.79,-1.03,-1.71,-1.59,-2.44,2.61,0.32,1.5,1.25,-1.16,0.86,1.95,0.14,1.88,0.08,4.18,-2.36,3.37,-3.43,-11.05,5.84,-0.79,4.37,-1.53,4.2,-1.3,-0.94,6.73,-0.99,3.07,-1.94,-1.19,-0.06,1.52,0.09,1.11,1.63,-1.15,-0.46,0.14,1.19,-5.8,-1.54,-0.18,0.87,-0.08,2.92,-0.03,-1.4,-1.94,-0.2,2.49,-2.92,1.15,-0.57,-0.86,0.77,-0.1,2.62,5.16,-1.89,-0.9,-2.25,3.69,3.99,2.2,3.74,2.22,-3.15,-0.75,2.18,0.97,-0.74,0.85,2.39,1.28,-0.33,1.57,-0.76,-0.65,0.7,2.11,1.87,2.75,1.45,2.37,0.47,-0.66,-0.24,1.57,0.82,-1.81,4.52,3.14],'APV':[2.6,-3.36,0,1.27,0.72,0.31,0.68,2.9,-0.92,-1.67,-1.55,-2.4,2.65,0.35,1.54,1.29,-1.12,0.9,2.03,0.18,2.11,0.13,4.93,-2.32,3.42,-3.43,-11.01,5.88,-0.75,4.41,-1.48,4.24,-1.26,-0.9,6.78,-0.94,3.59,-1.42,-0.67,0.46,2.04,0.61,1.63,2.15,-0.63,0.06,0.66,1.71,-5.76,-1.5,-0.14,0.91,-0.04,2.96,0.09,-1.35,-1.9,-0.16,2.53,-2.88,1.19,-0.53,-0.82,0.81,-0.04,2.66,5.21,-1.85,-0.85,-2.21,3.73,4.17,2.47,4.29,2.45,-3.11,-0.7,2.22,1.01,-0.7,0.89,2.71,1.48,-0.24,1.65,-0.72,-0.61,0.75,2.34,2.08,3.15,1.69,2.66,0.57,-0.62,-0.19,1.69,0.95,-1.77,4.88,3.56],'APV_AP':[2.6,-3.36,0,1.27,0.72,0.31,0.68,2.9,-0.92,-1.67,-1.55,-2.4,2.65,0.35,1.54,1.29,-1.12,0.9,2.03,0.18,2.11,0.13,4.93,-2.32,3.42,-3.43,-11.01,5.88,-0.75,4.41,-1.48,4.24,-1.26,-0.83,6.85,-0.88,3.98,-1.29,-0.63,0.5,2.09,0.64,1.68,2.25,-0.59,0.1,0.86,1.79,-5.7,-1.44,-0.07,0.97,0.03,3.03,0.16,-1.29,-1.84,-0.09,2.6,-2.81,1.26,-0.47,-0.75,0.87,0.01,2.73,5.28,-1.78,-0.79,-2.14,3.79,4.24,2.54,4.36,2.52,-3.04,-0.64,2.29,1.08,-0.63,0.96,2.78,1.55,-0.17,1.72,-0.66,-0.54,0.81,2.41,2.15,3.22,1.75,2.73,0.63,-0.55,-0.13,1.76,1.01,-1.7,4.95,3.63]},
+ agresivo:{'A':[2.79,-4.54,-0.25,1.35,0.97,0.25,0.56,3.64,-1.46,-2.43,-2.14,-3.17,2.62,0.3,2.18,1.24,-1.61,0.68,2.15,-0.22,2.42,0.94,6.39,-3.32,3.9,-4.46,-12.81,6.92,-1.68,5.15,-2.08,5.1,-1.55,-1.55,8.39,-1.31,3.79,-1.61,-0.55,1.01,2.27,0.97,1.7,2.13,-0.82,0.46,-0.16,1.91,-7.97,-2.5,-1.33,-0.01,-0.88,2.77,-0.48,-2.04,-2.65,-0.51,2.06,-2.21,1.27,-0.88,-1.6,1.13,-0.05,3.37,7.18,-2.49,-0.71,-2.84,3.85,4.65,2.93,4.82,2.6,-4.15,-1.14,2.65,0.74,-1.36,0.32,3.42,1.49,-0.59,1.71,-1.45,-1.05,0.9,2.98,2.26,3.28,1.65,2.79,0.29,-1.11,-0.64,1.45,0.85,-2.58,5.52,3.91],'P':[2.83,-4.5,-0.21,1.39,1,0.28,0.6,3.68,-1.42,-2.4,-2.11,-3.13,2.66,0.33,2.22,1.28,-1.57,0.72,2.19,-0.18,2.42,0.97,6.43,-3.28,3.94,-4.44,-12.78,6.96,-1.64,5.19,-2.04,5.14,-1.51,-1.51,8.43,-1.27,3.78,-1.58,-0.51,1.05,2.31,1,1.73,2.15,-0.78,0.5,-0.13,1.94,-7.86,-2.39,-1.22,0.1,-0.76,2.88,-0.37,-1.92,-2.54,-0.39,2.18,-2.09,1.31,-0.84,-1.56,1.17,-0.01,3.41,7.22,-2.45,-0.67,-2.8,3.89,4.66,2.9,4.86,2.64,-4.12,-1.1,2.69,0.78,-1.32,0.35,3.43,1.52,-0.55,1.74,-1.42,-1.01,0.94,3,2.29,3.32,1.69,2.83,0.32,-1.07,-0.6,1.48,0.87,-2.54,5.55,3.95],'F':[2.9,-4.43,-0.14,1.46,1.07,0.35,0.67,3.75,-1.35,-2.33,-2.04,-3.06,2.73,0.4,2.29,1.35,-1.5,0.79,2.26,-0.12,2.42,1.02,6.49,-3.21,4.02,-4.39,-12.71,7.03,-1.57,5.26,-1.97,5.22,-1.44,-1.44,8.5,-1.2,3.77,-1.52,-0.44,1.12,2.38,1.07,1.79,2.2,-0.71,0.57,-0.08,2,-7.65,-2.18,-1.01,0.31,-0.55,3.09,-0.16,-1.71,-2.33,-0.18,2.39,-1.88,1.39,-0.78,-1.49,1.24,0.06,3.48,7.3,-2.38,-0.6,-2.73,3.96,4.67,2.84,4.93,2.7,-4.05,-1.03,2.76,0.85,-1.25,0.42,3.45,1.59,-0.49,1.8,-1.35,-0.94,1.01,3.05,2.35,3.39,1.75,2.89,0.39,-1,-0.53,1.55,0.92,-2.47,5.61,4.02],'APV':[3.15,-4.42,-0.1,1.5,1.12,0.39,0.71,3.88,-1.24,-2.29,-2,-3.04,2.87,0.55,2.43,1.49,-1.36,0.93,2.4,0.03,2.67,1.19,6.64,-3.07,4.05,-4.2,-12.68,7.07,-1.54,5.29,-1.94,5.26,-1.41,-1.4,8.54,-1.16,4.27,-1.37,-0.4,1.15,2.41,1.11,1.85,2.52,-0.61,0.61,0.15,2.05,-7.46,-1.99,-0.17,0.52,-0.34,3.29,0.05,-1.51,-2.13,0.03,2.59,-4.26,1.42,-0.75,-1.46,1.28,0.09,3.51,7.33,-2.35,-0.57,-2.7,4,4.8,3.17,5.62,2.94,-4.01,-0.9,2.88,0.98,-1.13,0.55,3.69,1.83,0.38,1.86,-1.32,-0.91,1.04,3.31,2.6,3.86,2.02,3.23,0.48,-0.97,-0.5,1.59,1.04,-2.43,6.01,4.54],'APV_AP':[3.15,-4.42,-0.1,1.5,1.12,0.39,0.71,3.88,-1.24,-2.29,-2,-3.04,2.87,0.55,2.43,1.49,-1.36,0.93,2.4,0.03,2.67,1.19,6.64,-3.07,4.05,-4.2,-12.68,7.07,-1.54,5.29,-1.94,5.26,-1.41,-1.31,8.64,-1.07,4.37,-1.28,-0.3,1.26,2.52,1.21,1.95,2.63,-0.51,0.71,0.25,2.16,-7.36,-1.9,-0.07,0.61,0.24,3.39,0.15,-1.41,-2.04,-0.47,2.69,-4.16,1.52,-0.66,-1.36,1.38,0.19,3.62,7.44,-2.25,-0.47,-2.6,4.09,4.91,3.27,5.72,3.04,-3.93,-0.9,2.88,0.98,-1.13,0.55,3.78,1.92,-0.29,1.96,-1.24,-0.82,1.13,3.41,2.69,3.96,2.11,3.32,0.57,-0.88,-0.41,1.69,1.13,-2.34,6.11,4.64]}
 };
+const DATASETS = PROFILE_RETURNS.balanceado; // compat: referencias directas
 
 // PROFILES — discovery metadata (risk dots, RF/RV mix, horizon, objective)
 // Source: Revista Fondos Dinámicos pages 2-12 (estrategia de inversión, nivel de riesgo)
@@ -774,7 +791,7 @@ const PC = {
   vehicle:'insurance_savings', series:'F', profile:'balanceado',
   get sc(){return SERIES_CONFIG[this.series];}, get vc(){return VEHICLE_CONFIG[this.vehicle];},
   get pf(){return PROFILES[this.profile];},
-  get ret(){return DATASETS[this.series];}, get pd(){return PROFILE_DATA[this.series];}
+  get ret(){return PROFILE_RETURNS[this.profile][this.series];}, get pd(){return PROFILE_DATA[this.series];}
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -920,7 +937,7 @@ const FAQ_CATEGORIES = {
 };
 const FAQS = [
   {cat:'miedo', convictionId:'permanecer', q:'El mercado está cayendo, ¿no debería salir para proteger mi capital?',
-   a:'Históricamente, salir en las caídas es lo que convierte una baja temporal en una pérdida permanente. En el Fondo Dinámico Balanceado, marzo 2020 fue el peor mes (-8.32% en Serie F), pero abril fue +4.51% y el año cerró positivo. Quienes salieron en el peor momento se perdieron la recuperación. El Costo de Decidir puede mostrarle el costo exacto en pesos.'},
+   a:'Históricamente, salir en las caídas es lo que convierte una baja temporal en una pérdida permanente. Como referencia, en el Fondo Dinámico Balanceado marzo 2020 fue el peor mes (-8.32% en Serie F), pero abril fue +4.51% y el año cerró positivo. Quienes salieron en el peor momento se perdieron la recuperación. El Costo de Decidir puede mostrarle el costo exacto en pesos.'},
   {cat:'miedo', convictionId:'costo_panico', q:'¿Cuánto cuesta realmente tomar una decisión por miedo?',
    a:'Es medible y casi siempre se subestima. Con el Motor de Decisiones calculamos, con datos reales de su serie, cuánto habría costado cada decisión emocional. DYNAMIC_VEHICLE_COST'},
   {cat:'timing', convictionId:'permanecer', q:'¿No sería mejor esperar a que el mercado se estabilice y luego volver a entrar?',
@@ -1609,11 +1626,14 @@ function renderPortContent(){
 
 /* ── PERFORMANCE LAB (6 tabs) ── */
 let _perfTab='acum';
+let _cmpMode='series';const _cmpProfiles=new Set(['conservador','moderado','balanceado','crecimiento','agresivo']);
+function cmpSetMode(m){_cmpMode=m;renderPerfContent();}
+function cmpToggleProfile(k){_cmpProfiles.has(k)?_cmpProfiles.delete(k):_cmpProfiles.add(k);renderPerfContent();}
 function buildPerformance(){
   return `<div class="screen" id="screen-performance">
     <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Performance Lab</span></div>
     <div class="d-m mb-2">Performance Lab</div>
-    <div class="t-2 mb-2" style="max-width:720px">Análisis avanzado del Fondo Dinámico Balanceado. Las métricas son un resultado de las convicciones — no su punto de partida.</div>
+    <div class="t-2 mb-2" style="max-width:720px">Análisis avanzado del Fondo Dinámico ${PC.pf.name}. Las métricas son un resultado de las convicciones — no su punto de partida.</div>
     <div class="narrative mb-5" id="perf-context"></div>
     <div class="tabs" id="perf-tabs"></div>
     <div id="perf-content"></div>
@@ -1669,7 +1689,7 @@ function renderPerfContent(){
       <div style="display:flex;align-items:flex-end;gap:var(--s4);height:180px;padding:var(--s4) 0">
         ${Object.entries(profiles).map(([n,v])=>{const h=v/7.55*150;const isBal=n==='Balanceado';return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700;margin-bottom:4px">${v}%</div><div style="width:100%;height:${h}px;background:${isBal?'var(--conv)':'var(--gray-400)'};border-radius:4px 4px 0 0"></div><div class="t-3" style="font-size:10px;margin-top:6px;font-weight:${isBal?700:400}">${n}</div></div>`;}).join('')}
       </div></div>
-      <div class="card"><div class="ib-label">Volatilidad calculada · Balanceado (mensual anualizada)</div><div class="d-m mono">${vol.toFixed(2)}%</div><div class="t-2" style="font-size:12px">Calculada sobre los retornos mensuales de la ${PC.sc.label}. La cifra oficial de volatilidad diaria del Balanceado Serie A es 3.91%.</div></div>`;
+      <div class="card"><div class="ib-label">Volatilidad calculada · ${PC.pf.name} (mensual anualizada)</div><div class="d-m mono">${vol.toFixed(2)}%</div><div class="t-2" style="font-size:12px">Calculada sobre los retornos mensuales de la ${PC.sc.label}. La cifra oficial (volatilidad diaria, Serie A) del ${PC.pf.name} es ${PC.pf.vol}.</div></div>`;
   } else if(_perfTab==='recovery'){
     el.innerHTML=`<div class="card mb-5"><div class="h-m mb-3">Análisis de recuperación · COVID 2020</div>
       <div class="ev-item"><div class="ev-icon">📉</div><div><div class="ev-val t-neg">-8.32%</div><div class="h-s mb-1">Marzo 2020 — el peor mes</div><div class="body t-2">El punto más bajo. Máximo miedo, máximo impulso de salir.</div></div></div>
@@ -1679,17 +1699,41 @@ function renderPerfContent(){
     </div>
     <div class="narrative">Esta es la evidencia central de la convicción "Permanecer invertido". <span class="t-conv" style="cursor:pointer;font-weight:700" onclick="openConviction('permanecer')">Ver convicción →</span></div>`;
   } else {
-    // compare across series — this is where series comparison legitimately lives
-    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Comparación entre series · mismo $10M, mismo período</div>
+    // compare: series (fees) OR funds (profiles)
+    const modeBtns=`<div class="flex gap-2 mb-4"><button class="series-mini-btn ${_cmpMode==='series'?'active':''}" onclick="cmpSetMode('series')">Entre series</button><button class="series-mini-btn ${_cmpMode==='fondos'?'active':''}" onclick="cmpSetMode('fondos')">Entre fondos</button></div>`;
+    if(_cmpMode==='fondos'){
+      const checks=Object.values(PROFILES).map(p=>`<label class="cmp-check ${_cmpProfiles.has(p.key)?'on':''}" style="--pc:var(--c-${p.key})"><input type="checkbox" ${_cmpProfiles.has(p.key)?'checked':''} onchange="cmpToggleProfile('${p.key}')"><span class="profile-pill-dot" style="background:var(--c-${p.key})"></span>${p.name}</label>`).join('');
+      el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Comparación entre fondos · ${PC.sc.label} · mismo $10M</div>
+        <div class="t-2 body mb-3">Los cinco Fondos Dinámicos sobre la serie activa, con sus retornos mensuales reales. La diferencia es la asignación a renta variable — y el costo de esa diferencia es volatilidad.</div>
+        ${modeBtns}<div class="flex gap-2 mb-4 flex-wrap">${checks}</div>
+        <svg class="chart-svg" id="perf-chart"></svg></div>
+        <div id="compare-table"></div>`;
+      setTimeout(()=>{
+        const sel=Object.values(PROFILES).filter(p=>_cmpProfiles.has(p.key));
+        if(!sel.length){document.getElementById('compare-table').innerHTML='<div class="card t-2">Selecciona al menos un fondo.</div>';return;}
+        drawChart('perf-chart',sel.map(p=>({values:trajectory(PROFILE_RETURNS[p.key][PC.series]),color:`var(--c-${p.key})`,width:p.key===PC.profile?3:1.8,opacity:p.key===PC.profile?1:0.75})));
+        const rows=sel.map(p=>{
+          const ret=PROFILE_RETURNS[p.key][PC.series],traj=trajectory(ret),fv=traj[101];
+          const mean=ret.reduce((a,b)=>a+b,0)/ret.length;
+          const vol=Math.sqrt(ret.reduce((a,b)=>a+(b-mean)**2,0)/ret.length)*Math.sqrt(12);
+          let wi=0;ret.forEach((r,i)=>{if(r<ret[wi])wi=i;});
+          return {p,fv,tot:(fv/INITIAL-1)*100,vol,w:ret[wi],wl:MONTHS_LABELS[wi]};});
+        document.getElementById('compare-table').innerHTML=`<div class="card"><table class="timing-table"><thead><tr><th>Fondo</th><th style="text-align:right">Valor final</th><th style="text-align:right">Retorno total</th><th style="text-align:right">Vol. anualizada*</th><th style="text-align:right">Peor mes</th></tr></thead><tbody>
+          ${rows.map(r=>`<tr class="${r.p.key===PC.profile?'highlight-row':''}"><td><span class="profile-pill-dot" style="background:var(--c-${r.p.key});display:inline-block;margin-right:7px"></span><strong>${r.p.name}</strong>${r.p.key===PC.profile?' ●':''}</td><td style="text-align:right;font-feature-settings:'tnum';font-weight:700">${fmt(r.fv)}</td><td style="text-align:right;font-feature-settings:'tnum';color:var(--pos)">${fmtPct(r.tot)}</td><td style="text-align:right;font-feature-settings:'tnum'">${r.vol.toFixed(2)}%</td><td style="text-align:right;font-feature-settings:'tnum';color:var(--neg)">${r.w.toFixed(2)}% · ${r.wl}</td></tr>`).join('')}
+        </tbody></table><div class="t-3 mt-3" style="font-size:11px">*Volatilidad calculada sobre los retornos mensuales de la ${PC.sc.label} (anualizada ×√12). La revista reporta volatilidad sobre retornos diarios, por lo que las cifras difieren metodológicamente.</div></div>`;
+      },30);
+      return;
+    }
+    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Comparación entre series · Fondo Dinámico ${PC.pf.name} · mismo $10M</div>
       <div class="t-2 body mb-4">La diferencia entre series es la comisión acumulada. A mayor plazo, mayor el impacto. Esto informa la conversación de vehículo — no es el foco del producto, es un dato de apoyo.</div>
-      <svg class="chart-svg" id="perf-chart"></svg></div>
+      ${modeBtns}<svg class="chart-svg" id="perf-chart"></svg></div>
       <div id="compare-table"></div>`;
     setTimeout(()=>{
       const series=['A','P','F','APV','APV_AP'];
       const colors={A:'#94A3B8',P:'#64748B',F:'#2563EB',APV:'#10B981',APV_AP:'#059669'};
-      const datasets=series.map(s=>({values:trajectory(DATASETS[s]),color:colors[s],width:s===PC.series?3:1.8,opacity:s===PC.series?1:0.65}));
+      const datasets=series.map(s=>({values:trajectory(PROFILE_RETURNS[PC.profile][s]),color:colors[s],width:s===PC.series?3:1.8,opacity:s===PC.series?1:0.65}));
       drawChart('perf-chart',datasets);
-      const finals=series.map(s=>({s,v:trajectory(DATASETS[s])[101]}));
+      const finals=series.map(s=>({s,v:trajectory(PROFILE_RETURNS[PC.profile][s])[101]}));
       document.getElementById('compare-table').innerHTML=`<div class="card"><table class="timing-table"><thead><tr><th>Serie</th><th>Vehículo</th><th style="text-align:right">Valor final</th><th style="text-align:right">vs. Serie A</th></tr></thead><tbody>
         ${finals.map(f=>{const base=finals[0].v;const diff=f.v-base;const isActive=f.s===PC.series;return `<tr class="${isActive?'highlight-row':''}"><td><strong>${SERIES_CONFIG[f.s].label}</strong>${isActive?' ●':''}</td><td>${VEHICLE_CONFIG[SERIES_CONFIG[f.s].vehicle].label}</td><td style="text-align:right;font-feature-settings:'tnum';font-weight:700">${fmt(f.v)}</td><td style="text-align:right;font-feature-settings:'tnum';color:${diff>0?'var(--pos)':'var(--text-2)'}">${f.s==='A'?'—':'+'+fmt(diff)}</td></tr>`;}).join('')}
       </tbody></table><div class="t-3 mt-3" style="font-size:11px">La diferencia entre Serie A y APV-AP sobre $10M en 8.5 años es ~$3.2M: el costo acumulado de la comisión diferencial.</div></div>`;
@@ -1848,7 +1892,7 @@ function summaryText(){
     'RESUMEN DE REUNIÓN · Investment Intelligence',
     `${PC.vc.label} · ${PC.sc.label} · Mayo 2026`,
     '',
-    `PERFIL: ${p.name}`,
+    `FONDO: Fondo Dinámico ${p.name} (${PC.sc.label})`,
     `Objetivo: ${p.obj}`,
     `Asignación: ${p.rv}% Renta Variable / ${p.rf}% Renta Fija · Horizonte ${p.horizon}`,
     '',
@@ -1887,7 +1931,7 @@ function buildSummary(){
     <div class="sum-item"><div class="sum-icon" style="background:var(--navy-100)">💡</div><div style="flex:1"><div class="h-s mb-1">Convicción: Permanecer Invertido</div><div class="body t-2">El nodo central. Evidencia del Balanceado en 2020: quienes permanecieron cerraron el año positivo.</div></div><div class="sum-checkmark">✓</div></div>
     <div class="sum-item"><div class="sum-icon" style="background:#FEF3C7">⚡</div><div style="flex:1"><div class="h-s mb-1">Riesgo conductual — <span id="sum-risk-vehicle">${PC.vc.label}</span></div><div class="body t-2" id="sum-risk-text">${VEHICLE_ADVISORY[PC.vehicle].riskText.slice(0,140)}…</div></div><div class="sum-checkmark">✓</div></div>
     <div class="sum-item"><div class="sum-icon" style="background:#F0FDF4">🧮</div><div style="flex:1"><div class="h-s mb-1">Costo de Decidir — costo del rescate de marzo 2020</div><div class="body t-2">Calculado en pesos de la <strong id="sum-series-dcl">${PC.sc.label}</strong>.</div></div><div class="sum-checkmark">✓</div></div>
-    <div class="card mt-5 mb-5" style="background:var(--gray-950);border:none;color:#fff;padding:var(--s7)"><div class="label mb-3" style="color:rgba(255,255,255,.4);font-size:9px">El mensaje más importante</div><div class="d-m mb-3" style="color:#fff;font-size:22px">"No es el mercado lo que destruye valor. Es la decisión de salir cuando el mercado cae."</div><div style="font-size:13px;color:rgba(255,255,255,.5)">Fondo Dinámico Balanceado · <span id="sum-series-footer">${PC.sc.label}</span> · 2018–2026</div></div>
+    <div class="card mt-5 mb-5" style="background:var(--gray-950);border:none;color:#fff;padding:var(--s7)"><div class="label mb-3" style="color:rgba(255,255,255,.4);font-size:9px">El mensaje más importante</div><div class="d-m mb-3" style="color:#fff;font-size:22px">"No es el mercado lo que destruye valor. Es la decisión de salir cuando el mercado cae."</div><div style="font-size:13px;color:rgba(255,255,255,.5)">Fondo Dinámico ${PC.pf.name} · <span id="sum-series-footer">${PC.sc.label}</span> · 2018–2026</div></div>
     <div class="h-s mb-3">Compartir resumen</div>
     <div class="flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="shareSummary('wa')">💬 WhatsApp</button><button class="btn btn-ghost" onclick="shareSummary('mail')">✉️ Email</button><button class="btn btn-ghost" id="btn-copy-sum" onclick="shareSummary('copy')">📋 Copiar texto</button><button class="btn btn-ghost" style="margin-left:auto" onclick="go('home')">← Inicio</button></div>
     <div class="t-3 mt-6" style="font-size:11px;line-height:1.6">Rentabilidades pasadas no garantizan rentabilidades futuras. Los valores de las cuotas de los fondos mutuos son variables. LarrainVial Asset Management Administradora General de Fondos S.A.</div></div>`;
@@ -2028,11 +2072,21 @@ function renderDiscovery(){
     `<button class="series-mini-btn ${s===PC.series?'active':''}" onclick="selectSeriesDiscovery('${s}')">${SERIES_CONFIG[s].label}</button>`).join('');
   // 3. Slim profile selector (secondary) — full cards live in the Home hero
   const band=document.getElementById('cards-band');
-  band.innerHTML=`<span class="series-switch-label" style="align-self:center">Perfil</span>`+Object.values(PROFILES).map(p=>{
-    const active=p.key===PC.profile;
-    return `<button class="profile-pill ${p.cls} ${active?'active':''}" onclick="selectCard('${p.key}')">
-      <span class="profile-pill-dot"></span>${p.name}</button>`;}).join('')+
-    `<button class="profile-pill-engine" onclick="go('profile-engine')">🧭 Perfilar</button>`;
+  band.innerHTML=`<div class="pc-selector" id="pf-selector" onclick="toggleProfileMenu(event)">
+      <span class="profile-pill-dot" style="background:var(--c-${PC.pf.key});width:9px;height:9px"></span>
+      <span class="pc-vehicle-name">Perfil: <strong style="color:var(--text-1)">${PC.pf.name}</strong></span>
+      <span class="pc-arrow">▾</span>
+      <div class="pc-dropdown" id="pf-dropdown">
+        <div class="pf-opts">${Object.values(PROFILES).map(p=>`
+          <div class="pf-opt ${p.key===PC.profile?'active':''}" onclick="selectProfileMenu(event,'${p.key}')">
+            <span class="profile-pill-dot" style="background:var(--c-${p.key})"></span>
+            <span style="flex:1"><strong>${p.name}</strong><small>${p.rv}% RV · ${p.horizon}</small></span>
+            ${p.key===PC.profile?'<span style="color:var(--navy);font-weight:800">✓</span>':''}
+          </div>`).join('')}
+        </div>
+        <div class="pf-opt pf-opt-engine" onclick="event.stopPropagation();closeProfileMenu();go('profile-engine')">🧭 Descubrir mi perfil con la encuesta</div>
+      </div>
+    </div>`;
   // 4. Persistent context summary band
   const sum=document.getElementById('ctx-summary');
   const p=PC.pf;
@@ -2048,7 +2102,7 @@ function renderDiscovery(){
     <div class="ctx-sum-item cs-sec"><span class="ctx-sum-label">Horizonte</span><span class="ctx-sum-val">${p.horizon}</span></div>
     <div class="ctx-sum-sep"></div>
     <div class="ctx-sum-item"><span class="ctx-sum-label">Asignación</span>
-      <div class="ctx-sum-mix"><div class="ctx-sum-mixbar"><div style="width:${p.rv}%;background:var(--c-balanceado)"></div><div style="width:${p.rf}%;background:var(--c-conservador);opacity:.5"></div></div>
+      <div class="ctx-sum-mix"><div class="ctx-sum-mixbar"><div style="width:${p.rv}%;background:var(--c-${p.key})"></div><div style="width:${p.rf}%;background:var(--c-conservador);opacity:.5"></div></div>
       <span class="ctx-sum-val">${p.rv}% RV / ${p.rf}% RF</span></div></div>
     <div class="ctx-sum-sep"></div>
     <div class="ctx-sum-item cs-sec" style="flex:1;min-width:160px"><span class="ctx-sum-label">Objetivo</span><span class="ctx-sum-val" style="font-weight:600;color:var(--text-2)">${p.obj}</span></div>
@@ -2141,6 +2195,9 @@ function closeDetail(){document.getElementById('detail-overlay').classList.remov
 
 function toggleProductMenu(e){if(e)e.stopPropagation();const dd=document.getElementById('pc-dropdown'),sel=document.getElementById('pc-selector');const open=dd.classList.contains('open');dd.classList.toggle('open');sel.classList.toggle('open');if(!open)setTimeout(()=>document.addEventListener('click',()=>closeProductMenu(),{once:true}),10);}
 function closeProductMenu(){document.getElementById('pc-dropdown').classList.remove('open');document.getElementById('pc-selector').classList.remove('open');}
+function toggleProfileMenu(e){if(e)e.stopPropagation();const dd=document.getElementById('pf-dropdown'),sel=document.getElementById('pf-selector');if(!dd)return;const open=dd.classList.contains('open');closeProductMenu();dd.classList.toggle('open');sel.classList.toggle('open');if(!open)setTimeout(()=>document.addEventListener('click',()=>closeProfileMenu(),{once:true}),10);}
+function closeProfileMenu(){const dd=document.getElementById('pf-dropdown'),sel=document.getElementById('pf-selector');if(dd){dd.classList.remove('open');sel.classList.remove('open');}}
+function selectProfileMenu(e,key){e.stopPropagation();closeProfileMenu();selectCard(key);}
 function toggleMeetingMode(){
   const on=!document.body.classList.contains('meeting-mode');
   document.body.classList.toggle('meeting-mode',on);
