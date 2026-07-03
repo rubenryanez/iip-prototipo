@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IIP — Investment Intelligence Platform · Prototipo v3</title>
+<title>Revista Dinámicos Interactiva · LarrainVial AM × Consorcio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -526,7 +526,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 <body>
 <div class="shell">
 <nav class="dock" id="dock">
-  <div class="dock-brand"><div class="name">Investment<br>Intelligence</div></div>
+  <div class="dock-brand"><div class="name">Revista<br>Dinámicos</div></div>
   <div class="dock-items">
     <div class="nav-item active" data-nav="home" onclick="go('home')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span><span class="nl">Inicio</span></div>
     <div class="nav-item nav-sec" data-nav="profile-engine" onclick="go('profile-engine')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></span><span class="nl">Perfilar</span></div>
@@ -541,7 +541,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
     <div class="nav-item nav-sec" data-nav="dcl" onclick="go('dcl')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="nl">Costo</span></div>
     <div class="dock-sep"></div>
     <div class="nav-item nav-sec" data-nav="portfolio" onclick="go('portfolio')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg></span><span class="nl">Portfolio</span></div>
-    <div class="nav-item nav-sec" data-nav="performance" onclick="go('performance')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="M7 15v-3M11 15V8M15 15v-5M19 15V6"/></svg></span><span class="nl">Performance</span></div>
+    <div class="nav-item nav-sec" data-nav="performance" onclick="go('performance')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="M7 15v-3M11 15V8M15 15v-5M19 15V6"/></svg></span><span class="nl">Rentabilidad</span></div>
     <div class="nav-item nav-more" onclick="openMoreSheet()"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span><span class="nl">Más</span></div>
   </div>
   <button class="btn-meeting" onclick="go('summary')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16l-3.5-2.5L12 20l-3.5-2.5L5 20z"/><path d="M9 9h6M9 13h4"/></svg> Resumen</button>
@@ -585,7 +585,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
           </div>
         </div>
       </div>
-      <div class="ctx-client"><div class="dot"></div> <span id="ctx-profile-label">Perfil Activo: Balanceado</span></div>
+      <div class="ctx-client"><div class="dot"></div> <span id="ctx-profile-label">Perfil Activo</span></div>
       <div class="ctx-edition t-3">Mayo 2026</div>
     </div>
   </div>
@@ -610,7 +610,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   <div id="screens"></div>
 </div>
 </div>
-<div class="arch-badge">IIP v3 · Contexto: <strong id="arch-label">Seg · F</strong></div>
+<div class="arch-badge">Dinámicos · Contexto: <strong id="arch-label">Seg · F</strong></div>
 
 <!-- ★ INVESTMENT PROFILE ENGINE — premium modal ★ -->
 <div class="pe-overlay" id="pe-overlay">
@@ -660,7 +660,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
       <div class="sheet-item" onclick="goFromSheet('timing')"><div class="sheet-ic" style="background:var(--warn-bg)">⏱</div><span>Timing de Mercado</span></div>
       <div class="sheet-item" onclick="goFromSheet('dcl')"><div class="sheet-ic" style="background:var(--c-agresivo-bg)">🧮</div><span>Costo de Decidir</span></div>
       <div class="sheet-item" onclick="goFromSheet('portfolio')"><div class="sheet-ic" style="background:var(--c-crecimiento-bg)">◔</div><span>Portfolio Explorer</span></div>
-      <div class="sheet-item" onclick="goFromSheet('performance')"><div class="sheet-ic" style="background:var(--navy-050)">📈</div><span>Performance Lab</span></div>
+      <div class="sheet-item" onclick="goFromSheet('performance')"><div class="sheet-ic" style="background:var(--navy-050)">📈</div><span>Análisis de Rentabilidad</span></div>
       <div class="sheet-item" onclick="goFromSheet('summary')"><div class="sheet-ic" style="background:var(--navy);color:#fff">📄</div><span>Resumen</span></div>
     </div>
   </div>
@@ -941,7 +941,7 @@ const FAQS = [
   {cat:'miedo', convictionId:'costo_panico', q:'¿Cuánto cuesta realmente tomar una decisión por miedo?',
    a:'Es medible y casi siempre se subestima. Con el Motor de Decisiones calculamos, con datos reales de su serie, cuánto habría costado cada decisión emocional. DYNAMIC_VEHICLE_COST'},
   {cat:'timing', convictionId:'permanecer', q:'¿No sería mejor esperar a que el mercado se estabilice y luego volver a entrar?',
-   a:'El problema es que los mejores meses suelen ocurrir justo cuando el miedo es máximo. Los 5 mejores meses del Balanceado entre 2018 y 2026 ocurrieron todos en 2020 — el año del COVID. Salir para "esperar" casi garantiza perderse esos meses. El Simulador de Timing de Mercado lo demuestra con el slider.'},
+   a:'El problema es que los mejores meses suelen ocurrir justo cuando el miedo es máximo. En todos los perfiles, los 5 mejores meses entre 2018 y 2026 se concentraron en 2020 — el año del COVID. Salir para "esperar" casi garantiza perderse esos meses. El Simulador de Timing de Mercado lo demuestra con el slider.'},
   {cat:'timing', convictionId:'asia_tech', q:'¿Por qué aumentaron Asia justo ahora? ¿No es perseguir lo que ya subió?',
    a:'Es una convicción cíclica, no perseguir rendimiento. El liderazgo de semiconductores e IA en Corea y Taiwán tiene fundamentos estructurales, y la entrada de capital a la región está en una fase que esperamos capturar en los próximos 3–6 meses. La revisaremos según evolucione el ciclo — no es una posición permanente.'},
   {cat:'vehiculo', convictionId:null, q:'¿Cuál es la diferencia entre las series y por qué importa para mí?',
@@ -957,38 +957,132 @@ const FAQS = [
 /* ═══════════════════════════════════════════════════════════
    ★ PORTFOLIO COMPOSITION — distinct per vehicle
 ═══════════════════════════════════════════════════════════ */
-const PORTFOLIO_COMP = {
-  mutual_funds:{
-    objetivo:'Crecimiento equilibrado con liquidez total. El cliente prioriza retorno de mediano plazo manteniendo la capacidad de ajustar su posición.',
-    convictions:['diversificacion','asia_tech','permanecer'],
-    classes:[
-      {name:'Deuda',pct:56.9,color:'#64748B',sub:[{n:'Chile',p:40.2},{n:'Emergentes',p:6.7},{n:'High Yield Global',p:4.9},{n:'Investment Grade',p:2.8},{n:'Latinoamérica',p:2.3}]},
-      {name:'Acciones',pct:42.8,color:'#2563EB',sub:[{n:'Desarrollados',p:17.6},{n:'Chile',p:10.7},{n:'Asia',p:10.3},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
-      {name:'Alternativo',pct:0.3,color:'#D97706',sub:[{n:'Alternativo',p:0.3}]}
-    ],
-    instruments:[{n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:40.2},{n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:8.2},{n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.1},{n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:3.4},{n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.8},{n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.2}]
-  },
-  insurance_savings:{
-    objetivo:'Ahorro protegido de mediano plazo. El cliente busca crecimiento con un componente de protección, dentro de una estrategia gestionada.',
-    convictions:['permanecer','diversificacion','deuda_chilena'],
-    classes:[
-      {name:'Deuda',pct:56.9,color:'#64748B',sub:[{n:'Chile',p:40.2},{n:'Emergentes',p:6.7},{n:'High Yield Global',p:4.9},{n:'Investment Grade',p:2.8},{n:'Latinoamérica',p:2.3}]},
-      {name:'Acciones',pct:42.8,color:'#2563EB',sub:[{n:'Desarrollados',p:17.6},{n:'Chile',p:10.7},{n:'Asia',p:10.3},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
-      {name:'Alternativo',pct:0.3,color:'#D97706',sub:[{n:'Alternativo',p:0.3}]}
-    ],
-    instruments:[{n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:40.2},{n:'Tesorería de Chile',c:'Deuda Chile',p:12.0},{n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:8.2},{n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.1},{n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.8},{n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.2}]
-  },
-  apv:{
-    objetivo:'Ahorro previsional de largo plazo con beneficio tributario. El cliente compone su ahorro a lo largo de años, priorizando crecimiento sostenido y eficiencia fiscal.',
-    convictions:['permanecer','diversificacion','asia_tech'],
-    classes:[
-      {name:'Deuda',pct:54.0,color:'#64748B',sub:[{n:'Chile',p:38.0},{n:'Emergentes',p:7.0},{n:'High Yield Global',p:5.0},{n:'Investment Grade',p:2.5},{n:'Latinoamérica',p:1.5}]},
-      {name:'Acciones',pct:45.5,color:'#2563EB',sub:[{n:'Desarrollados',p:18.8},{n:'Chile',p:11.0},{n:'Asia',p:11.5},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
-      {name:'Alternativo',pct:0.5,color:'#D97706',sub:[{n:'Alternativo',p:0.5}]}
-    ],
-    instruments:[{n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:38.0},{n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:9.0},{n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.8},{n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:3.6},{n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:3.0},{n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.4}]
-  }
-};
+const PORTFOLIO_COMP = (function(){
+  // ★ Composiciones REALES por perfil (Revista Jun-2026, página "Fondos en la estrategia" de cada perfil)
+  // Estructura: [perfil][vehicle] → composición completa
+  const BY_PROFILE = {
+    conservador:{
+      classes:[
+        {name:'Deuda',pct:95.9,color:'#64748B',sub:[{n:'Chile',p:88.3},{n:'Emergentes',p:5.3},{n:'Latinoamérica',p:2.6},{n:'Investment Grade Global',p:2.0},{n:'Desarrollados',p:0.2},{n:'High Yield Global',p:0.1}]},
+        {name:'Acciones',pct:3.3,color:'#2563EB',sub:[{n:'Chile',p:2.8},{n:'Desarrollados',p:0.4}]},
+        {name:'Alternativo',pct:0.9,color:'#D97706',sub:[{n:'Alternativo',p:0.8}]}
+      ],
+      instruments:[
+        {n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:88.3},
+        {n:'FM LV Ahorro UF',c:'Deuda Chile',p:0},{n:'FM LV Ahorro Corporativo',c:'Deuda Chile',p:0},
+        {n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.6},
+        {n:'PIMCO GIS Income Fund',c:'Deuda IG Global',p:2.0},
+        {n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:2.8},
+        {n:'Nordea BetaPlus Enhanced US Eq',c:'Acc. Desarrollados',p:0.4},
+        {n:'Sicav GAMCO Merger Arbitrage I',c:'Alternativo',p:0.8}
+      ]
+    },
+    moderado:{
+      classes:[
+        {name:'Deuda',pct:76.2,color:'#64748B',sub:[{n:'Chile',p:63.3},{n:'Emergentes',p:6.3},{n:'High Yield Global',p:4.1},{n:'Latinoamérica',p:1.6},{n:'Investment Grade Global',p:1.0}]},
+        {name:'Acciones',pct:22.0,color:'#2563EB',sub:[{n:'Desarrollados',p:8.7},{n:'Chile',p:5.8},{n:'Asia',p:5.5},{n:'Latinoamérica',p:2.1}]},
+        {name:'Alternativo',pct:1.8,color:'#D97706',sub:[{n:'Alternativo',p:1.8}]}
+      ],
+      instruments:[
+        {n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:63.3},
+        {n:'Nordea BetaPlus Enhanced US Eq',c:'Acc. Desarrollados',p:3.2},
+        {n:'iShares MSCI ACWI ETF',c:'Acc. Desarrollados',p:2.8},
+        {n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:5.8},
+        {n:'iShares Asia 50 ETF',c:'Acc. Asia',p:2.9},
+        {n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:3.5},
+        {n:'Sicav GAMCO Merger Arbitrage I',c:'Alternativo',p:1.8}
+      ]
+    },
+    balanceado:{
+      classes:[
+        {name:'Deuda',pct:56.9,color:'#64748B',sub:[{n:'Chile',p:40.2},{n:'Emergentes',p:6.7},{n:'High Yield Global',p:4.9},{n:'Investment Grade Global',p:2.8},{n:'Latinoamérica',p:2.3}]},
+        {name:'Acciones',pct:42.8,color:'#2563EB',sub:[{n:'Desarrollados',p:17.6},{n:'Chile',p:10.7},{n:'Asia',p:10.3},{n:'Latinoamérica',p:3.2},{n:'Europa',p:1.0}]},
+        {name:'Alternativo',pct:0.3,color:'#D97706',sub:[{n:'Alternativo',p:0.3}]}
+      ],
+      instruments:[
+        {n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:40.2},
+        {n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:8.2},
+        {n:'iShares Asia 50 ETF',c:'Acc. Asia',p:5.1},
+        {n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:3.4},
+        {n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.8},
+        {n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:6.2}
+      ]
+    },
+    crecimiento:{
+      classes:[
+        {name:'Acciones',pct:60.8,color:'#2563EB',sub:[{n:'Desarrollados',p:26.1},{n:'Asia',p:18.7},{n:'Chile',p:10.6},{n:'Latinoamérica',p:4.0},{n:'Europa',p:1.4}]},
+        {name:'Deuda',pct:38.9,color:'#64748B',sub:[{n:'Chile',p:24.1},{n:'Emergentes',p:6.8},{n:'Desarrollados',p:3.1},{n:'High Yield Global',p:2.8},{n:'Latinoamérica',p:1.3},{n:'Investment Grade',p:0.8}]},
+        {name:'Alternativo',pct:0.3,color:'#D97706',sub:[{n:'Alternativo',p:0.3}]}
+      ],
+      instruments:[
+        {n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:10.5},
+        {n:'iShares Asia 50 ETF',c:'Acc. Asia',p:8.9},
+        {n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:5.2},
+        {n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:7.8},
+        {n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:24.1},
+        {n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:3.4}
+      ]
+    },
+    agresivo:{
+      classes:[
+        {name:'Acciones',pct:80.6,color:'#2563EB',sub:[{n:'Desarrollados',p:35.1},{n:'Asia',p:21.8},{n:'Chile',p:13.4},{n:'Latinoamérica',p:6.7},{n:'Europa',p:2.3},{n:'Japón',p:1.4}]},
+        {name:'Deuda',pct:19.0,color:'#64748B',sub:[{n:'Emergentes',p:5.2},{n:'High Yield Global',p:4.4},{n:'Chile',p:3.9},{n:'Desarrollados',p:3.4},{n:'Latinoamérica',p:1.3},{n:'Investment Grade',p:0.8}]},
+        {name:'Alternativo',pct:0.4,color:'#D97706',sub:[{n:'Alternativo',p:0.4}]}
+      ],
+      instruments:[
+        {n:'Vanguard S&P 500 ETF',c:'Acc. Desarrollados',p:13.8},
+        {n:'iShares Asia 50 ETF',c:'Acc. Asia',p:10.4},
+        {n:'iShares Global Tech ETF',c:'Acc. Desarrollados',p:7.1},
+        {n:'FM LV Acciones Nacionales',c:'Acc. Chile',p:10.0},
+        {n:'FM Consorcio Ahorro Dinámico',c:'Deuda Chile',p:3.9},
+        {n:'SICAV LV Gavekal Latam Fund',c:'Deuda Emergentes',p:2.6}
+      ]
+    }
+  };
+  const OBJETIVOS = {
+    mutual_funds:{
+      conservador:'Preservar el capital con liquidez total. La estrategia apunta a estabilidad y disponibilidad — el patrimonio debe estar accesible sin comprometer el valor invertido.',
+      moderado:'Retorno moderado con volatilidad contenida, manteniendo liquidez para ajustar posiciones ante cambios en la vida financiera del cliente.',
+      balanceado:'Crecimiento equilibrado con liquidez total. El cliente prioriza retorno de mediano plazo manteniendo la capacidad de ajustar su posición.',
+      crecimiento:'Crecimiento de capital de mediano a largo plazo. El cliente acepta volatilidad a cambio de retornos superiores en un horizonte de 3+ años.',
+      agresivo:'Máximo crecimiento a largo plazo. El cliente tolera drawdowns significativos porque su horizonte le permite capturar la recuperación completa del ciclo.'
+    },
+    insurance_savings:{
+      conservador:'Preservar el ahorro con protección de largo plazo. La cobertura del seguro se conjuga con una estrategia defensiva alineada al horizonte del contrato.',
+      moderado:'Ahorro protegido de mediano plazo con retorno estable. La combinación seguro + inversión conservadora ancla la decisión al horizonte contratado.',
+      balanceado:'Ahorro protegido de mediano plazo. El cliente busca crecimiento con un componente de protección, dentro de una estrategia gestionada.',
+      crecimiento:'Ahorro protegido con foco en crecimiento. El componente de protección permite tomar más riesgo con la tranquilidad del horizonte comprometido.',
+      agresivo:'Máximo crecimiento con protección estructural. El seguro ancla el horizonte, permitiendo capturar el retorno de renta variable global.'
+    },
+    apv:{
+      conservador:'Ahorro previsional defensivo de largo plazo. Beneficio tributario más preservación — la estrategia protege el patrimonio acumulado hacia la jubilación.',
+      moderado:'Ahorro previsional balanceado con eficiencia fiscal. Crecimiento gradual respetando la naturaleza de largo plazo del vehículo.',
+      balanceado:'Ahorro previsional equilibrado con beneficio tributario. El horizonte de jubilación permite capturar retornos con volatilidad controlada.',
+      crecimiento:'Ahorro previsional de largo plazo con beneficio tributario. El cliente compone su ahorro a lo largo de años, priorizando crecimiento sostenido y eficiencia fiscal.',
+      agresivo:'Máximo crecimiento previsional. El horizonte largo del APV y el beneficio tributario justifican asumir la volatilidad de una asignación mayoritaria en acciones.'
+    }
+  };
+  const CONVICTS = {
+    conservador:['permanecer','deuda_chilena','diversificacion'],
+    moderado:['diversificacion','deuda_chilena','permanecer'],
+    balanceado:['diversificacion','asia_tech','permanecer'],
+    crecimiento:['asia_tech','diversificacion','permanecer'],
+    agresivo:['asia_tech','permanecer','diversificacion']
+  };
+  const out={};
+  ['mutual_funds','insurance_savings','apv'].forEach(v=>{
+    out[v]={};
+    Object.keys(BY_PROFILE).forEach(p=>{
+      out[v][p]={
+        objetivo:OBJETIVOS[v][p],
+        convictions:CONVICTS[p],
+        classes:BY_PROFILE[p].classes,
+        instruments:BY_PROFILE[p].instruments
+      };
+    });
+  });
+  return out;
+})();
 
 /* ═══════════════════════════════════════════════════════════
    ★ MARKET EVENTS
@@ -1572,7 +1666,7 @@ function renderPortSteps(){
 function portStep(i){_portStep=i;renderPortSteps();renderPortContent();}
 function renderPortContent(){
   const el=document.getElementById('port-content');if(!el)return;
-  const comp=PORTFOLIO_COMP[PC.vehicle];
+  const comp=PORTFOLIO_COMP[PC.vehicle][PC.profile];
   if(_portStep===0){
     const pf=PC.pf;const pchipCls={conservador:'pc-c',moderado:'pc-m',balanceado:'pc-b',crecimiento:'pc-cr',agresivo:'pc-a'}[pf.key];
     const dots='●'.repeat(pf.risk)+'○'.repeat(5-pf.risk);
@@ -1631,9 +1725,9 @@ function cmpSetMode(m){_cmpMode=m;renderPerfContent();}
 function cmpToggleProfile(k){_cmpProfiles.has(k)?_cmpProfiles.delete(k):_cmpProfiles.add(k);renderPerfContent();}
 function buildPerformance(){
   return `<div class="screen" id="screen-performance">
-    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Performance Lab</span></div>
-    <div class="d-m mb-2">Performance Lab</div>
-    <div class="t-2 mb-2" style="max-width:720px">Análisis avanzado del Fondo Dinámico ${PC.pf.name}. Las métricas son un resultado de las convicciones — no su punto de partida.</div>
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Análisis de Rentabilidad</span></div>
+    <div class="d-m mb-2">Análisis de Rentabilidad</div>
+    <div class="t-2 mb-2" style="max-width:720px">Análisis avanzado del Fondo Dinámico ${PC.pf.name}. Las métricas son resultado de las convicciones — no su punto de partida.</div>
     <div class="narrative mb-5" id="perf-context"></div>
     <div class="tabs" id="perf-tabs"></div>
     <div id="perf-content"></div>
@@ -1687,7 +1781,7 @@ function renderPerfContent(){
     el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Volatilidad anualizada</div>
       <div class="t-2 body mb-4">La volatilidad mide cuánto fluctúa el retorno. Mayor perfil de riesgo, mayor volatilidad — y mayor retorno esperado.</div>
       <div style="display:flex;align-items:flex-end;gap:var(--s4);height:180px;padding:var(--s4) 0">
-        ${Object.entries(profiles).map(([n,v])=>{const h=v/7.55*150;const isBal=n==='Balanceado';return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700;margin-bottom:4px">${v}%</div><div style="width:100%;height:${h}px;background:${isBal?'var(--conv)':'var(--gray-400)'};border-radius:4px 4px 0 0"></div><div class="t-3" style="font-size:10px;margin-top:6px;font-weight:${isBal?700:400}">${n}</div></div>`;}).join('')}
+        ${Object.entries(profiles).map(([n,v])=>{const h=v/7.55*150;const isBal=n===PC.pf.name;return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700;margin-bottom:4px">${v}%</div><div style="width:100%;height:${h}px;background:${isBal?'var(--conv)':'var(--gray-400)'};border-radius:4px 4px 0 0"></div><div class="t-3" style="font-size:10px;margin-top:6px;font-weight:${isBal?700:400}">${n}</div></div>`;}).join('')}
       </div></div>
       <div class="card"><div class="ib-label">Volatilidad calculada · ${PC.pf.name} (mensual anualizada)</div><div class="d-m mono">${vol.toFixed(2)}%</div><div class="t-2" style="font-size:12px">Calculada sobre los retornos mensuales de la ${PC.sc.label}. La cifra oficial (volatilidad diaria, Serie A) del ${PC.pf.name} es ${PC.pf.vol}.</div></div>`;
   } else if(_perfTab==='recovery'){
@@ -1772,7 +1866,7 @@ const MISS_SCENARIOS=[{n:0,label:'Invertido siempre (referencia)'},{n:5,label:'T
 function buildTiming(){
   return `<div class="screen" id="screen-timing">
     <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('bfe')">Motor de Decisiones</span><span class="sep">›</span><span class="cur">Market Timing</span></div>
-    <div class="mb-5"><div class="label mb-2 t-conv">Simulador de Timing de Mercado · Balanceado · <span id="timing-series-label">${PC.sc.label}</span></div>
+    <div class="mb-5"><div class="label mb-2 t-conv">Simulador de Timing de Mercado · ${PC.pf.name} · <span id="timing-series-label">${PC.sc.label}</span></div>
     <div class="d-m mb-3">¿Qué pasaría si no estuviera invertido en los mejores meses?</div>
     <div class="body t-2" style="max-width:640px">$10.000.000 invertidos en enero 2018. Usa el slider para ver el impacto de perderse los N mejores meses.</div></div>
     <div class="slider-section"><div class="slider-title">Meses fuera del mercado</div>
@@ -1786,7 +1880,7 @@ function buildTiming(){
       <svg class="chart-svg" id="timing-chart"></svg>
       <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span>Invertido siempre</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="legend-miss-label">Sin meses perdidos</span></div></div></div>
     <div class="card mb-5"><div class="h-m mb-2">Los mejores meses (2018–2026)</div><div class="t-2 mb-4" style="font-size:13px">Ocurrieron en los períodos de mayor incertidumbre. Quien salió por miedo, los perdió.</div><div class="flex flex-wrap gap-2" id="best-months-display"></div></div>
-    <div class="narrative mb-5">Los 5 mejores meses del Balanceado entre 2018 y 2026 ocurrieron en 2020 — el año del COVID. Salir en marzo 2020 y volver en julio habría perdido 4 de los 5 mejores meses de toda la historia del fondo. <span class="t-conv" style="font-weight:700;cursor:pointer" onclick="openConviction('permanecer')">Ver convicción →</span></div>
+    <div class="narrative mb-5">Los 5 mejores meses del Fondo Dinámico ${PC.pf.name} entre 2018 y 2026 ocurrieron en 2020 — el año del COVID. Salir en marzo 2020 y volver en julio habría perdido 4 de los 5 mejores meses de toda la historia del fondo. <span class="t-conv" style="font-weight:700;cursor:pointer" onclick="openConviction('permanecer')">Ver convicción →</span></div>
     <div class="flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="go('dcl')">Costo de Decidir →</button><button class="btn btn-ghost" onclick="go('bfe')">← Motor de Decisiones</button></div></div>`;
 }
 function onSlider(val){
@@ -1794,7 +1888,7 @@ function onSlider(val){
   const ret=PC.ret,base=trajectory(ret),baseF=base[base.length-1],missed=missNBest(val,ret),missF=missed[missed.length-1],cost=baseF-missF;
   const cEl=document.getElementById('slider-cost-display'),sEl=document.getElementById('slider-sub');
   if(val===0){cEl.textContent='$0';cEl.style.color='var(--pos)';sEl.textContent='Si se quedó invertido siempre: sin costo de oportunidad.';sEl.style.color='var(--pos)';}
-  else{cEl.textContent=fmt(cost);cEl.style.color='var(--neg)';sEl.textContent=`Costo de perderse los ${val} mejores meses del Balanceado (${PC.sc.label}).`;sEl.style.color='var(--neg)';}
+  else{cEl.textContent=fmt(cost);cEl.style.color='var(--neg)';sEl.textContent=`Costo de perderse los ${val} mejores meses del ${PC.pf.name} (${PC.sc.label}).`;sEl.style.color='var(--neg)';}
   document.getElementById('legend-miss-label').textContent=val===0?'Sin meses perdidos':`Perdiendo ${val} mejores meses`;
   drawChart('timing-chart',[{values:base,color:'var(--action)',width:2.5,fill:'#2563EB'},{values:missed,color:'var(--neg)',width:2,dashed:true,opacity:val===0?0.15:1}]);
   const tbody=document.getElementById('timing-tbody');tbody.innerHTML='';
@@ -1820,7 +1914,7 @@ function buildDCL(){
     <div class="card mb-5" style="background:var(--gray-100);box-shadow:none"><div class="flex gap-5 flex-wrap items-center">
       <div><div class="ib-label">Capital inicial</div><div class="h-l mono">$10.000.000</div></div>
       <div><div class="ib-label">Evento</div><div class="h-l">Caída Marzo 2020</div></div>
-      <div><div class="ib-label">Vehículo · Serie</div><div class="flex items-center gap-2"><span class="pchip pc-b">Balanceado</span><span style="font-size:13px;font-weight:700" id="dcl-context-label">${PC.vc.label} · ${PC.sc.label}</span></div></div>
+      <div><div class="ib-label">Perfil · Serie</div><div class="flex items-center gap-2"><span class="pchip pc-b" id="dcl-profile-chip">${PC.pf.name}</span><span style="font-size:13px;font-weight:700" id="dcl-context-label">${PC.vc.label} · ${PC.sc.label}</span></div></div>
     </div></div>
     <div class="adv-box mb-5" style="cursor:pointer" onclick="openConviction('costo_panico')"><div class="adv-box-header"><span class="badge" style="background:var(--conv);color:#fff">🧠 Convicción</span><span class="badge badge-neutral" id="dcl-cost-note">${VEHICLE_ADVISORY[PC.vehicle].costNote.slice(0,46)}…</span></div><div class="h-s">El costo del pánico es medible y casi siempre subestimado →</div></div>
     <div class="h-s mb-3">¿Qué hubiera hecho en marzo 2020?</div>
@@ -1836,8 +1930,8 @@ function buildDCL(){
       <div class="cbox cbox-alt"><div class="clabel" style="color:var(--neg)" id="alt-label">Línea de referencia</div><div class="cval mono t-neg" id="alt-val">—</div><div class="csub" id="alt-sub">Selecciona un escenario.</div></div></div>
     <div class="chart-wrap mb-5"><div class="flex items-center justify-between mb-4 flex-wrap"><div class="h-m">Trayectoria · Ene 2018 → May 2026</div><div class="t-3" style="font-size:11px;font-weight:600"><span id="dcl-chart-series-label">${PC.sc.label}</span></div></div>
       <svg class="chart-svg" id="dcl-chart"></svg>
-      <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span id="dcl-legend-stay">Balanceado ${PC.sc.short} — invertido</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="dcl-legend-alt">Selecciona un escenario</span></div></div></div>
-    <div class="narrative mb-5" id="dcl-narrative">Línea de referencia. El Balanceado cayó en marzo 2020 pero se recuperó en 5 meses.</div>
+      <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span id="dcl-legend-stay">${PC.pf.name} ${PC.sc.short} — invertido</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="dcl-legend-alt">Selecciona un escenario</span></div></div></div>
+    <div class="narrative mb-5" id="dcl-narrative">Línea de referencia. El ${PC.pf.name} cayó en marzo 2020 pero se recuperó en meses.</div>
     <div class="flex gap-3 flex-wrap"><button class="btn btn-present" onclick="go('summary')">★ Generar Resumen</button><button class="btn btn-ghost" onclick="go('timing')">← Market Timing</button></div></div>`;
 }
 function buildDCLAlts(returns){
@@ -1857,7 +1951,7 @@ function getScenarios(){
   if(!_dclAlts)_dclAlts=buildDCLAlts(PC.ret);
   const stayF=_dclAlts.stay[_dclAlts.stay.length-1],{switchTraj,switchLabel,switchSeries}=_dclAlts,switchF=switchTraj[switchTraj.length-1],isBetter=switchF>stayF;
   return[
-    {label:'Mantener',altLabel:'Línea de referencia',color:'var(--action)',traj:_dclAlts.stay,final:stayF,costLabel:'Sin costo — mantener fue lo correcto',narrative:`Línea de referencia. El Balanceado (${PC.sc.label}) cayó en marzo 2020 pero se recuperó en 5 meses y cerró 2020 positivo.`},
+    {label:'Mantener',altLabel:'Línea de referencia',color:'var(--action)',traj:_dclAlts.stay,final:stayF,costLabel:'Sin costo — mantener fue lo correcto',narrative:`Línea de referencia. El ${PC.pf.name} (${PC.sc.label}) cayó en marzo 2020 pero se recuperó en 5 meses y cerró 2020 positivo.`},
     {label:'DAP',altLabel:'DAP al 4% anual',color:'var(--neg)',traj:_dclAlts.dap,final:_dclAlts.dap[_dclAlts.dap.length-1],costLabel:'Costo de haber ido a un DAP',narrative:`Rescatar en marzo 2020 y mover a DAP al 4%. Los meses de recuperación se perdieron. En ${PC.sc.label} la diferencia es significativa.`},
     {label:'Renta Fija',altLabel:'Renta Fija (3%)',color:'var(--neg)',traj:_dclAlts.rf,final:_dclAlts.rf[_dclAlts.rf.length-1],costLabel:'Costo de irse a renta fija',narrative:'Moverse a renta fija en el punto más bajo. La recuperación de renta variable fue mucho más rápida.'},
     {label:'Conservador',altLabel:'Conservador desde mar-2020',color:'var(--warn)',traj:_dclAlts.cons,final:_dclAlts.cons[_dclAlts.cons.length-1],costLabel:'Costo de bajar el perfil en el peor momento',narrative:'Cambiar a Conservador en plena caída cristalizó la pérdida y limitó la participación en la recuperación.'},
@@ -1889,7 +1983,7 @@ function selectScen(idx,el){
 function summaryText(){
   const p=PC.pf,d=PC.pd[p.key],conv=CONVICTIONS[p.convictions[0]],dec=DECISIONS[p.decisions[0]];
   return [
-    'RESUMEN DE REUNIÓN · Investment Intelligence',
+    'RESUMEN DE REUNIÓN · Revista Dinámicos',
     `${PC.vc.label} · ${PC.sc.label} · Mayo 2026`,
     '',
     `FONDO: Fondo Dinámico ${p.name} (${PC.sc.label})`,
@@ -1999,7 +2093,7 @@ function renderProfileEngine(){
         <div class="card"><div class="ib-label">Volatilidad esperada</div><div class="h-m">${p.vol}</div><div class="t-3" style="font-size:11px">anualizada (Serie A)</div></div>
       </div>
       <div class="card mb-4"><div class="conv-block-label">Composición recomendada</div>
-        <div class="comp-bar mt-2"><div class="comp-seg" style="width:${p.rv}%;background:var(--c-balanceado)">${p.rv}% RV</div><div class="comp-seg" style="width:${p.rf}%;background:var(--c-conservador);opacity:.7">${p.rf}% RF</div></div>
+        <div class="comp-bar mt-2"><div class="comp-seg" style="width:${p.rv}%;background:var(--c-${profile})">${p.rv}% RV</div><div class="comp-seg" style="width:${p.rf}%;background:var(--c-conservador);opacity:.7">${p.rf}% RF</div></div>
         <div class="t-2 mt-3" style="font-size:13px"><strong>Objetivo:</strong> ${p.obj}. <strong>Enfoque:</strong> ${p.enfoque}.</div>
       </div>
       <div class="g2 mb-4">
@@ -2015,7 +2109,7 @@ function renderProfileEngine(){
       </div>
       <div class="card mb-5" style="background:var(--conv-bg);border:2px solid var(--conv-border)">
         <div class="h-m mb-2">Tu perfil ya está activo en toda la plataforma</div>
-        <div class="body t-2 mb-4">Al confirmar, el ProductContext se sincroniza: Executive Home, Convicciones, Decisiones, Portfolio Explorer, Performance Lab, BFE, Market Timing y FAQ se adaptan al perfil <strong>${p.name}</strong>.</div>
+        <div class="body t-2 mb-4">Al confirmar, el ProductContext se sincroniza: Executive Home, Convicciones, Decisiones, Portfolio Explorer, Análisis de Rentabilidad, Motor de Decisiones, Timing y Preguntas se adaptan al perfil <strong>${p.name}</strong>.</div>
         <div class="flex gap-3 flex-wrap">
           <button class="btn btn-conv" onclick="surveyApply('${profile}')">✓ Continuar hacia la estrategia →</button>
           <button class="btn btn-ghost" onclick="surveyApply('${profile}','portfolio')">Abrir solución recomendada</button>
@@ -2122,13 +2216,14 @@ function applyProductContext(){
   document.getElementById('arch-label').textContent=vc.icon+' '+sc.short;
   // Update legacy header profile label to reflect active profile
   document.getElementById('ctx-profile-label').textContent='Perfil Activo: '+PC.pf.name;
-  // ★ Product Discovery Layer reacts (cards + context summary)
+  // ★ Invalidar TODAS las cachés de módulo — ProductContext es la única fuente de verdad
+  _dclAlts=null;
+  _portStep=0;
+  // Product Discovery Layer reacts (cards + context summary)
   renderDiscovery();
-  // Rebuild screens that depend heavily on PC (convictions list, conv detail, decisions, FAQ, portfolio, perf, BFE) by re-mounting and restoring view
+  // Rebuild screens that depend heavily on PC by re-mounting and restoring view
   const current=_currentScreen;
-  // Re-mount everything so per-vehicle narratives refresh
   mountScreens();
-  // restore current screen
   showScreen(current,true);
 }
 
@@ -2138,7 +2233,7 @@ function applyProductContext(){
 const TITLES={home:'Inicio · Mayo 2026','profile-engine':'Perfilamiento del Inversionista',market:'Mercado · Mayo 2026',convictions:'Convicciones',
   'conv-detail':'Convicción · Detalle',decisions:'Decisiones de Inversión','decision-detail':'Decisión · Detalle',
   questions:'Preguntas del Cliente',bfe:'Motor de Decisiones',timing:'Simulador de Timing de Mercado',
-  dcl:'Costo de Decidir',portfolio:'Portfolio Explorer',performance:'Performance Lab',summary:'Resumen de Reunión'};
+  dcl:'Costo de Decidir',portfolio:'Portfolio Explorer',performance:'Análisis de Rentabilidad',summary:'Resumen de Reunión'};
 let _currentScreen='home';
 function showScreen(id,silent){
   _currentScreen=id;
@@ -2156,7 +2251,7 @@ function showScreen(id,silent){
   if(id==='portfolio'){renderPortSteps();renderPortContent();}
   if(id==='performance'){renderPerfTabs();renderPerfContent();}
   if(id==='timing'){setTimeout(()=>{onSlider(parseInt(document.getElementById('timing-slider').value||0));renderBestMonths();},30);}
-  if(id==='dcl'){setTimeout(()=>{selectScen(0,document.querySelectorAll('.scen-pill')[0]);},30);}
+  if(id==='dcl'){setTimeout(()=>{_dclAlts=null;selectScen(0,document.querySelectorAll('.scen-pill')[0]);},30);}
   if(!silent){closeSidebar();window.scrollTo({top:0,behavior:'smooth'});}
 }
 function go(id){
@@ -2212,7 +2307,7 @@ function renderMeetingView(){
   const dots='●'.repeat(p.risk)+'○'.repeat(5-p.risk);
   document.getElementById('mm-shell').innerHTML=`
     <div class="mm-top">
-      <div class="mm-brand">Investment Intelligence · ${PC.vc.label} · ${PC.sc.label} · Mayo 2026</div>
+      <div class="mm-brand">Revista Dinámicos Interactiva · ${PC.vc.label} · ${PC.sc.label} · Mayo 2026</div>
       <button class="mm-exit" onclick="toggleMeetingMode()">✕ Salir de reunión</button>
     </div>
     <div class="mm-hero">
