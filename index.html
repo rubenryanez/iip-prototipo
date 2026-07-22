@@ -172,10 +172,56 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .timing-table td{padding:10px var(--s3);border-bottom:1px solid var(--gray-100)}
 .timing-table tr.active-row td{background:var(--neg-bg)}
 .timing-table .highlight-row td{background:var(--action-light)}
+.tm-card{border:1px solid var(--border);border-radius:var(--r4);background:var(--surface);box-shadow:var(--sh1);padding:var(--s5);margin-bottom:var(--s4);border-left:4px solid var(--gray-300)}
+.tm-card.tm-base{border-left-color:var(--pos)}
+.tm-card.tm-active{border-left-color:var(--neg);box-shadow:var(--sh2)}
+.tm-card-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);flex-wrap:wrap;margin-bottom:var(--s2)}
+.tm-card-title{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.tm-card-cap{font-size:20px;font-weight:800;font-feature-settings:'tnum'}
+.tm-card-msg{font-size:13.5px;line-height:1.55;color:var(--text-2)}
+.tm-card-cost{font-size:12px;font-weight:800;color:var(--neg);margin-top:var(--s2);font-feature-settings:'tnum'}
+.tm-card-cost.pos{color:var(--pos)}
+.tm-qa{font-size:13px;line-height:1.55;color:var(--text-2);margin-bottom:4px}
+.tm-q{font-weight:800;color:var(--text-1)}
+.tm-hero{background:linear-gradient(135deg,var(--navy),var(--navy-700,#1A2B5C));border-radius:var(--r5,20px);padding:var(--s7) var(--s7);color:#fff;box-shadow:var(--sh3,0 12px 32px rgba(15,27,60,.25));display:flex;justify-content:space-between;align-items:center;gap:var(--s6);flex-wrap:wrap}
+.tm-hero-k{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px}
+.tm-hero-amt{font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1;color:#fff}
+.tm-hero-meta{display:grid;grid-template-columns:repeat(2,auto);gap:var(--s3) var(--s6)}
+.tm-hero-mk{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.tm-hero-mv{font-size:15px;font-weight:800;color:#fff;margin-top:2px}
+@media(max-width:640px){.tm-hero{flex-direction:column;align-items:flex-start;gap:var(--s5)}.tm-hero-amt{font-size:36px}.tm-hero-meta{grid-template-columns:1fr 1fr;width:100%}}
 .scenario-pills{display:flex;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s5)}
 .scen-pill{padding:8px 16px;border-radius:var(--rF);font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:var(--surface);color:var(--text-2);transition:all .15s;white-space:nowrap}
 .scen-pill:hover{border-color:var(--conv);color:var(--conv)}
 .scen-pill.active{background:var(--conv);color:#fff;border-color:var(--conv)}
+.exec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4) var(--s5);margin-bottom:var(--s4)}
+.exec-item{min-width:0}
+.exec-k{font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--text-3);margin-bottom:3px}
+.exec-v{font-size:13.5px;font-weight:600;line-height:1.4;color:var(--text-1)}
+.exec-politica{border-top:1px solid var(--gray-100);padding-top:var(--s4);font-size:13px;line-height:1.55;color:var(--text-2)}
+.exec-politica .exec-k{display:inline;margin-right:6px}
+@media(max-width:900px){.exec-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.exec-grid{grid-template-columns:1fr}}
+.dcl-conv-row{display:flex;gap:var(--s4);padding:var(--s4) 0;border-bottom:1px solid var(--gray-100)}
+.dcl-conv-row:last-of-type{border-bottom:none}
+.dcl-conv-q{flex:0 0 160px;font-size:12px;font-weight:800;letter-spacing:.02em;color:var(--text-3);text-transform:uppercase;padding-top:2px}
+.dcl-conv-a{flex:1;font-size:14px;line-height:1.5;color:var(--text-1)}
+.dcl-conv-a .amt{font-weight:800;font-feature-settings:'tnum'}
+.dd-facts{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s3);}
+.dd-fact{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:var(--s4);text-align:center;box-shadow:var(--sh1)}
+.dd-fact-k{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--text-3);margin-bottom:4px}
+.dd-fact-v{font-size:15px;font-weight:800;font-feature-settings:'tnum'}
+.dd-timeline{display:flex;align-items:center;gap:var(--s2)}
+.dd-tl-node{flex:0 0 auto;text-align:center;min-width:88px}
+.dd-tl-dot{font-size:18px;line-height:1}
+.dd-dot-peak{color:var(--text-2)}.dd-dot-trough{color:var(--neg)}.dd-dot-rec{color:var(--pos)}
+.dd-tl-lbl{font-size:11px;font-weight:800;margin-top:4px}
+.dd-tl-date{font-size:11px;color:var(--text-3);font-weight:600}
+.dd-tl-bar{flex:1;height:2px;background:linear-gradient(90deg,var(--gray-300),var(--gray-200));position:relative;min-width:40px}
+.dd-tl-arrow{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--neg);white-space:nowrap;background:var(--surface);padding:0 4px}
+@media(max-width:760px){.dd-facts{grid-template-columns:repeat(2,1fr)}.dd-timeline{flex-direction:column;align-items:stretch}.dd-tl-bar{min-height:28px;width:2px;align-self:center}}
+.dcl-ref{margin-top:var(--s4);padding:var(--s3) var(--s4);background:var(--navy-050);border-radius:var(--r3);font-size:11.5px;font-weight:700;color:var(--navy);display:inline-block}
+@media(max-width:640px){.dcl-conv-row{flex-direction:column;gap:4px}.dcl-conv-q{flex:none}}
 .cost-hero{background:linear-gradient(135deg,#FEF2F2,#FFF5F5);border:2px solid #FECACA;border-radius:var(--r4);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5)}
 .cost-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#B91C1C;margin-bottom:var(--s2)}
 .cost-amount{font-size:56px;font-weight:900;color:var(--neg);letter-spacing:-.04em;font-feature-settings:"tnum";line-height:1;margin-bottom:var(--s2);transition:opacity .15s}
@@ -535,7 +581,6 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
     <div class="nav-item" data-nav="convictions" onclick="go('convictions')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.7.6 1 1.3 1 2.1h5c0-.8.3-1.5 1-2.1A6 6 0 0 0 12 3z"/></svg></span><span class="nl">Convicciones</span></div>
     <div class="nav-item" data-nav="decisions" onclick="go('decisions')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg></span><span class="nl">Decisiones</span></div>
     <div class="dock-sep"></div>
-    <div class="nav-item nav-sec" data-nav="bfe" onclick="go('bfe')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M5 5l1.8 1.8M17.2 17.2 19 19M19 5l-1.8 1.8M6.8 17.2 5 19"/></svg></span><span class="nl">Motor</span></div>
     <div class="nav-item nav-sec" data-nav="timing" onclick="go('timing')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span><span class="nl">Timing</span></div>
     <div class="nav-item nav-sec" data-nav="dcl" onclick="go('dcl')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01M8.5 18.5h.01M12 18.5h.01M15.5 18.5h.01"/></svg></span><span class="nl">Costo</span></div>
     <div class="dock-sep"></div>
@@ -645,7 +690,6 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
     <div class="sheet-grid">
       <div class="sheet-item" onclick="goFromSheet('profile-engine')"><div class="sheet-ic" style="background:var(--navy-050)">🧭</div><span>Perfilar</span></div>
       <div class="sheet-item" onclick="goFromSheet('market')"><div class="sheet-ic" style="background:var(--c-moderado-bg)">📊</div><span>Mercado</span></div>
-      <div class="sheet-item" onclick="goFromSheet('bfe')"><div class="sheet-ic" style="background:var(--navy-100)">🔬</div><span>Motor de Decisiones</span></div>
       <div class="sheet-item" onclick="goFromSheet('timing')"><div class="sheet-ic" style="background:var(--warn-bg)">⏱</div><span>Timing de Mercado</span></div>
       <div class="sheet-item" onclick="goFromSheet('dcl')"><div class="sheet-ic" style="background:var(--c-agresivo-bg)">🧮</div><span>Costo de Decidir</span></div>
       <div class="sheet-item" onclick="goFromSheet('portfolio')"><div class="sheet-ic" style="background:var(--c-crecimiento-bg)">◔</div><span>Portfolio Explorer</span></div>
@@ -840,7 +884,7 @@ const CONVICTIONS = {
     observamos:'Cada caída de mercado genera un impulso de salida. Ese impulso, ejecutado, tiene un costo cuantificable que casi siempre supera lo que el inversor imagina en el momento de la decisión.',
     importa:'Hacer visible y concreto el costo de salir —en pesos, con datos reales del propio portafolio— es la herramienta más poderosa para sostener una conversación de asesoría consistente.',
     podriaPasar:'Sin esta visibilidad, el inversor seguirá subestimando el costo del pánico y repetirá el patrón en cada corrección. Con ella, la decisión se ancla en evidencia, no en emoción.',
-    haciendo:'Usamos el Motor de Decisiones para calcular, con datos históricos reales de la serie activa, exactamente cuánto habría costado cada decisión emocional alternativa.',
+    haciendo:'Usamos el Simulador de Timing y el Costo de Decidir para calcular, con datos históricos reales de la serie activa, exactamente cuánto habría costado cada decisión emocional alternativa.',
     noHaciendo:'No usamos proyecciones inventadas ni escenarios hipotéticos sin base. Solo datos reales del Fondo Dinámico. No minimizamos el miedo del cliente — lo cuantificamos para poder conversarlo.',
     habilita:['Demostrar el costo del rescate de marzo 2020','Cuantificar el costo del market timing','Anclar la conversación en evidencia, no en emoción'],
     evidence:true,
@@ -1098,7 +1142,14 @@ const PCHIP_MAP={c:['pc-c','Cons.'],m:['pc-m','Mod.'],b:['pc-b','Bal.'],cr:['pc-
 function trajectory(returns){const t=[INITIAL];let v=INITIAL;for(const r of returns){v*=(1+r/100);t.push(v);}return t;}
 function missNBest(n,returns){const ranked=returns.map((r,i)=>({r,i})).sort((a,b)=>b.r-a.r);const skip=new Set(ranked.slice(0,n).map(x=>x.i));return trajectory(returns.map((r,i)=>skip.has(i)?0:r));}
 function annualReturns(returns){const out=[];let yi=0;for(let y=2018;y<=2026;y++){const m=(y===2026)?6:12;let v=1;for(let k=0;k<m;k++){v*=(1+returns[yi+k]/100);}out.push({year:y,ret:(v-1)*100});yi+=m;}return out;}
-function maxDrawdown(returns){const t=trajectory(returns);let peak=t[0],maxDD=0,series=[];for(const v of t){if(v>peak)peak=v;const dd=(v/peak-1)*100;if(dd<maxDD)maxDD=dd;series.push(dd);}return{maxDD,series};}
+function maxDrawdown(returns){const t=trajectory(returns);
+  let peak=t[0],peakIdx=0,maxDD=0,troughIdx=0,ddPeakIdx=0,series=[];
+  for(let i=0;i<t.length;i++){if(t[i]>peak){peak=t[i];peakIdx=i;}const dd=(t[i]/peak-1)*100;if(dd<maxDD){maxDD=dd;troughIdx=i;ddPeakIdx=peakIdx;}series.push(dd);}
+  const peakVal=t[ddPeakIdx];let recIdx=-1;for(let i=troughIdx;i<t.length;i++){if(t[i]>=peakVal){recIdx=i;break;}}
+  const recoveryMonths=recIdx===-1?null:(recIdx-troughIdx);
+  const ddLabel=k=>k<=0?'Ene 2018':(MONTHS_LABELS[k-1]||'—');
+  return{maxDD,series,maxDDidx:troughIdx,peakIdx:ddPeakIdx,recIdx,recoveryMonths,
+    peakLabel:ddLabel(ddPeakIdx),troughLabel:ddLabel(troughIdx),recLabel:recIdx===-1?'Aún no recupera':ddLabel(recIdx),peakToTrough:troughIdx-ddPeakIdx};}
 function volatility(returns){const m=returns.reduce((a,b)=>a+b,0)/returns.length;const variance=returns.reduce((a,b)=>a+(b-m)**2,0)/returns.length;return Math.sqrt(variance)*Math.sqrt(12);}
 function vchipClass(v){return VEHICLE_CONFIG[v].vchip;}
 
@@ -1446,7 +1497,7 @@ function renderConvDetail(id,target){
         <div><div class="h-l mb-1">Esta convicción tiene evidencia cuantificable</div><div class="t-2 body">Demuestra el costo real con datos históricos de la ${PC.sc.label}.</div></div>
       </div>
       <div class="flex gap-3 flex-wrap">
-        <button class="btn btn-conv" onclick="go('bfe')">🔬 Demostrar con Datos →</button>
+        <button class="btn btn-conv" onclick="go('timing')">🔬 Demostrar con Datos →</button>
         <button class="btn btn-ghost" onclick="go('timing')">⏱ Market Timing</button>
         <button class="btn btn-ghost" onclick="go('dcl')">🧮 Costo de Decidir</button>
       </div></div>`:`<div class="card" style="background:var(--gray-100);box-shadow:none">
@@ -1545,9 +1596,35 @@ function buildPortfolio(){
   return `<div class="screen" id="screen-portfolio">
     <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Portfolio Explorer</span></div>
     <div class="d-m mb-2">Portfolio Explorer</div>
-    <div class="t-2 mb-5" style="max-width:720px">La navegación sigue la jerarquía del producto: Perfil → Objetivo → Convicciones → Composición → Instrumentos. Nunca empezamos por el instrumento.</div>
+    <div class="t-2 mb-5" style="max-width:720px">Ficha ejecutiva del fondo para el perfil y vehículo activos. La navegación sigue la jerarquía del producto: Perfil → Objetivo → Convicciones → Composición → Instrumentos.</div>
+    <div id="port-exec-summary"></div>
     <div class="step-flow" id="port-steps"></div>
     <div id="port-content"></div>
+  </div>`;
+}
+function renderPortExecSummary(){
+  const el=document.getElementById('port-exec-summary');if(!el)return;
+  const pf=PC.pf,comp=PORTFOLIO_COMP[PC.vehicle][PC.profile];
+  const dots='●'.repeat(pf.risk)+'○'.repeat(5-pf.risk);
+  const bench=`${pf.rv}% renta variable / ${pf.rf}% renta fija (referencia estratégica)`;
+  const politica=`Cartera gestionada de Fondos Mutuos construida según el perfil ${pf.name}. Invierte hasta ${pf.rv}% en renta variable y hasta ${pf.rf===90?100:pf.rf}% en renta fija, diversificando entre Chile y el extranjero.`;
+  el.innerHTML=`<div class="card mb-5" style="border-top:3px solid var(--c-${pf.key})">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+      <div><div class="conv-block-label" style="margin-bottom:4px">Ficha ejecutiva del fondo</div>
+        <div class="h-l">Fondo Dinámico ${pf.name}</div></div>
+      <div class="flex items-center gap-2 flex-wrap"><span class="pchip pc-${{conservador:'c',moderado:'m',balanceado:'b',crecimiento:'cr',agresivo:'a'}[pf.key]}">Serie ${PC.sc.label}</span><span class="badge badge-neutral">${dots} Riesgo ${pf.riskLabel}</span></div>
+    </div>
+    <div class="exec-grid">
+      <div class="exec-item"><div class="exec-k">Objetivo</div><div class="exec-v">${pf.obj}</div></div>
+      <div class="exec-item"><div class="exec-k">Horizonte recomendado</div><div class="exec-v">${pf.horizon}</div></div>
+      <div class="exec-item"><div class="exec-k">Nivel de riesgo</div><div class="exec-v">${dots} ${pf.riskLabel} (${pf.risk}/5)</div></div>
+      <div class="exec-item"><div class="exec-k">Benchmark</div><div class="exec-v">${bench}</div></div>
+      <div class="exec-item"><div class="exec-k">Remuneración máxima</div><div class="exec-v">${PC.sc.maxFee}% anual ${PC.sc.vat?'IVA incl.':'exento de IVA'}</div></div>
+      <div class="exec-item"><div class="exec-k">Vehículo</div><div class="exec-v">${PC.vc.icon} ${PC.vc.label}</div></div>
+      <div class="exec-item"><div class="exec-k">Límite renta variable</div><div class="exec-v">Hasta ${pf.rv}%</div></div>
+      <div class="exec-item"><div class="exec-k">Límite renta fija</div><div class="exec-v">Hasta ${pf.rf===90?100:pf.rf}%</div></div>
+    </div>
+    <div class="exec-politica"><span class="exec-k">Política de inversión</span> ${politica}</div>
   </div>`;
 }
 function renderPortSteps(){
@@ -1643,7 +1720,7 @@ function renderPerfContent(){
       <div class="flex gap-2 mt-3 flex-wrap">
         <span class="tag" style="background:var(--pos-bg);color:var(--pos);font-weight:800">▲ Mejor mes: ${MONTHS_LABELS[bi]} · +${ret[bi].toFixed(2)}%</span>
         <span class="tag" style="background:var(--neg-bg);color:var(--neg);font-weight:800">▼ Peor mes: ${MONTHS_LABELS[wi]} · ${ret[wi].toFixed(2)}%</span>
-        <span class="tag" style="font-weight:800">↻ Recuperación post-marzo 2020: 5 meses</span>
+        <span class="tag" style="font-weight:800">↻ Recuperación post-marzo 2020: ${(()=>{const r=maxDrawdown(ret).recoveryMonths;return r==null?'>'+(ret.length-MARCH_2020_IDX)+' meses':r+' '+(r===1?'mes':'meses');})()}</span>
       </div></div>
       <div class="g3"><div class="card"><div class="ib-label">Valor final</div><div class="d-m mono t-pos">${fmt(finalV)}</div><div class="t-2" style="font-size:12px">desde $10.000.000 (Ene 2018)</div></div>
       <div class="card"><div class="ib-label">Retorno total</div><div class="d-m mono">${fmtPct((finalV/INITIAL-1)*100)}</div><div class="t-2" style="font-size:12px">acumulado 2018–2026</div></div>
@@ -1660,12 +1737,33 @@ function renderPerfContent(){
       </div><div class="t-3 mt-3" style="font-size:11px">*2026 es parcial (Ene–May). Datos reales de la ${PC.sc.label}.</div></div>`;
   } else if(_perfTab==='drawdown'){
     const dd=maxDrawdown(ret);
-    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Drawdown histórico · ${PC.sc.label}</div>
-      <div class="t-2 body mb-4">El drawdown mide la caída desde el punto más alto. El peor momento fue marzo 2020.</div>
+    const recTxt=dd.recoveryMonths==null?'En curso':dd.recoveryMonths+' '+(dd.recoveryMonths===1?'mes':'meses');
+    const isCovid=dd.troughLabel.includes('2020');
+    const explica=isCovid
+      ? `El peor episodio del Fondo Dinámico ${PC.pf.name} fue la caída global de marzo 2020 (COVID-19). Desde su máximo en ${dd.peakLabel}, la cartera cayó ${Math.abs(dd.maxDD).toFixed(2)}% hasta ${dd.troughLabel}, y recuperó su valor previo en ${dd.recLabel} — ${recTxt} después del punto más bajo.`
+      : `El peor episodio del Fondo Dinámico ${PC.pf.name} no fue la caída COVID de 2020 (que su composición defensiva capeó bien), sino el ciclo de alzas de tasas de ${dd.peakLabel.split(' ')[1]||''}. Desde su máximo en ${dd.peakLabel}, la cartera cayó ${Math.abs(dd.maxDD).toFixed(2)}% hasta ${dd.troughLabel}, y recuperó su valor previo en ${dd.recLabel} — ${recTxt} después del punto más bajo.`;
+    el.innerHTML=`<div class="card mb-5"><div class="h-m mb-2">Máximo drawdown histórico · Fondo Dinámico ${PC.pf.name} · ${PC.sc.label}</div>
+      <div class="t-2 body mb-4">El drawdown mide la peor caída desde un máximo hasta el punto más bajo. Se calcula sobre los retornos históricos reales de <strong>este</strong> perfil y serie — cada perfil tiene su propio peor episodio.</div>
       <svg class="chart-svg" id="perf-chart"></svg></div>
-      <div class="g2"><div class="card cbox-alt" style="border-width:2px"><div class="clabel" style="color:var(--neg)">Máximo drawdown</div><div class="cval mono t-neg">${dd.maxDD.toFixed(2)}%</div><div class="csub">Caída COVID — marzo 2020</div></div>
-      <div class="card cbox-stayed" style="border-width:2px"><div class="clabel" style="color:var(--action)">Recuperación</div><div class="cval mono t-pos">5 meses</div><div class="csub">Tiempo en volver al máximo previo</div></div></div>`;
-    setTimeout(()=>drawChart('perf-chart',[{values:dd.series,color:'var(--neg)',width:2,fill:'#DC2626'}],{fmt:v=>v.toFixed(0)+'%',zeroBase:true,markIdx:MARCH_2020_IDX+1}),30);
+      <div class="dd-facts mb-5">
+        <div class="dd-fact"><div class="dd-fact-k">Máxima caída</div><div class="dd-fact-v t-neg">${dd.maxDD.toFixed(2)}%</div></div>
+        <div class="dd-fact"><div class="dd-fact-k">Máximo previo</div><div class="dd-fact-v">${dd.peakLabel}</div></div>
+        <div class="dd-fact"><div class="dd-fact-k">Punto más bajo</div><div class="dd-fact-v">${dd.troughLabel}</div></div>
+        <div class="dd-fact"><div class="dd-fact-k">Recuperación completa</div><div class="dd-fact-v">${dd.recLabel}</div></div>
+        <div class="dd-fact"><div class="dd-fact-k">Tiempo necesario</div><div class="dd-fact-v t-pos">${recTxt}</div></div>
+      </div>
+      <div class="card mb-5"><div class="conv-block-label mb-3">Línea de tiempo</div>
+        <div class="dd-timeline">
+          <div class="dd-tl-node"><div class="dd-tl-dot dd-dot-peak">▲</div><div class="dd-tl-lbl">Pico</div><div class="dd-tl-date">${dd.peakLabel}</div></div>
+          <div class="dd-tl-bar"><div class="dd-tl-arrow">▼ ${dd.maxDD.toFixed(2)}%</div></div>
+          <div class="dd-tl-node"><div class="dd-tl-dot dd-dot-trough">▼</div><div class="dd-tl-lbl">Punto más bajo</div><div class="dd-tl-date">${dd.troughLabel}</div></div>
+          <div class="dd-tl-bar"><div class="dd-tl-arrow t-pos">↑ ${recTxt}</div></div>
+          <div class="dd-tl-node"><div class="dd-tl-dot dd-dot-rec">●</div><div class="dd-tl-lbl">Recuperación</div><div class="dd-tl-date">${dd.recLabel}</div></div>
+        </div></div>
+      <div class="card" style="background:var(--navy-050)"><div class="conv-block-label mb-2">Explicación ejecutiva</div>
+        <div class="body" style="line-height:1.6">${explica}</div>
+        <div class="t-3 mt-3" style="font-size:11.5px">Cálculo: el punto más bajo es el mínimo de la trayectoria acumulada respecto al máximo previo; la recuperación es el primer mes en que la cartera vuelve a igualar o superar ese máximo. Sobre datos reales de la serie ${PC.sc.label}, base $10.000.000 en Ene 2018.</div></div>`;
+    setTimeout(()=>drawChart('perf-chart',[{values:dd.series,color:'var(--neg)',width:2,fill:'#DC2626'}],{fmt:v=>v.toFixed(0)+'%',zeroBase:true,markIdx:dd.maxDDidx}),30);
   } else if(_perfTab==='volatility'){
     const vol=volatility(ret);
     const profiles={Conservador:1.30,Moderado:2.30,Balanceado:4.58,Crecimiento:6.97,Agresivo:8.90};
@@ -1679,7 +1777,7 @@ function renderPerfContent(){
     el.innerHTML=`<div class="card mb-5"><div class="h-m mb-3">Análisis de recuperación · COVID 2020</div>
       <div class="ev-item"><div class="ev-icon">📉</div><div><div class="ev-val t-neg">-8.32%</div><div class="h-s mb-1">Marzo 2020 — el peor mes</div><div class="body t-2">El punto más bajo. Máximo miedo, máximo impulso de salir.</div></div></div>
       <div class="ev-item"><div class="ev-icon">📈</div><div><div class="ev-val t-pos">+4.51%</div><div class="h-s mb-1">Abril 2020 — el rebote</div><div class="body t-2">El mejor mes vino inmediatamente después del peor.</div></div></div>
-      <div class="ev-item"><div class="ev-icon">⏱</div><div><div class="ev-val t-pos">5 meses</div><div class="h-s mb-1">Tiempo de recuperación total</div><div class="body t-2">En 5 meses el fondo volvió a su máximo previo a la caída.</div></div></div>
+      <div class="ev-item"><div class="ev-icon">⏱</div><div><div class="ev-val t-pos">${(()=>{const r=maxDrawdown(ret).recoveryMonths;return r==null?'En curso':r+' '+(r===1?'mes':'meses');})()}</div><div class="h-s mb-1">Tiempo de recuperación total</div><div class="body t-2">${(()=>{const r=maxDrawdown(ret).recoveryMonths;return r==null?'El fondo aún no recupera completamente el máximo previo a la caída.':'En '+r+' '+(r===1?'mes':'meses')+' el fondo volvió a su máximo previo a la caída.';})()}</div></div></div>
       <div class="ev-item"><div class="ev-icon">✅</div><div><div class="ev-val t-pos">+3.95%</div><div class="h-s mb-1">Año 2020 completo</div><div class="body t-2">Pese al peor shock en 90 años, el año cerró positivo.</div></div></div>
     </div>
     <div class="narrative">Esta es la evidencia central de la convicción "Permanecer invertido". <span class="t-conv" style="cursor:pointer;font-weight:700" onclick="openConviction('permanecer')">Ver convicción →</span></div>`;
@@ -1727,52 +1825,40 @@ function renderPerfContent(){
 }
 
 /* ── BFE HUB ── */
-function buildBFE(){
-  return `<div class="screen" id="screen-bfe">
-    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Motor de Decisiones</span></div>
-    <div class="mb-5"><div class="label mb-2 t-conv">Motor de Decisiones · <span id="bfe-series-note">${PC.sc.label}</span></div>
-    <div class="d-m mb-3">El argumento más poderoso no son las palabras. Son los números del propio portafolio.</div>
-    <div class="body t-2" style="max-width:680px">Estas herramientas convierten la convicción "el costo del pánico es medible" en evidencia concreta, usando datos reales de <strong id="bfe-vehicle-note">${PC.vc.label} (${PC.sc.label})</strong>.</div></div>
-    <div class="adv-box mb-5" style="cursor:pointer" onclick="openConviction('costo_panico')">
-      <div class="adv-box-header"><span class="badge" style="background:var(--conv);color:#fff">🧠 Convicción que sostiene estas herramientas</span></div>
-      <div class="h-s">El costo de las decisiones emocionales es medible y casi siempre subestimado →</div>
-    </div>
-    <div class="g2 mb-6">
-      <div class="tool-card" onclick="go('timing')"><div class="tool-emoji">⏱</div><div class="h-l mb-2">Simulador de Timing de Mercado</div>
-        <div class="body t-2 mb-4">¿Qué pasa si intenta "salir y volver en el momento correcto"? El slider muestra en tiempo real el costo de perderse los mejores meses.</div>
-        <div class="flex gap-2 flex-wrap mb-4"><span class="tag">Slider interactivo</span><span class="tag">Datos reales 2018–2026</span></div>
-        <button class="btn btn-primary">Abrir →</button></div>
-      <div class="tool-card" onclick="go('dcl')"><div class="tool-emoji">🧮</div><div class="h-l mb-2">Costo de Decidir</div>
-        <div class="body t-2 mb-4">¿Qué habría pasado si rescataba en la caída de 2020? Compara contra DAP, renta fija, cambio de perfil y cambio de vehículo.</div>
-        <div class="flex gap-2 flex-wrap mb-4"><span class="tag">6 escenarios</span><span class="tag">Costo en pesos</span><span class="tag">★ Cambio de vehículo</span></div>
-        <button class="btn btn-primary">Abrir →</button></div>
-    </div>
-    <div class="card" style="background:var(--gray-950);border:none;color:#fff;padding:var(--s6)">
-      <div class="flex items-center gap-4"><div style="font-size:28px">💡</div><div><div class="h-m mb-1" style="color:#fff">Nota arquitectónica</div><div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.6">Todos los cálculos usan el <strong style="color:#34D399" id="bfe-arch-note">dataset de ${PC.sc.label}</strong>. Al cambiar Vehículo/Serie, los simuladores recalculan con la serie activa.</div></div></div>
-    </div></div>`;
-}
-
 /* ── MARKET TIMING ── */
 const MISS_SCENARIOS=[{n:0,label:'Invertido siempre (referencia)'},{n:5,label:'Te pierdes los 5 mejores meses'},{n:10,label:'Te pierdes los 10 mejores meses'},{n:20,label:'Te pierdes los 20 mejores meses'},{n:30,label:'Te pierdes los 30 mejores meses'}];
 function buildTiming(){
   return `<div class="screen" id="screen-timing">
-    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('bfe')">Motor de Decisiones</span><span class="sep">›</span><span class="cur">Market Timing</span></div>
-    <div class="mb-5"><div class="label mb-2 t-conv">Simulador de Timing de Mercado · ${PC.pf.name} · <span id="timing-series-label">${PC.sc.label}</span></div>
-    <div class="d-m mb-3">¿Qué pasaría si no estuviera invertido en los mejores meses?</div>
-    <div class="body t-2" style="max-width:640px">$10.000.000 invertidos en enero 2018. Usa el slider para ver el impacto de perderse los N mejores meses.</div></div>
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Market Timing</span></div>
+    <div class="mb-5"><div class="label mb-2 t-conv">Simulador de Timing de Mercado</div>
+    <div class="d-m mb-3">¿Qué pasaría si no estuviera invertido en los mejores meses?</div></div>
+    <div class="tm-hero mb-6">
+      <div class="tm-hero-main">
+        <div class="tm-hero-k">Monto simulado</div>
+        <div class="tm-hero-amt mono">$10.000.000</div>
+      </div>
+      <div class="tm-hero-meta">
+        <div class="tm-hero-item"><div class="tm-hero-mk">Fecha de inicio</div><div class="tm-hero-mv">Enero 2018</div></div>
+        <div class="tm-hero-item"><div class="tm-hero-mk">Perfil</div><div class="tm-hero-mv">${PC.pf.name}</div></div>
+        <div class="tm-hero-item"><div class="tm-hero-mk">Serie</div><div class="tm-hero-mv">${PC.sc.label}</div></div>
+        <div class="tm-hero-item"><div class="tm-hero-mk">Horizonte analizado</div><div class="tm-hero-mv">Hasta junio 2026</div></div>
+      </div>
+    </div>
+    <div class="body t-2 mb-4" style="max-width:640px">Usa el slider para ver el impacto de perderse los N mejores meses del período.</div>
     <div class="slider-section"><div class="slider-title">Meses fuera del mercado</div>
       <div class="slider-val-display mono" id="slider-cost-display">$0</div>
       <div style="font-size:13px;color:var(--pos);font-weight:600;margin-bottom:var(--s4)" id="slider-sub">Si se quedó invertido siempre: sin costo de oportunidad.</div>
       <input type="range" id="timing-slider" min="0" max="30" value="0" style="--p:0%" oninput="onSlider(this.value)">
       <div class="slider-labels"><span>0</span><span>10</span><span>20</span><span>30 meses</span></div></div>
-    <div class="card mb-5"><div class="h-m mb-4">Impacto en $10.000.000 (Ene 2018)</div>
-      <div style="overflow-x:auto"><table class="timing-table"><thead><tr><th>Situación</th><th style="text-align:right">Capital hoy</th><th style="text-align:right">Retorno</th><th style="text-align:right">Diferencia</th></tr></thead><tbody id="timing-tbody"></tbody></table></div></div>
+    <div class="mb-5"><div class="h-m mb-2">Cada escenario, explicado como se lo contarías al cliente</div>
+      <div class="t-2 body mb-4" style="max-width:640px">No es una tabla de números: es lo que significó cada decisión en el patrimonio real del cliente.</div>
+      <div id="timing-cards"></div></div>
     <div class="chart-wrap mb-5"><div class="flex items-center justify-between mb-4 flex-wrap"><div class="h-m">Trayectoria 2018–2026</div><div class="t-3" style="font-size:11px;font-weight:600"><span id="chart-series-label">${PC.sc.label}</span> · Base $10M</div></div>
       <svg class="chart-svg" id="timing-chart"></svg>
       <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span>Invertido siempre</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="legend-miss-label">Sin meses perdidos</span></div></div></div>
     <div class="card mb-5"><div class="h-m mb-2">Los mejores meses (2018–2026)</div><div class="t-2 mb-4" style="font-size:13px">Ocurrieron en los períodos de mayor incertidumbre. Quien salió por miedo, los perdió.</div><div class="flex flex-wrap gap-2" id="best-months-display"></div></div>
     <div class="narrative mb-5">Los 5 mejores meses del Fondo Dinámico ${PC.pf.name} entre 2018 y 2026 ocurrieron en 2020 — el año del COVID. Salir en marzo 2020 y volver en julio habría perdido 4 de los 5 mejores meses de toda la historia del fondo. <span class="t-conv" style="font-weight:700;cursor:pointer" onclick="openConviction('permanecer')">Ver convicción →</span></div>
-    <div class="flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="go('dcl')">Costo de Decidir →</button><button class="btn btn-ghost" onclick="go('bfe')">← Motor de Decisiones</button></div></div>`;
+    <div class="flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="go('dcl')">Costo de Decidir →</button></div></div>`;
 }
 function onSlider(val){
   val=parseInt(val);document.getElementById('timing-slider').style.setProperty('--p',(val/30*100)+'%');
@@ -1782,11 +1868,20 @@ function onSlider(val){
   else{cEl.textContent=fmt(cost);cEl.style.color='var(--neg)';sEl.textContent=`Costo de perderse los ${val} mejores meses del ${PC.pf.name} (${PC.sc.label}).`;sEl.style.color='var(--neg)';}
   document.getElementById('legend-miss-label').textContent=val===0?'Sin meses perdidos':`Perdiendo ${val} mejores meses`;
   drawChart('timing-chart',[{values:base,color:'var(--action)',width:2.5,fill:'#2563EB'},{values:missed,color:'var(--neg)',width:2,dashed:true,opacity:val===0?0.15:1}]);
-  const tbody=document.getElementById('timing-tbody');tbody.innerHTML='';
-  MISS_SCENARIOS.forEach(({n,label})=>{const t=missNBest(n,ret),f=t[t.length-1],r=(f/INITIAL-1)*100,df=f-baseF,isBase=n===0,isActive=n===val;
-    const tr=document.createElement('tr');if(isActive&&!isBase)tr.className='active-row';if(isBase&&val===0)tr.className='highlight-row';
-    tr.innerHTML=`<td><strong>${label}</strong></td><td style="text-align:right;font-feature-settings:'tnum';font-weight:700">${fmt(f)}</td><td style="text-align:right;font-feature-settings:'tnum';color:${r>=0?'var(--pos)':'var(--neg)'}">${fmtPct(r)}</td><td style="text-align:right;font-feature-settings:'tnum';color:${isBase?'var(--text-2)':'var(--neg)'}">${isBase?'Referencia':fmt(df)}</td>`;
-    tbody.appendChild(tr);});
+  const cont=document.getElementById('timing-cards');if(cont){cont.innerHTML='';
+    const MSG={0:{t:'Permanecer invertido',did:'El cliente mantuvo su inversión durante todo el período, sin intentar adivinar los mejores momentos de entrada o salida.',post:'Capturó cada recuperación del mercado, incluida la fuerte alza posterior a marzo 2020.',l:'La disciplina permitió capturar completamente el crecimiento del fondo.'},
+      5:{t:'Perderse los 5 mejores meses',did:'El cliente salió del mercado buscando "evitar lo peor" y estuvo fuera en los 5 meses de mayor retorno.',post:'Esos 5 meses se concentraron en 2020, justo cuando el miedo era máximo y el rebote más fuerte.',l:'Perder solo cinco meses —los del rebote— cambió el resultado de años completos.'},
+      10:{t:'Perderse los 10 mejores meses',did:'El cliente entró y salió varias veces "esperando el momento correcto" y se perdió los 10 mejores meses.',post:'Los mejores meses casi siempre siguen de cerca a las peores caídas: estar afuera en esos momentos costó caro.',l:'El costo de intentar cronometrar el mercado se acumula rápido.'},
+      20:{t:'Perderse los 20 mejores meses',did:'El cliente pasó largos períodos fuera del mercado y se perdió los 20 mejores meses de la serie.',post:'Una buena inversión se transformó en un resultado mediocre solo por no estar presente en los momentos clave.',l:'La mayor parte del retorno se genera en pocos meses concentrados.'},
+      30:{t:'Perderse los 30 mejores meses',did:'El cliente intentó sistemáticamente cronometrar el mercado y se perdió los 30 mejores meses.',post:'El patrimonio final quedó muy por debajo de simplemente haber permanecido invertido todo el tiempo.',l:'Estar afuera en los momentos clave es la forma más segura de destruir valor.'}};
+    MISS_SCENARIOS.forEach(({n})=>{const t=missNBest(n,ret),f=t[t.length-1],r=(f/INITIAL-1)*100,df=baseF-f,isBase=n===0,isActive=n===val;const info=MSG[n]||{t:'Perderse '+n+' meses',m:'',l:''};
+      const card=document.createElement('div');card.className='tm-card'+(isBase?' tm-base':'')+(isActive&&!isBase?' tm-active':'');
+      card.innerHTML=`<div class="tm-card-head"><div class="tm-card-title">${info.t}</div><div class="tm-card-cap" style="color:${isBase?'var(--pos)':'var(--text-1)'}">${fmt(f)}</div></div>
+        <div class="tm-qa"><span class="tm-q">¿Qué hizo el cliente?</span> ${info.did}</div>
+        <div class="tm-qa"><span class="tm-q">¿Qué ocurrió después?</span> ${info.post}</div>
+        ${isBase?`<div class="tm-card-cost pos">Retorno total ${fmtPct(r)} · sin costo de oportunidad — es la línea de referencia</div>`:`<div class="tm-card-cost">Dinero que dejó de ganar: ${fmt(df)} · costo de oportunidad ${((df/baseF)*100).toFixed(1)}%</div>`}
+        <div class="tm-qa" style="margin-top:6px;font-style:italic;color:var(--text-3)"><span class="tm-q" style="font-style:normal">Aprendizaje:</span> ${info.l}</div>`;
+      cont.appendChild(card);});}
 }
 function renderBestMonths(){
   const el=document.getElementById('best-months-display');if(!el)return;el.innerHTML='';
@@ -1798,7 +1893,7 @@ function renderBestMonths(){
 let _dclAlts=null;
 function buildDCL(){
   return `<div class="screen" id="screen-dcl">
-    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span onclick="go('bfe')">Motor de Decisiones</span><span class="sep">›</span><span class="cur">Costo de Decidir</span></div>
+    <div class="breadcrumb"><span onclick="go('home')">Inicio</span><span class="sep">›</span><span class="cur">Costo de Decidir</span></div>
     <div class="mb-5"><div class="label mb-2 t-neg">Costo de Decidir · <span id="dcl-series-label">${PC.sc.label}</span></div>
     <div class="d-m mb-3">¿Cuánto costó rescatar en marzo de 2020?</div>
     <div class="body t-2" style="max-width:680px">Elige un escenario alternativo para ver el costo real de esa decisión, calculado en la serie activa.</div></div>
@@ -1810,44 +1905,95 @@ function buildDCL(){
     <div class="adv-box mb-5" style="cursor:pointer" onclick="openConviction('costo_panico')"><div class="adv-box-header"><span class="badge" style="background:var(--conv);color:#fff">🧠 Convicción</span><span class="badge badge-neutral" id="dcl-cost-note">${VEHICLE_ADVISORY[PC.vehicle].costNote.slice(0,46)}…</span></div><div class="h-s">El costo del pánico es medible y casi siempre subestimado →</div></div>
     <div class="h-s mb-3">¿Qué hubiera hecho en marzo 2020?</div>
     <div class="scenario-pills mb-5">
-      <div class="scen-pill active" onclick="selectScen(0,this)">✅ Mantener</div>
-      <div class="scen-pill" onclick="selectScen(1,this)">💰 DAP (4%)</div>
-      <div class="scen-pill" onclick="selectScen(2,this)">📄 Renta Fija</div>
-      <div class="scen-pill" onclick="selectScen(3,this)">🔽 Bajar a Conservador</div>
-      <div class="scen-pill" onclick="selectScen(4,this)">⏳ Salir y volver 6m</div>
-      <div class="scen-pill" onclick="selectScen(5,this)" style="border-color:var(--conv)">🔄 Cambio de vehículo</div></div>
+      <div class="scen-pill active" onclick="selectScen(0,this)">✅ Permanecer invertido</div>
+      <div class="scen-pill" onclick="selectScen(1,this)">💰 Cambiar a DAP</div>
+      <div class="scen-pill" onclick="selectScen(2,this)">🏦 Fondo Monetario</div>
+      <div class="scen-pill" onclick="selectScen(3,this)">⏳ Esperar 3 meses</div>
+      <div class="scen-pill" onclick="selectScen(4,this)">⏳ Esperar 6 meses</div>
+      <div class="scen-pill" onclick="selectScen(5,this)">⏳ Esperar 12 meses</div></div>
     <div class="cost-hero"><div class="cost-label" id="dcl-cost-label">Sin costo — mantener fue lo correcto</div><div class="cost-amount mono" id="dcl-cost-amount">$0</div><div class="cost-sub" id="dcl-cost-sub">Línea de referencia.</div></div>
     <div class="compare-grid"><div class="cbox cbox-stayed"><div class="clabel" style="color:var(--action)">✅ Si se quedó invertido</div><div class="cval mono t-pos" id="stayed-val">${fmt(trajectory(PC.ret)[101])}</div><div class="csub" id="stayed-sub">Capital a junio 2026</div></div>
       <div class="cbox cbox-alt"><div class="clabel" style="color:var(--neg)" id="alt-label">Línea de referencia</div><div class="cval mono t-neg" id="alt-val">—</div><div class="csub" id="alt-sub">Selecciona un escenario.</div></div></div>
     <div class="chart-wrap mb-5"><div class="flex items-center justify-between mb-4 flex-wrap"><div class="h-m">Trayectoria · Ene 2018 → Jun 2026</div><div class="t-3" style="font-size:11px;font-weight:600"><span id="dcl-chart-series-label">${PC.sc.label}</span></div></div>
       <svg class="chart-svg" id="dcl-chart"></svg>
       <div class="chart-legend"><div class="legend-item"><div class="legend-line" style="background:var(--action)"></div><span id="dcl-legend-stay">${PC.pf.name} ${PC.sc.short} — invertido</span></div><div class="legend-item"><div class="legend-line legend-dash" style="border-color:var(--neg)"></div><span id="dcl-legend-alt">Selecciona un escenario</span></div></div></div>
-    <div class="narrative mb-5" id="dcl-narrative">Línea de referencia. El ${PC.pf.name} cayó en marzo 2020 pero se recuperó en meses.</div>
+    <div class="card mb-5" id="dcl-conversation">
+      <div class="conv-block-label">Conversación de asesoría</div>
+      <div class="dcl-conv-row"><div class="dcl-conv-q">¿Qué ocurrió?</div><div class="dcl-conv-a" id="dcl-what">—</div></div>
+      <div class="dcl-conv-row"><div class="dcl-conv-q">¿Por qué ocurrió?</div><div class="dcl-conv-a" id="dcl-why">—</div></div>
+      <div class="dcl-conv-row"><div class="dcl-conv-q">¿Cuánto dejó de ganar?</div><div class="dcl-conv-a" id="dcl-howmuch">—</div></div>
+      <div class="dcl-conv-row"><div class="dcl-conv-q">Aprendizaje</div><div class="dcl-conv-a" id="dcl-lesson">—</div></div>
+      <div id="dcl-ref" class="dcl-ref" style="display:none"></div>
+    </div>
     <div class="flex gap-3 flex-wrap"><button class="btn btn-present" onclick="go('summary')">★ Generar Resumen</button><button class="btn btn-ghost" onclick="go('timing')">← Market Timing</button></div></div>`;
 }
+/* ── FUENTES OFICIALES (Fase mejora PM) ── */
+const TPM_MONTHLY = [2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,3,3,3,3,3,2.5,2.5,2.5,2,1.75,1.75,1.75,1.75,1.75,1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.75,0.75,1.5,2.75,2.75,4,5.5,5.5,7,7,8.25,9,9.75,9.75,10.75,11.25,11.25,11.25,11.25,11.25,11.25,11.25,11.25,11.25,10.25,10.25,9.5,9,9,8.25,8.25,7.25,7.25,6.5,6,5.75,5.75,5.75,5.5,5.25,5.25,5,5,5,5,5,5,5,4.75,4.75,4.75,4.75,4.75,4.5,4.5,4.5,4.5,4.5,4.5,4.5]; // TPM % mensual (fin de mes) Ene2018–Jun2026 · BCCh
+const TPM_RATE = TPM_MONTHLY.map(t=>t/12/100); // tasa mensual DAP-equivalente
+const MONETARIO = {
+  monthly: [0.208,0.208,0.208,0.208,0.208,0.208,0.208,0.208,0.208,0.229,0.229,0.229,0.25,0.25,0.25,0.25,0.25,0.208,0.208,0.208,0.167,0.146,0.146,0.146,0.146,0.146,0.083,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.042,0.063,0.063,0.125,0.229,0.229,0.333,0.19,0.27,0.35,0.48,0.54,0.59,0.64,0.7,0.7,0.77,0.79,0.8,0.78,0.7,0.78,0.75,0.78,0.75,0.78,0.76,0.7,0.7,0.65,0.64,0.61,0.52,0.54,0.48,0.48,0.42,0.42,0.41,0.39,0.39,0.36,0.37,0.36,0.33,0.37,0.35,0.36,0.33,0.34,0.34,0.32,0.33,0.31,0.32,0.32,0.28,0.31,0.3,0.31,0.3], // retornos % mensuales · LV Monetario Serie A (2022–2026 ficha oficial; 2018–2021 proxy TPM)
+  name: "Fondo Mutuo LV Monetario",
+  serie: 'A',
+  objetivo: "Fondo Mutuo de inversi\u00f3n en instrumentos de deuda de corto plazo con duraci\u00f3n menor o igual a 90 d\u00edas.",
+  remuneracion: "Hasta 3,00% anual IVA incluido",
+  tac: "1,07% anualizado",
+  ytd: 1.82, y1: 3.84,
+  duracion: "\u2264 90 d\u00edas",
+  ytm: 4.3, rating: "AAA",
+  run: "8177"
+};
 function buildDCLAlts(returns){
-  const stay=trajectory(returns),V_m=stay[MARCH_2020_IDX+1],DAP=4.0/12/100,RF=3.0/12/100;
-  const dap=[...stay.slice(0,MARCH_2020_IDX+2)];let vd=V_m;for(let i=MARCH_2020_IDX+1;i<returns.length;i++){vd*=(1+DAP);dap.push(vd);}
-  const rf=[...stay.slice(0,MARCH_2020_IDX+2)];let vr=V_m;for(let i=MARCH_2020_IDX+1;i<returns.length;i++){vr*=(1+RF);rf.push(vr);}
-  const cons=[...stay.slice(0,MARCH_2020_IDX+2)];let vc=V_m;for(let i=MARCH_2020_IDX+1;i<returns.length;i++){vc*=(1+returns[i]*0.55/100);cons.push(vc);}
-  const ex6=[...stay.slice(0,MARCH_2020_IDX+2)];let ve=V_m;for(let i=0;i<6;i++){ve*=(1+0.25/100);ex6.push(ve);}for(let i=MARCH_2020_IDX+7;i<returns.length;i++){ve*=(1+returns[i]/100);ex6.push(ve);}
-  let switchSeries,switchLabel;
-  if(PC.series==='A'||PC.series==='P'){switchSeries='APV';switchLabel='APV (si hubiera usado APV desde el inicio)';}
-  else if(PC.series==='F'){switchSeries='APV';switchLabel='APV (en vez de Serie F)';}
-  else if(PC.series==='APV'){switchSeries='APV_AP';switchLabel='APV-AP (comisión mínima con aporte patronal)';}
-  else{switchSeries='F';switchLabel='Serie F (Seguros con Ahorro)';}
-  return{stay,dap,rf,cons,ex6,switchTraj:trajectory(DATASETS[switchSeries]),switchSeries,switchLabel};
+  const stay=trajectory(returns),M=MARCH_2020_IDX;const V_m=stay[M+1];
+  // DAP: acumula con TPM oficial (BCCh) mes a mes desde marzo 2020
+  const dap=[...stay.slice(0,M+2)];let vd=V_m;for(let i=M+1;i<returns.length;i++){vd*=(1+TPM_RATE[i]);dap.push(vd);}
+  // Monetario: acumula con retornos oficiales del LV Monetario Serie A desde marzo 2020
+  const mon=[...stay.slice(0,M+2)];let vm=V_m;for(let i=M+1;i<returns.length;i++){vm*=(1+MONETARIO.monthly[i]/100);mon.push(vm);}
+  // Esperar N meses fuera del mercado (en caja, 0% real) y volver
+  const buildWait=(n)=>{const w=[...stay.slice(0,M+2)];let vw=V_m;for(let i=0;i<n;i++)w.push(vw);for(let i=M+1+n;i<returns.length;i++){vw*=(1+returns[i]/100);w.push(vw);}return w;};
+  const wait3=buildWait(3),wait6=buildWait(6),wait12=buildWait(12);
+  return{stay,dap,mon,wait3,wait6,wait12};
 }
 function getScenarios(){
   if(!_dclAlts)_dclAlts=buildDCLAlts(PC.ret);
-  const stayF=_dclAlts.stay[_dclAlts.stay.length-1],{switchTraj,switchLabel,switchSeries}=_dclAlts,switchF=switchTraj[switchTraj.length-1],isBetter=switchF>stayF;
+  const a=_dclAlts, stayF=a.stay[a.stay.length-1], last=x=>x[x.length-1];
+  const tpmNow=TPM_MONTHLY[TPM_MONTHLY.length-1];
   return[
-    {label:'Mantener',altLabel:'Línea de referencia',color:'var(--action)',traj:_dclAlts.stay,final:stayF,costLabel:'Sin costo — mantener fue lo correcto',narrative:`Línea de referencia. El ${PC.pf.name} (${PC.sc.label}) cayó en marzo 2020 pero se recuperó en 5 meses y cerró 2020 positivo.`},
-    {label:'DAP',altLabel:'DAP al 4% anual',color:'var(--neg)',traj:_dclAlts.dap,final:_dclAlts.dap[_dclAlts.dap.length-1],costLabel:'Costo de haber ido a un DAP',narrative:`Rescatar en marzo 2020 y mover a DAP al 4%. Los meses de recuperación se perdieron. En ${PC.sc.label} la diferencia es significativa.`},
-    {label:'Renta Fija',altLabel:'Renta Fija (3%)',color:'var(--neg)',traj:_dclAlts.rf,final:_dclAlts.rf[_dclAlts.rf.length-1],costLabel:'Costo de irse a renta fija',narrative:'Moverse a renta fija en el punto más bajo. La recuperación de renta variable fue mucho más rápida.'},
-    {label:'Conservador',altLabel:'Conservador desde mar-2020',color:'var(--warn)',traj:_dclAlts.cons,final:_dclAlts.cons[_dclAlts.cons.length-1],costLabel:'Costo de bajar el perfil en el peor momento',narrative:'Cambiar a Conservador en plena caída cristalizó la pérdida y limitó la participación en la recuperación.'},
-    {label:'Salir 6m',altLabel:'Salir mar, volver oct 2020',color:'var(--warn)',traj:_dclAlts.ex6,final:_dclAlts.ex6[_dclAlts.ex6.length-1],costLabel:'Costo de perderse 6 meses de recuperación',narrative:'Salir para "esperar" y volver en octubre 2020. Se perdieron abril (+4.51%), agosto (+3.37%) y noviembre (+4.65%).'},
-    {label:'Cambio vehículo',altLabel:switchLabel,color:isBetter?'var(--pos)':'var(--neg)',traj:switchTraj,final:switchF,isSwitch:true,switchSeries,costLabel:isBetter?`Ganancia potencial en ${SERIES_CONFIG[switchSeries].label}`:`Diferencia vs ${SERIES_CONFIG[switchSeries].label}`,narrative:isBetter?`Simulación de cambio de vehículo. En ${SERIES_CONFIG[switchSeries].label} (${VEHICLE_CONFIG[SERIES_CONFIG[switchSeries].vehicle].label}) el resultado sería ${fmt(switchF)} — ${fmt(switchF-stayF)} más que en ${PC.sc.label}. La diferencia es la comisión acumulada en 8.5 años.`:`En ${SERIES_CONFIG[switchSeries].label} el resultado sería ${fmt(switchF)}. Cambia la serie activa para comparar.`}
+    {label:'Permanecer invertido',altLabel:'Permanecer invertido',color:'var(--action)',traj:a.stay,final:stayF,
+     costLabel:'Sin costo — permanecer fue lo correcto',
+     what:'El cliente mantuvo su inversión durante toda la caída de marzo 2020 y la recuperación posterior.',
+     why:'La estrategia se construye por convicción y horizonte, no por reacción a la volatilidad de corto plazo.',
+     lesson:'La disciplina permitió capturar completamente la recuperación del mercado.',
+     ref:null},
+    {label:'Cambiar a DAP',altLabel:'DAP (TPM oficial)',color:'var(--neg)',traj:a.dap,final:last(a.dap),
+     costLabel:'Dinero que dejó de ganar vs. permanecer',
+     what:'El cliente rescató en la caída y movió su capital a un depósito a plazo.',
+     why:`El DAP rinde según la Tasa de Política Monetaria. Entre 2020 y 2021 la TPM estuvo en mínimos históricos (0,50%), muy por debajo de la recuperación de la renta variable. Hoy la TPM es ${tpmNow.toFixed(2)}%.`,
+     lesson:'Buscar refugio en el DAP en el punto más bajo cristalizó la pérdida y renunció a la recuperación.',
+     ref:'Referencia: TPM oficial Banco Central de Chile'},
+    {label:'Cambiar al Fondo Monetario',altLabel:'LV Monetario Serie A',color:'var(--neg)',traj:a.mon,final:last(a.mon),
+     costLabel:'Dinero que dejó de ganar vs. permanecer',
+     what:'El cliente movió su capital al Fondo Mutuo LV Monetario Serie A (deuda de corto plazo, duración ≤ 90 días).',
+     why:`El Fondo Monetario preserva capital con baja volatilidad, pero su retorno (YTD ${MONETARIO.ytd}%, 12 meses ${MONETARIO.y1}%) es muy inferior al de una cartera diversificada en un ciclo de recuperación.`,
+     lesson:'Un fondo de corto plazo protege de la volatilidad, pero no participa de la recuperación de la renta variable.',
+     ref:'Referencia: ficha oficial Fondo Mutuo LV Monetario Serie A'},
+    {label:'Esperar 3 meses',altLabel:'Salir y volver a los 3 meses',color:'var(--warn)',traj:a.wait3,final:last(a.wait3),
+     costLabel:'Costo de esperar 3 meses fuera del mercado',
+     what:'El cliente salió en marzo 2020 y volvió 3 meses después, en junio 2020.',
+     why:'Los primeros meses tras una caída suelen concentrar el rebote más fuerte. Abril 2020 fue uno de los mejores meses de la serie.',
+     lesson:'Incluso una espera corta se pierde los meses de mayor recuperación.',
+     ref:null},
+    {label:'Esperar 6 meses',altLabel:'Salir y volver a los 6 meses',color:'var(--warn)',traj:a.wait6,final:last(a.wait6),
+     costLabel:'Costo de esperar 6 meses fuera del mercado',
+     what:'El cliente salió en marzo 2020 y volvió 6 meses después, en septiembre 2020.',
+     why:'Medio año fuera del mercado abarcó varios de los mejores meses de toda la serie histórica del fondo.',
+     lesson:'Cuanto más se espera "a que pase la tormenta", mayor es el costo de oportunidad.',
+     ref:null},
+    {label:'Esperar 12 meses',altLabel:'Salir y volver a los 12 meses',color:'var(--neg)',traj:a.wait12,final:last(a.wait12),
+     costLabel:'Costo de esperar 12 meses fuera del mercado',
+     what:'El cliente salió en marzo 2020 y volvió un año después, en marzo 2021.',
+     why:'Un año completo fuera del mercado se perdió toda la recuperación en V del 2020, el mejor tramo del ciclo.',
+     lesson:'Esperar un año para "estar seguro" fue la decisión más costosa de todas.',
+     ref:null}
   ];
 }
 function animateNumber(el,from,to,dur=500){const t0=performance.now(),d=to-from;(function step(t){const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(from+d*e));if(p<1)requestAnimationFrame(step);})(performance.now());}
@@ -1855,7 +2001,7 @@ function selectScen(idx,el){
   _dclAlts=null;const scens=getScenarios();
   document.querySelectorAll('.scen-pill').forEach(p=>p.classList.remove('active'));if(el)el.classList.add('active');
   const sc=scens[Math.min(idx,scens.length-1)],stayF=scens[0].final,isBase=idx===0,costEl=document.getElementById('dcl-cost-amount');
-  const prevC=parseInt((costEl.textContent||'0').replace(/[^0-9]/g,''))||0,diff=Math.abs(stayF-sc.final),isBetter=sc.isSwitch&&sc.final>stayF;
+  const prevC=parseInt((costEl.textContent||'0').replace(/[^0-9]/g,''))||0,diff=Math.abs(stayF-sc.final),isBetter=false;
   document.getElementById('dcl-cost-label').textContent=sc.costLabel;
   const hero=document.querySelector('.cost-hero');
   if(isBase){costEl.style.color='var(--pos)';costEl.textContent='$0';document.getElementById('dcl-cost-sub').textContent='Línea de referencia. Cada escenario se compara contra este resultado.';hero.style.cssText='background:linear-gradient(135deg,#F0FDF4,#FAFFFA);border:2px solid #86EFAC;border-radius:var(--r4);padding:var(--s8) var(--s7);text-align:center;margin-bottom:var(--s5)';}
@@ -1866,7 +2012,14 @@ function selectScen(idx,el){
   if(isBase){altL.textContent='¿Cuál habría sido el resultado?';altV.textContent='—';altV.style.color='var(--text-2)';altS.textContent='Selecciona un escenario alternativo.';}
   else{altL.textContent=sc.altLabel;animateNumber(altV,parseInt((altV.textContent||'0').replace(/[^0-9]/g,''))||0,sc.final);altV.style.color=isBetter?'var(--pos)':'var(--neg)';altS.textContent=fmtPct((sc.final/INITIAL-1)*100)+' total';}
   document.getElementById('dcl-legend-alt').textContent=isBase?'Selecciona un escenario':sc.altLabel;
-  document.getElementById('dcl-narrative').innerHTML=sc.narrative;
+  // conversación de asesoría
+  const diffFmt=fmt(diff);
+  document.getElementById('dcl-what').textContent=sc.what;
+  document.getElementById('dcl-why').textContent=sc.why;
+  document.getElementById('dcl-howmuch').innerHTML=isBase?'La disciplina no tuvo costo: es la línea de referencia contra la que se miden las demás decisiones.':`Esta decisión habría reducido el patrimonio final en <span class="amt t-neg">${diffFmt}</span> respecto a permanecer invertido — un costo de oportunidad del <span class="amt t-neg">${((diff/stayF)*100).toFixed(1)}%</span>.`;
+  document.getElementById('dcl-lesson').textContent=sc.lesson;
+  const refEl=document.getElementById('dcl-ref');
+  if(sc.ref){refEl.style.display='inline-block';refEl.textContent=sc.ref;}else{refEl.style.display='none';}
   drawChart('dcl-chart',[{values:scens[0].traj,color:'var(--action)',width:2.5,fill:'#2563EB'},{values:sc.traj,color:isBase?'rgba(100,116,139,0.2)':sc.color,width:2,dashed:!isBase,opacity:isBase?0.3:1}],{markIdx:MARCH_2020_IDX+1});
 }
 
@@ -2000,7 +2153,7 @@ function renderProfileEngine(){
       </div>
       <div class="card mb-5" style="background:var(--conv-bg);border:2px solid var(--conv-border)">
         <div class="h-m mb-2">Tu perfil ya está activo en toda la plataforma</div>
-        <div class="body t-2 mb-4">Al confirmar, el ProductContext se sincroniza: Executive Home, Convicciones, Decisiones, Portfolio Explorer, Análisis de Rentabilidad, Motor de Decisiones y Timing se adaptan al perfil <strong>${p.name}</strong>.</div>
+        <div class="body t-2 mb-4">Al confirmar, el ProductContext se sincroniza: Executive Home, Convicciones, Decisiones, Portfolio Explorer, Análisis de Rentabilidad y Timing se adaptan al perfil <strong>${p.name}</strong>.</div>
         <div class="flex gap-3 flex-wrap">
           <button class="btn btn-conv" onclick="surveyApply('${profile}')">✓ Continuar hacia la estrategia →</button>
           <button class="btn btn-ghost" onclick="surveyApply('${profile}','portfolio')">Abrir solución recomendada</button>
@@ -2028,7 +2181,7 @@ function surveyApply(profile,dest){
 function mountScreens(){
   document.getElementById('screens').innerHTML=
     buildHome()+buildMarket()+buildConvictions()+buildConvDetail()+buildDecisions()+buildDecisionDetail()+
-    buildBFE()+buildTiming()+buildDCL()+buildPortfolio()+buildPerformance()+buildSummary();
+    buildTiming()+buildDCL()+buildPortfolio()+buildPerformance()+buildSummary();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2123,7 +2276,7 @@ function applyProductContext(){
 ═══════════════════════════════════════════════════════════ */
 const TITLES={home:'Inicio · Junio 2026','profile-engine':'Perfilamiento del Inversionista',market:'Mercado · Junio 2026',convictions:'Convicciones',
   'conv-detail':'Convicción · Detalle',decisions:'Decisiones de Inversión','decision-detail':'Decisión · Detalle',
-  bfe:'Motor de Decisiones',timing:'Simulador de Timing de Mercado',
+  timing:'Simulador de Timing de Mercado',
   dcl:'Costo de Decidir',portfolio:'Portfolio Explorer',performance:'Análisis de Rentabilidad',summary:'Resumen de Reunión'};
 let _currentScreen='home';
 function showScreen(id,silent){
@@ -2132,13 +2285,13 @@ function showScreen(id,silent){
   const t=document.getElementById('screen-'+id);if(t)t.classList.add('active');
   document.getElementById('ctx-title').textContent=TITLES[id]||id;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===id));
-  const moreBtn=document.querySelector('.nav-more');if(moreBtn)moreBtn.classList.toggle('active',['profile-engine','market','bfe','timing','dcl','portfolio','performance','summary'].includes(id));
+  const moreBtn=document.querySelector('.nav-more');if(moreBtn)moreBtn.classList.toggle('active',['profile-engine','market','timing','dcl','portfolio','performance','summary'].includes(id));
   // per-screen hydration
   if(id==='home'){renderHomeProfiles();renderHomeActiveContext();}
   if(id==='market')renderMarketEvents();
   if(id==='convictions')renderConvList();
   if(id==='decisions')renderDecisionsList();
-  if(id==='portfolio'){renderPortSteps();renderPortContent();}
+  if(id==='portfolio'){renderPortExecSummary();renderPortSteps();renderPortContent();}
   if(id==='performance'){renderPerfTabs();renderPerfContent();}
   if(id==='timing'){setTimeout(()=>{onSlider(parseInt(document.getElementById('timing-slider').value||0));renderBestMonths();},30);}
   if(id==='dcl'){setTimeout(()=>{_dclAlts=null;selectScen(0,document.querySelectorAll('.scen-pill')[0]);},30);}
@@ -2259,7 +2412,7 @@ function renderMeetingView(){
     document.getElementById('mm-chips').innerHTML=
       `<span class="tag" style="background:var(--pos-bg);color:var(--pos);font-weight:800">▲ Mejor mes: ${MONTHS_LABELS[bi]} · +${ret[bi].toFixed(2)}%</span>`+
       `<span class="tag" style="background:var(--neg-bg);color:var(--neg);font-weight:800">▼ Peor mes: ${MONTHS_LABELS[wi]} · ${ret[wi].toFixed(2)}%</span>`+
-      `<span class="tag" style="font-weight:800">↻ Recuperación post-marzo 2020: 5 meses</span>`+
+      `<span class="tag" style="font-weight:800">↻ Recuperación post-marzo 2020: ${(()=>{const r=maxDrawdown(ret).recoveryMonths;return r==null?'>'+(ret.length-MARCH_2020_IDX)+' meses':r+' '+(r===1?'mes':'meses');})()}</span>`+
       `<span class="tag" style="font-weight:800">✓ ${ret.filter(r=>r>0).length} de ${ret.length} meses positivos</span>`;
     mmSimulate();
   },40);
